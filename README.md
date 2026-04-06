@@ -1,65 +1,90 @@
-# 👋 Hi, I'm Kate
+<!-- HERO -->
+<h1 align="center">Hi, I'm Kate 👋</h1>
 
-Systems-oriented product designer building AI-powered, decision-driven experiences for complex products.
+<p align="center">
+  <b>Systems-oriented Product Designer</b><br/>
+  Building <b>AI-powered</b>, <b>decision-driven</b> experiences for complex products
+</p>
+
+<p align="center">
+  <a href="https://katejieyu.com"><b>🌐 Portfolio</b></a> •
+  <a href="https://linkedin.com/in/katejieyu"><b>LinkedIn</b></a> •
+  <a href="mailto:katejieyu@gmail.com"><b>Email</b></a>
+</p>
 
 ---
 
-## 🚀 About
+## 🧭 What I Do
 
-I’m a senior product designer with 10+ years of experience designing enterprise SaaS products across supply chain, logistics, and asset management.
+I design systems, not just screens.
 
 My work focuses on:
-- Turning complex workflows into clear, usable systems
-- Designing decision-driven experiences (not just interfaces)
-- Building AI-powered product systems that bridge strategy and execution
+- Turning complex workflows into clear, usable experiences  
+- Designing **decision architecture** (not just UI flows)  
+- Building **AI-powered product systems** that connect thinking → execution  
 
 ---
 
-## 🧠 What I’m building
+## 🚀 Featured Project
 
-### 🔹 SyncoPro
-An AI-powered decision system that helps individuals and teams:
-- Turn ideas into structured PRDs / FRDs
-- Clarify problems, users, and goals
-- Generate execution-ready plans with clear ownership
+### 🧠 SyncoPro — Decision Intelligence System
 
-👉 Think: ChatGPT × Notion × Jira — with a decision architecture layer
+> Turn ideas into execution-ready outcomes
 
----
+**What it does:**
+- Transforms rough ideas into structured PRDs / FRDs  
+- Generates clear user journeys, goals, and execution plans  
+- Helps individuals and teams move from thinking → building  
 
-## 💼 Selected Work
+**Why it matters:**
+Most tools help you *track work*.  
+SyncoPro helps you **decide what work should exist in the first place.**
 
-- Enterprise UX for SAP Business Network (Supply Chain Collaboration)
-- AI-powered workflow and agent experience design
-- Design system and component library scaling
-- Decision architecture and product strategy frameworks
+👉 Think: *ChatGPT × Notion × Jira — with decision architecture*
 
 ---
 
-## 🛠️ Skills
+## 💼 Experience Highlights
 
-**Product Design**
-UX / UI · Interaction Design · Information Architecture · Design Systems
+- Designed enterprise UX for **SAP Business Network (Supply Chain Collaboration)**  
+- Improved engagement by **+141%** through product redesign  
+- Built design systems improving efficiency by **+130%**  
+- Leading AI-driven product and workflow innovation  
+
+---
+
+## 🛠️ Skills & Tools
+
+**Product & UX**
+- UX / UI · Interaction Design · Information Architecture  
+- Design Systems · Enterprise UX · Workflow Optimization  
 
 **AI & Systems**
-AI Product Design · Decision Architecture · Prompt Design · Agent Workflows
+- AI Product Design · Decision Architecture  
+- Prompt Design · Agentic Workflows  
 
 **Tools**
-Figma · React · Tailwind · Claude · GitHub
+- Figma · React · Tailwind · GitHub · Claude  
 
 ---
 
 ## 🌐 Portfolio
 
-👉 [Visit my portfolio](https://katejieyu.com)
+<p align="center">
+  👉 <a href="https://katejieyu.com"><b>View Full Portfolio</b></a>
+</p>
 
 ---
 
-## 🤝 Let’s connect
+## 🤝 Let’s Connect
 
-- LinkedIn: https://linkedin.com/in/katejieyu
-- Email: katejieyu@gmail.com
+<p align="center">
+  <a href="https://linkedin.com/in/katejieyu">LinkedIn</a> ·
+  <a href="mailto:katejieyu@gmail.com">Email</a>
+</p>
 
 ---
 
-✨ Always exploring how AI can reshape how we think, decide, and build.
+<p align="center">
+  ✨ Exploring how AI reshapes how we think, decide, and build
+</p>
