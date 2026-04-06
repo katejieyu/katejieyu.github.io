@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>Sitemap · Kate Jie Yu</title>
+  <meta name="description" content="Complete site structure for Kate Jie Yu — Decision Architecture Designer.">
+  <link rel="shortcut icon" type="image/x-icon" href="img/KJY_logo_bar.jpg">
+  <link rel="apple-touch-icon" href="img/KJY_logo_bar.jpg">
+  <link rel="stylesheet" href="style/theme.css">
+  <link rel="stylesheet" href="style/base.css">
+  <link rel="stylesheet" href="style/components.css">
+  <style>
+    body { padding-top: 80px; }
+
+    /* ── PAGE LAYOUT ── */
+    .sm-page {
+      padding: var(--space-5xl) 0 var(--space-5xl);
+      min-height: 100vh;
+    }
+    .sm-page__header {
+      margin-bottom: var(--space-5xl);
+      padding-bottom: var(--space-4xl);
+      border-bottom: 1px solid var(--color-border-light);
+    }
+    .sm-eyebrow {
+      display: block;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--color-text-tertiary);
+      margin-bottom: var(--space-md);
+    }
+    .sm-page__title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: var(--font-weight-bold);
+      line-height: var(--line-height-tight);
+      color: var(--color-text);
+      margin-bottom: var(--space-lg);
+    }
+    .sm-page__desc {
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ── HOME ── */
+    .sm-home {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-md);
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text);
+      text-decoration: none;
+      padding: var(--space-lg) var(--space-xl);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      margin-bottom: var(--space-5xl);
+      transition: border-color var(--transition-fast), color var(--transition-fast);
+    }
+    .sm-home:hover { color: var(--color-primary); border-color: var(--color-primary); }
+    .sm-home__icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--color-background-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sm-home__icon svg { width: 18px; height: 18px; color: var(--color-text-secondary); }
+    .sm-home__label { font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); margin-left: auto; }
+
+    /* ── SECTION GROUPS ── */
+    .sm-groups {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5xl);
+    }
+    .sm-group {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: var(--space-4xl);
+      align-items: start;
+      padding-top: var(--space-4xl);
+      border-top: 2px solid var(--color-border);
+    }
+    .sm-group__meta {}
+    .sm-group__color {
+      display: block;
+      width: 28px;
+      height: 3px;
+      border-radius: 2px;
+      margin-bottom: var(--space-md);
+    }
+    .sm-group__color--da      { background: #2563eb; }
+    .sm-group__color--founder { background: #7c3aed; }
+    .sm-group__color--applied { background: #059669; }
+    .sm-group__color--general { background: #9ca3af; }
+    .sm-group__title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--color-text);
+      display: block;
+      margin-bottom: var(--space-sm);
+    }
+    .sm-group__summary {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-tertiary);
+      line-height: 1.6;
+    }
+
+    /* ── PAGE TREE ── */
+    .sm-tree {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    /* Parent page row */
+    .sm-parent {
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .sm-parent__head {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-lg) var(--space-xl);
+      text-decoration: none;
+      transition: background var(--transition-fast);
+    }
+    .sm-parent__head:hover { background: var(--color-background-secondary); }
+    .sm-parent__icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sm-parent__icon svg { width: 15px; height: 15px; }
+    .sm-parent__icon--da      { background: rgba(37,99,235,0.08);  color: #2563eb; }
+    .sm-parent__icon--founder { background: rgba(124,58,237,0.08); color: #7c3aed; }
+    .sm-parent__icon--applied { background: rgba(5,150,105,0.08);  color: #059669; }
+    .sm-parent__icon--general { background: #f3f4f6; color: #6b7280; }
+    .sm-parent__text {}
+    .sm-parent__name {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text);
+      display: block;
+      line-height: 1.3;
+    }
+    .sm-parent__desc {
+      font-size: 0.75rem;
+      color: var(--color-text-tertiary);
+      margin-top: 2px;
+      display: block;
+    }
+
+    /* Child pages */
+    .sm-children {
+      list-style: none;
+      border-top: 1px solid var(--color-border-light);
+    }
+    .sm-child {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md) var(--space-xl);
+      border-bottom: 1px solid var(--color-border-light);
+      text-decoration: none;
+      transition: background var(--transition-fast);
+    }
+    .sm-child:last-child { border-bottom: none; }
+    .sm-child:hover { background: var(--color-background-secondary); }
+    .sm-child__indent {
+      width: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .sm-child__indent svg { width: 12px; height: 12px; color: var(--color-text-tertiary); }
+    .sm-child__text {}
+    .sm-child__name {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+      display: block;
+      line-height: 1.3;
+    }
+    .sm-child__desc {
+      font-size: 0.75rem;
+      color: var(--color-text-tertiary);
+      margin-top: 1px;
+      display: block;
+    }
+    .sm-child:hover .sm-child__name { color: var(--color-text); }
+
+    /* Standalone (no children) */
+    .sm-standalone {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-lg) var(--space-xl);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background var(--transition-fast), border-color var(--transition-fast);
+    }
+    .sm-standalone:hover { background: var(--color-background-secondary); border-color: var(--color-border); }
+    .sm-standalone__name {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text);
+      display: block;
+      line-height: 1.3;
+    }
+    .sm-standalone__desc {
+      font-size: 0.75rem;
+      color: var(--color-text-tertiary);
+      margin-top: 2px;
+      display: block;
+    }
+
+    /* ── FOOTER ── */
+    .footer--structured {
+      padding: var(--space-5xl) 0 var(--space-3xl);
+      border-top: 1px solid var(--color-border-light);
+      background-color: var(--color-background);
+    }
+    .footer__nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4xl);
+      padding-bottom: var(--space-4xl);
+      border-bottom: 1px solid var(--color-border-light);
+      margin-bottom: var(--space-3xl);
+    }
+    .footer__col-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--color-text);
+      margin-bottom: var(--space-lg);
+      display: block;
+    }
+    .footer__col-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .footer__col-link {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      line-height: var(--line-height-normal);
+      transition: color var(--transition-fast);
+    }
+    .footer__col-link:hover { color: var(--color-text); }
+    .footer__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+    .footer__bottom-copy {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-tertiary);
+    }
+    .footer__bottom-links {
+      display: flex;
+      gap: var(--space-lg);
+    }
+    .footer__bottom-link {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-tertiary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+    .footer__bottom-link:hover { color: var(--color-text-secondary); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .sm-group { grid-template-columns: 1fr; gap: var(--space-xl); }
+      .footer__nav { grid-template-columns: repeat(2, 1fr); gap: var(--space-3xl); }
+    }
+    @media (max-width: 600px) {
+      .sm-page { padding: var(--space-4xl) 0; }
+    }
+    @media (max-width: 480px) {
+      .footer__nav { grid-template-columns: 1fr; gap: var(--space-xl); }
+      .footer__bottom { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="header" role="banner">
+    <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+      <div class="nav__container">
+        <a href="index.html" class="nav__logo">
+          <img src="img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48">
+        </a>
+        <ul class="nav__menu" id="nav-menu">
+          <li><a href="index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+          <li><a href="index.html#founder" class="nav__link">Founder</a></li>
+          <li><a href="index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+          <li><a href="index.html#about" class="nav__link">About</a></li>
+          <li><a href="kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+        </ul>
+        <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" role="main">
+    <div class="sm-page">
+      <div class="container">
+
+        <div class="sm-page__header">
+          <span class="sm-eyebrow">Site Structure</span>
+          <h1 class="sm-page__title">Sitemap</h1>
+          <p class="sm-page__desc">All pages across Kate Jie Yu's portfolio — organized by section with direct links to every page.</p>
+        </div>
+
+        <!-- Home -->
+        <a href="index.html" class="sm-home">
+          <span class="sm-home__icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 6.5L8 2l6 4.5V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6.5z"/>
+              <path d="M6 15V9h4v6"/>
+            </svg>
+          </span>
+          Home — katejieyu.com
+          <span class="sm-home__label">Root</span>
+        </a>
+
+        <div class="sm-groups">
+
+          <!-- ── DECISION ARCHITECTURE ── -->
+          <div class="sm-group">
+            <div class="sm-group__meta">
+              <span class="sm-group__color sm-group__color--da"></span>
+              <span class="sm-group__title">Decision Architecture</span>
+              <span class="sm-group__summary">How structure, governance, and AI layer together to enable product decisions at scale.</span>
+            </div>
+            <div class="sm-tree">
+
+              <!-- Product Subcontracting -->
+              <div class="sm-parent">
+                <a href="decision-architecture/product-subcontracting.html" class="sm-parent__head">
+                  <span class="sm-parent__icon sm-parent__icon--da">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6M5 10h4"/></svg>
+                  </span>
+                  <span class="sm-parent__text">
+                    <span class="sm-parent__name">Product Subcontracting</span>
+                    <span class="sm-parent__desc">Product-layer design decisions for SCC subcontracting workflows</span>
+                  </span>
+                </a>
+                <ul class="sm-children">
+                  <li>
+                    <a href="decision-architecture/ai-product/SCC-Subcontracting-Workshop-Report.html" class="sm-child">
+                      <span class="sm-child__indent">
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg>
+                      </span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">SCC Subcontracting Workshop Report</span>
+                        <span class="sm-child__desc">Multi-stakeholder validation workshop findings and prioritized recommendations</span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Organizational Governance -->
+              <div class="sm-parent">
+                <a href="decision-architecture/organization-governance-architecture.html" class="sm-parent__head">
+                  <span class="sm-parent__icon sm-parent__icon--da">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="4" r="2"/><circle cx="3" cy="12" r="2"/><circle cx="13" cy="12" r="2"/><path d="M8 6v2M8 8l-3 2M8 8l3 2"/></svg>
+                  </span>
+                  <span class="sm-parent__text">
+                    <span class="sm-parent__name">Organizational Governance Architecture</span>
+                    <span class="sm-parent__desc">How UX governance is structured across planning, delivery, and team infrastructure</span>
+                  </span>
+                </a>
+                <ul class="sm-children">
+                  <li>
+                    <a href="decision-architecture/ai-organization/UX_Planning_Infrastructure.html" class="sm-child">
+                      <span class="sm-child__indent">
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg>
+                      </span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">UX Planning Infrastructure</span>
+                        <span class="sm-child__desc">How UX is structurally embedded into product planning and roadmap decisions</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="decision-architecture/ai-organization/Vibe_Coding_Report.html" class="sm-child">
+                      <span class="sm-child__indent">
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg>
+                      </span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">Vibe Coding as UX Infrastructure</span>
+                        <span class="sm-child__desc">AI-assisted development workflow bridging PM, Designer, and Engineer with live demos and custom skills</span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- AI Decision Architecture -->
+              <div class="sm-parent">
+                <a href="decision-architecture/ai-decision-architecture.html" class="sm-parent__head">
+                  <span class="sm-parent__icon sm-parent__icon--da">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM4 10a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM12 10a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/><path d="M8 6v1.5M6.2 11H5M10.8 11H11M7 9l-1.5 1.5M9 9l1.5 1.5"/></svg>
+                  </span>
+                  <span class="sm-parent__text">
+                    <span class="sm-parent__name">AI Decision Architecture</span>
+                    <span class="sm-parent__desc">AI layer strategy — how AI-assisted decisions connect to governance and product</span>
+                  </span>
+                </a>
+                <ul class="sm-children">
+                  <li>
+                    <a href="https://katejieyu.github.io/AI-demo/" target="_blank" rel="noopener noreferrer" class="sm-child">
+                      <span class="sm-child__indent">
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg>
+                      </span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">AI Agent Demo ↗</span>
+                        <span class="sm-child__desc">Live AI assistant demo for SAP Business Network</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" target="_blank" rel="noopener noreferrer" class="sm-child">
+                      <span class="sm-child__indent">
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg>
+                      </span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">AI AutoPilot ↗</span>
+                        <span class="sm-child__desc">Exploratory AI for automated multi-tier buy/sell supply chain decisions</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="applied-systems/case-studies/sap/sap-scm-data-driven-ai-for-effortless-workflow-2025.html" target="_blank" rel="noopener noreferrer" class="sm-child">
+                      <span class="sm-child__indent">
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg>
+                      </span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">Supply Chain AI Workflow ↗</span>
+                        <span class="sm-child__desc">Data-driven AI design for effortless supply chain management</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" target="_blank" rel="noopener noreferrer" class="sm-child">
+                      <span class="sm-child__indent">
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg>
+                      </span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">SAP Discovery 2.1 ↗</span>
+                        <span class="sm-child__desc">UX redesign of the SAP Business Network discovery experience</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="decision-architecture/ai-decision/sap-product-ai-system.html" class="sm-child">
+                      <span class="sm-child__indent">
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg>
+                      </span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">AI-Native Product Development System</span>
+                        <span class="sm-child__desc">Skill-based AI workflow system built for SyncoPro and SAP</span>
+                      </span>
+                    </a></li>
+                  <li>
+                    <a href="decision-architecture/ai-decision/ai-systems-library.html" class="sm-child">
+                      <span class="sm-child__indent">
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg>
+                      </span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">AI Systems Library</span>
+                        <span class="sm-child__desc">A growing library of reusable AI systems for product work</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="decision-architecture/ai-decision/syncopro-evolution-engine.html" class="sm-child">
+                      <span class="sm-child__indent">
+                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg>
+                      </span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">Decision Intelligence System</span>
+                        <span class="sm-child__desc">Decision Engine · Evolution Engine · Language System — unified AI decision system case study</span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── FOUNDER ── -->
+          <div class="sm-group">
+            <div class="sm-group__meta">
+              <span class="sm-group__color sm-group__color--founder"></span>
+              <span class="sm-group__title">Founder</span>
+              <span class="sm-group__summary">Products and ventures built from zero — spanning music tech, consumer savings, and professional networking.</span>
+            </div>
+            <div class="sm-tree">
+
+              <!-- SyncoPro -->
+              <div class="sm-parent">
+                <a href="founder/syncopro/index.html" class="sm-parent__head">
+                  <span class="sm-parent__icon sm-parent__icon--founder">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7l-3-4z"/><path d="M9 3v4h4"/></svg>
+                  </span>
+                  <span class="sm-parent__text">
+                    <span class="sm-parent__name">SyncoPro</span>
+                    <span class="sm-parent__desc">AI governance platform structuring product decision-making, authority boundaries, and AI escalation paths</span>
+                  </span>
+                </a>
+                <ul class="sm-children">
+                  <li>
+                    <a href="https://syncopro.com" target="_blank" rel="noopener noreferrer" class="sm-child">
+                      <span class="sm-child__indent"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg></span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">Visit SyncoPro ↗</span>
+                        <span class="sm-child__desc">Live product website</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://syncopro.com/beta/index.html" target="_blank" rel="noopener noreferrer" class="sm-child">
+                      <span class="sm-child__indent"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg></span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">Product Beta v3 ↗</span>
+                        <span class="sm-child__desc">Interactive product demo — beta version 3</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="founder/syncopro/Pitch-deck/index.html" target="_blank" rel="noopener noreferrer" class="sm-child">
+                      <span class="sm-child__indent"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg></span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">Seed Deck ↗</span>
+                        <span class="sm-child__desc">Investor pitch deck for seed funding round</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="founder/syncopro/Vision/index.html" target="_blank" rel="noopener noreferrer" class="sm-child">
+                      <span class="sm-child__indent"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg></span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">Product Vision ↗</span>
+                        <span class="sm-child__desc">Long-term product direction and roadmap vision</span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Mighty Coupons -->
+              <div class="sm-parent">
+                <a href="founder/mighty-coupons/index.html" class="sm-parent__head">
+                  <span class="sm-parent__icon sm-parent__icon--founder">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7l-3-4z"/><path d="M9 3v4h4"/></svg>
+                  </span>
+                  <span class="sm-parent__text">
+                    <span class="sm-parent__name">Mighty Coupons</span>
+                    <span class="sm-parent__desc">Consumer savings app connecting shoppers with local and online deals</span>
+                  </span>
+                </a>
+                <ul class="sm-children">
+                  <li>
+                    <a href="https://mighty.coupons/" target="_blank" rel="noopener noreferrer" class="sm-child">
+                      <span class="sm-child__indent"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg></span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">Visit Mighty Coupons ↗</span>
+                        <span class="sm-child__desc">Live platform website</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://onboarding.mighty.coupons/run?lang=en" target="_blank" rel="noopener noreferrer" class="sm-child">
+                      <span class="sm-child__indent"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2 2v6h8"/></svg></span>
+                      <span class="sm-child__text">
+                        <span class="sm-child__name">Merchant Onboarding Flow ↗</span>
+                        <span class="sm-child__desc">Interactive onboarding experience for new merchants</span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- ReferMeJob -->
+              <a href="founder/refermejob/index.html" class="sm-standalone">
+                <span class="sm-parent__icon sm-parent__icon--founder">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7l-3-4z"/><path d="M9 3v4h4"/></svg>
+                </span>
+                <span>
+                  <span class="sm-standalone__name">ReferMeJob</span>
+                  <span class="sm-standalone__desc">Professional referral network for job seekers and hiring teams</span>
+                </span>
+              </a>
+
+            </div>
+          </div>
+
+          <!-- ── APPLIED SYSTEMS ── -->
+          <div class="sm-group">
+            <div class="sm-group__meta">
+              <span class="sm-group__color sm-group__color--applied"></span>
+              <span class="sm-group__title">Applied Systems</span>
+              <span class="sm-group__summary">SAP enterprise UX case studies — design systems, analytics, and AI-powered workflows.</span>
+            </div>
+            <div class="sm-tree">
+
+              <a href="applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="sm-standalone">
+                <span class="sm-parent__icon sm-parent__icon--applied">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg>
+                </span>
+                <span>
+                  <span class="sm-standalone__name">SAP Discovery 2.1</span>
+                  <span class="sm-standalone__desc">UX redesign of the SAP Business Network discovery experience</span>
+                </span>
+              </a>
+
+              <a href="applied-systems/case-studies/sap/sap-bn-design-system.html" class="sm-standalone">
+                <span class="sm-parent__icon sm-parent__icon--applied">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg>
+                </span>
+                <span>
+                  <span class="sm-standalone__name">BN Design System</span>
+                  <span class="sm-standalone__desc">Component library and design token architecture for SAP Business Network</span>
+                </span>
+              </a>
+
+              <a href="applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="sm-standalone">
+                <span class="sm-parent__icon sm-parent__icon--applied">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg>
+                </span>
+                <span>
+                  <span class="sm-standalone__name">Discovery Analytics 2024</span>
+                  <span class="sm-standalone__desc">Data-driven UX analysis of search and discovery patterns</span>
+                </span>
+              </a>
+
+              <a href="applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="sm-standalone">
+                <span class="sm-parent__icon sm-parent__icon--applied">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg>
+                </span>
+                <span>
+                  <span class="sm-standalone__name">AI Autopilot — Multi-Tier Supply Chain</span>
+                  <span class="sm-standalone__desc">Exploratory AI design for automated buy/sell decisions across supply chain tiers</span>
+                </span>
+              </a>
+
+              <a href="applied-systems/case-studies/sap/sap-scm-data-driven-ai-for-effortless-workflow-2025.html" class="sm-standalone">
+                <span class="sm-parent__icon sm-parent__icon--applied">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg>
+                </span>
+                <span>
+                  <span class="sm-standalone__name">Data-Driven AI for Effortless Workflow</span>
+                  <span class="sm-standalone__desc">AI-assisted workflow design reducing friction in supply chain management</span>
+                </span>
+              </a>
+
+            </div>
+          </div>
+
+          <!-- ── GENERAL ── -->
+          <div class="sm-group">
+            <div class="sm-group__meta">
+              <span class="sm-group__color sm-group__color--general"></span>
+              <span class="sm-group__title">General</span>
+              <span class="sm-group__summary">Resume, sitemap, and site-wide utilities.</span>
+            </div>
+            <div class="sm-tree">
+
+              <a href="kateyu-resume.html" class="sm-standalone">
+                <span class="sm-parent__icon sm-parent__icon--general">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2h6l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M9 2v5h5M6 9h4M6 12h4"/></svg>
+                </span>
+                <span>
+                  <span class="sm-standalone__name">Resume</span>
+                  <span class="sm-standalone__desc">Full work history, skills, and design background</span>
+                </span>
+              </a>
+
+              <a href="sitemap.html" class="sm-standalone">
+                <span class="sm-parent__icon sm-parent__icon--general">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4M8 10v4M2 8h4M10 8h4"/><circle cx="8" cy="8" r="2"/></svg>
+                </span>
+                <span>
+                  <span class="sm-standalone__name">Sitemap</span>
+                  <span class="sm-standalone__desc">You are here — complete site structure</span>
+                </span>
+              </a>
+
+            </div>
+          </div>
+
+        </div><!-- /sm-groups -->
+
+      </div>
+    </div>
+  </main>
+
+  <!-- STRUCTURED FOOTER -->
+  <footer class="footer--structured" role="contentinfo">
+    <div class="container">
+      <nav class="footer__nav" aria-label="Site navigation">
+        <div>
+          <span class="footer__col-label">Decision Architecture</span>
+          <ul class="footer__col-links">
+            <li><a href="index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+            <li><a href="decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+            <li><a href="decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+            <li><a href="decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+            <li><a href="decision-architecture/ai-decision/syncopro-evolution-engine.html" class="footer__col-link">Decision Intelligence System</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">Founder</span>
+          <ul class="footer__col-links">
+            <li><a href="index.html#founder" class="footer__col-link">Overview</a></li>
+            <li><a href="founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+            <li><a href="founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+            <li><a href="founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">Applied Systems</span>
+          <ul class="footer__col-links">
+            <li><a href="index.html#applied-systems" class="footer__col-link">Overview</a></li>
+            <li><a href="applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+            <li><a href="applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+            <li><a href="applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+            <li><a href="applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">General</span>
+          <ul class="footer__col-links">
+            <li><a href="index.html#about" class="footer__col-link">About</a></li>
+            <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+            <li><a href="applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+            <li><a href="sitemap.html" class="footer__col-link">Sitemap</a></li>
+            <li><a href="kateyu-resume.html" class="footer__col-link">Resume</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="footer__bottom">
+        <p class="footer__bottom-copy">&copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture</p>
+        <div class="footer__bottom-links">
+          <a href="applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a>
+          <a href="sitemap.html" class="footer__bottom-link">Sitemap</a>
+          <a href="kateyu-resume.html" class="footer__bottom-link">Resume</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/staff-portfolio.js"></script>
+</body>
+</html>

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>UX Planning Infrastructure — Making Design Capacity Visible at Roadmap Altitude · Kate Jie Yu</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../img/KJY_logo_bar.jpg">
+    <link rel="mask-icon" type="Kate Logo" href="../../img/KJY_logo_bar.jpg" color="#111">
+    <link rel="apple-touch-icon" href="../../img/KJY_logo_bar.jpg">
+    <link rel="stylesheet" href="../../style/theme.css">
+    <link rel="stylesheet" href="../../style/base.css">
+    <link rel="stylesheet" href="../../style/components.css">
+    <link rel="stylesheet" href="../../style/case-study.css">
+    <style>
+        /* ── STAT STRIP ── */
+        .stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #e5e7eb; border-bottom: 1px solid #e5e7eb; }
+        .stat-cell { background: #fff; padding: 28px 32px; text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: 700; color: #2563eb; line-height: 1; margin-bottom: 6px; }
+        .stat-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; }
+
+        /* ── CARD GRID ── */
+        .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: #e5e7eb; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+        .card-grid--3 { grid-template-columns: repeat(3, 1fr); }
+        .card-grid--4 { grid-template-columns: repeat(4, 1fr); }
+        .card { background: #fff; padding: 24px; }
+        .card-tag { font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; margin-bottom: 6px; }
+        .card-title { font-size: 0.9375rem; font-weight: 700; color: #111827; margin-bottom: 8px; line-height: 1.3; }
+        .card-body { font-size: 0.8125rem; color: #6b7280; line-height: 1.6; }
+        .card--red    { border-top: 3px solid #ef4444; }
+        .card--amber  { border-top: 3px solid #f59e0b; }
+        .card--blue   { border-top: 3px solid #2563eb; }
+        .card--green  { border-top: 3px solid #10b981; }
+        .card--purple { border-top: 3px solid #7c3aed; }
+
+        /* ── TSHIRT SIZES ── */
+        .size-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: #e5e7eb; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+        .size-cell { background: #fff; padding: 16px; text-align: center; }
+        .size-label { font-size: 1.25rem; font-weight: 700; color: #111827; margin-bottom: 4px; }
+        .size-time { font-size: 0.6875rem; font-weight: 600; color: #2563eb; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+        .size-desc { font-size: 0.75rem; color: #6b7280; line-height: 1.5; }
+
+        /* ── FLOW DIAGRAM ── */
+        .flow { display: flex; align-items: center; gap: 0; margin: 20px 0; flex-wrap: wrap; }
+        .flow-step { flex: 1; min-width: 140px; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px 16px; text-align: center; }
+        .flow-step-label { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #9ca3af; margin-bottom: 4px; }
+        .flow-step-title { font-size: 0.8125rem; font-weight: 600; color: #111827; }
+        .flow-arrow { font-size: 1.25rem; color: #9ca3af; padding: 0 8px; flex-shrink: 0; }
+
+        /* ── LANE DIAGRAM ── */
+        .lane-diagram { border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+        .lane-row { display: grid; grid-template-columns: 120px 1fr; border-bottom: 1px solid #f3f4f6; }
+        .lane-row:last-child { border-bottom: none; }
+        .lane-label { background: #f9fafb; padding: 16px; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; justify-content: center; }
+        .lane-name { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #6b7280; }
+        .lane-owner { font-size: 0.75rem; color: #9ca3af; margin-top: 2px; }
+        .lane-content { padding: 16px; display: flex; align-items: flex-start; gap: 8px; }
+        .lane-box { flex: 1; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px 14px; }
+        .lane-box-title { font-size: 0.8125rem; font-weight: 600; color: #111827; margin-bottom: 6px; }
+        .lane-box-list { list-style: none; padding: 0; margin: 0; }
+        .lane-box-list li { font-size: 0.75rem; color: #6b7280; padding: 2px 0; }
+        .lane-box-list li::before { content: '· '; color: #9ca3af; }
+        .lane-arrow-col { display: flex; align-items: center; color: #9ca3af; font-size: 1rem; padding: 0 4px; }
+        .lane-note { font-size: 0.6875rem; color: #f59e0b; font-style: italic; margin-top: 6px; }
+
+        /* ── GUARDRAILS ── */
+        .guardrail-row { display: flex; gap: 12px; margin: 20px 0; flex-wrap: wrap; }
+        .guardrail { flex: 1; min-width: 200px; border: 1px solid #fde68a; background: #fffbeb; border-radius: 8px; padding: 14px 16px; font-size: 0.8125rem; color: #92400e; font-weight: 500; display: flex; align-items: flex-start; gap: 8px; }
+        .guardrail-icon { font-size: 1rem; flex-shrink: 0; }
+
+        /* ── TIMELINE ── */
+        .timeline { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+        .timeline-item { padding: 20px 24px; border: 1px solid #e5e7eb; border-left: 3px solid #2563eb; border-radius: 0 8px 8px 0; background: #fff; }
+        .timeline-title { font-size: 0.9375rem; font-weight: 700; color: #111827; margin-bottom: 8px; }
+        .timeline-body { font-size: 0.8125rem; color: #6b7280; line-height: 1.65; }
+        .timeline-body ul { list-style: none; padding: 0; margin: 0; }
+        .timeline-body li { padding-left: 14px; position: relative; margin-bottom: 4px; }
+        .timeline-body li::before { content: ''; position: absolute; left: 0; top: 8px; width: 4px; height: 4px; border-radius: 50%; background: #9ca3af; }
+
+        /* ── PULL QUOTE ── */
+        .pullquote { border-left: 3px solid #111827; padding: 4px 0 4px 24px; margin: 32px 0; }
+        .pullquote p { font-size: 1.0625rem; font-weight: 600; font-style: italic; color: #111827; line-height: 1.5; }
+
+        /* ── PRINCIPLE BOX ── */
+        .principle-box { background: #111827; color: #fff; border-radius: 10px; padding: 28px 32px; margin: 20px 0; }
+        .principle-box-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+        .principle-box p { font-size: 0.875rem; color: #d1d5db; line-height: 1.65; margin-bottom: 12px; }
+        .principle-box p:last-child { margin-bottom: 0; }
+        .principle-donts { margin-top: 14px; padding-top: 14px; border-top: 1px solid #374151; }
+        .principle-donts-title { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #9ca3af; margin-bottom: 8px; }
+        .principle-donts ul { list-style: none; padding: 0; }
+        .principle-donts li { font-size: 0.8125rem; color: #9ca3af; padding-left: 14px; position: relative; margin-bottom: 4px; }
+        .principle-donts li::before { content: '✗'; position: absolute; left: 0; color: #ef4444; }
+
+        /* ── CHECKLIST STEPS ── */
+        .checklist-steps { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+        .checklist-step { display: flex; align-items: flex-start; gap: 16px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px 20px; }
+        .checklist-step-num { width: 28px; height: 28px; border-radius: 50%; background: #2563eb; color: #fff; font-size: 0.8125rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .checklist-step-text { font-size: 0.875rem; color: #374151; line-height: 1.55; padding-top: 4px; }
+
+        /* ── WHAT LIVES WHERE ── */
+        .lives-where { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #e5e7eb; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+        .lives-col { background: #fff; padding: 20px 24px; }
+        .lives-col-title { font-size: 0.875rem; font-weight: 700; color: #111827; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #f3f4f6; }
+        .lives-col ul { list-style: none; padding: 0; }
+        .lives-col li { font-size: 0.8125rem; color: #4b5563; padding: 4px 0 4px 18px; position: relative; }
+        .lives-col li::before { content: '✓'; position: absolute; left: 0; color: #10b981; font-weight: 700; }
+
+        /* ── TABLE (bare element selectors — this page uses <table> not .cs-table) ── */
+        .table-wrap { overflow-x: auto; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        thead th { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #9ca3af; padding: 10px 14px; text-align: left; border-bottom: 2px solid #e5e7eb; background: #f9fafb; white-space: nowrap; }
+        tbody td { padding: 12px 14px; border-bottom: 1px solid #f3f4f6; color: #6b7280; vertical-align: top; line-height: 1.55; }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody td:first-child { font-weight: 600; color: #111827; }
+        tbody tr:hover { background: #f9fafb; }
+
+        /* ── RESPONSIVE (page-specific) ── */
+        @media (max-width: 768px) {
+            .stat-strip { grid-template-columns: 1fr; }
+            .card-grid, .card-grid--3, .card-grid--4 { grid-template-columns: 1fr; }
+            .size-grid { grid-template-columns: repeat(3, 1fr); }
+            .flow { flex-direction: column; }
+            .lane-row { grid-template-columns: 1fr; }
+            .lane-label { border-right: none; border-bottom: 1px solid #e5e7eb; }
+            .lives-where { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- NAV -->
+  <header class="header" role="banner">
+    <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+      <div class="nav__container">
+        <a href="../../index.html" class="nav__logo">
+          <img src="../../img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48">
+        </a>
+        <ul class="nav__menu" id="nav-menu">
+          <li><a href="../../index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+          <li><a href="../../index.html#founder" class="nav__link">Founder</a></li>
+          <li><a href="../../index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+          <li><a href="../../index.html#about" class="nav__link">About</a></li>
+          <li><a href="../../kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+        </ul>
+        <button
+          class="nav__toggle"
+          id="nav-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu">
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" role="main">
+    <div class="container">
+
+      <!-- BREADCRUMB -->
+      <nav aria-label="Breadcrumb">
+        <ol class="cs-breadcrumb">
+          <li>
+            <a href="../organization-governance-architecture.html">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 12L6 8l4-4"/></svg>
+              Organizational Governance
+            </a>
+          </li>
+          <li><span class="cs-breadcrumb-sep">/</span></li>
+          <li><span class="cs-breadcrumb-current">UX Planning Infrastructure</span></li>
+        </ol>
+      </nav>
+
+      <!-- HEADER -->
+        <div class="doc-header">
+            <div class="doc-eyebrow">
+                <span class="doc-pill">UX Governance</span>
+                <span class="doc-pill doc-pill--grey">Capacity Planning</span>
+                <span class="doc-pill doc-pill--grey">Aha! · Jira</span>
+            </div>
+            <h1 class="doc-h1">UX Planning Infrastructure</h1>
+            <p class="doc-lead">Making design capacity visible at roadmap altitude — 5 structured fields in Aha!, a 4-lane workflow into Jira, and a cross-functional T-shirt sizing process that surfaces UX constraints before sprint commitments are locked.</p>
+            <div class="doc-meta">
+                <div class="doc-meta-item">
+                    <span class="doc-meta-label">Scope</span>
+                    <span class="doc-meta-value">UX · Product · Engineering</span>
+                </div>
+                <div class="doc-meta-item">
+                    <span class="doc-meta-label">Tools</span>
+                    <span class="doc-meta-value">Aha! + Jira + Confluence</span>
+                </div>
+                <div class="doc-meta-item">
+                    <span class="doc-meta-label">Rollout</span>
+                    <span class="doc-meta-value">8-Week Phased</span>
+                </div>
+                <div class="doc-meta-item">
+                    <span class="doc-meta-label">Published</span>
+                    <span class="doc-meta-value">October 2025</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- STAT STRIP -->
+        <div class="stat-strip">
+            <div class="stat-cell">
+                <div class="stat-number">$2M+</div>
+                <div class="stat-label">Revenue at Risk</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-number">3–4 wks</div>
+                <div class="stat-label">Avg. Delay per Feature</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-number">0%</div>
+                <div class="stat-label">Forward Capacity Visibility</div>
+            </div>
+        </div>
+
+        <!-- 01 THE PROBLEM -->
+        <section class="doc-section" id="problem">
+            <span class="doc-section-index">01 / 05</span>
+            <h2 class="doc-h2">The Problem: UX Work is Structurally Invisible</h2>
+            <p class="doc-p">Product planning tools are configured to model PM and Engineering work precisely. Aha! captures PM intent. Jira tracks engineering execution. <strong>UX effort exists in neither system</strong> — which makes reactive, last-minute design work structurally inevitable, not a team failure.</p>
+
+            <div class="callout callout--danger">
+                <p><strong>Root cause:</strong> This is an infrastructure gap, not a people or process problem. Until UX capacity is modeled at the roadmap layer, planning will keep producing the same delays.</p>
+            </div>
+
+            <div class="doc-h3">Measured Impact — Q1–Q3 2025</div>
+            <ul class="doc-list">
+                <li><strong>$2M+ revenue at risk:</strong> Three enterprise features delayed because design constraints weren't visible until sprint planning — too late to adjust scope.</li>
+                <li><strong>3–4 weeks delay per feature:</strong> The consistent cost when UX scope is discovered mid-sprint rather than at roadmap altitude.</li>
+                <li><strong>0% forward visibility:</strong> Leadership has no way to answer: "Does this roadmap fit our design team's capacity?"</li>
+            </ul>
+
+            <div class="doc-h3">Three Infrastructure Breakpoints</div>
+            <div class="card-grid">
+                <div class="card card--red">
+                    <div class="card-tag">Failure 01</div>
+                    <div class="card-title">UX Invisible at Roadmap Level</div>
+                    <div class="card-body">Aha! has no UX demand fields. Roadmap commitments are made without design capacity data, so conflicts only surface at sprint time.</div>
+                </div>
+                <div class="card card--amber">
+                    <div class="card-tag">Failure 02</div>
+                    <div class="card-title">No Aggregate Capacity View</div>
+                    <div class="card-body">No mechanism exists to assess total UX demand across the roadmap. Leadership cannot see utilization or forecast overload.</div>
+                </div>
+                <div class="card card--amber" style="grid-column: 1 / -1;">
+                    <div class="card-tag">Failure 03</div>
+                    <div class="card-title">PM–Engineering Planning Excludes UX</div>
+                    <div class="card-body">Alignment between PM and Engineering happens before UX is consulted. By the time design constraints surface, the sprint schedule has no flexibility left to accommodate them.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02 SOLUTION: FIELDS + WORKFLOW -->
+        <section class="doc-section" id="solution">
+            <span class="doc-section-index">02 / 05</span>
+            <h2 class="doc-h2">The Solution: 5 Fields in Aha!, 1 Workflow into Jira</h2>
+
+            <div class="pullquote">
+                <p>Aha! shows intent. Jira shows reality. UX managers manage the gap.</p>
+            </div>
+
+            <p class="doc-p">The fix closes an infrastructure gap by adding five required fields to each Aha! feature. These fields give the planning system the data it needs to surface UX constraints at roadmap altitude — before sprint commitments are locked. Aha! is used for planned demand and ownership; Jira is used for execution and iteration tracking.</p>
+
+            <div class="doc-h3">The 5 Required Aha! Fields (UX Design Only)</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Field Name</th>
+                            <th>How to Fill It</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>UX Design Required (Yes/No)</td>
+                            <td>Select Yes if UX design work is needed</td>
+                        </tr>
+                        <tr>
+                            <td>UX Design Phase (multi-select)</td>
+                            <td>Choose relevant phases: Concept, Interaction, Iteration, Delivery Support</td>
+                        </tr>
+                        <tr>
+                            <td>UX Design T-Shirt Size (XS–XL)</td>
+                            <td>Rough effort estimate — see sizing guide below</td>
+                        </tr>
+                        <tr>
+                            <td>UX Design Start / End</td>
+                            <td>Quarter or sprint range when design should happen</td>
+                        </tr>
+                        <tr>
+                            <td>UX Designer Owner</td>
+                            <td>Assign designer or set to TBD</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout callout--warning">
+                <p><strong>Critical:</strong> If UX fields aren't filled, UX work becomes invisible and capacity planning fails. Any feature with "UX Design Required = Yes" is blocked from sprint planning until all five fields are complete.</p>
+            </div>
+
+            <div class="doc-h3">T-Shirt Size Reference — Typical Duration</div>
+            <div class="size-grid">
+                <div class="size-cell">
+                    <div class="size-label">XS</div>
+                    <div class="size-time">1–2 days</div>
+                    <div class="size-desc">UI improvement, tweak, or button behavior</div>
+                </div>
+                <div class="size-cell">
+                    <div class="size-label">S</div>
+                    <div class="size-time">2–4 wks</div>
+                    <div class="size-desc">Adding a filter, settings module, or small-contained feature</div>
+                </div>
+                <div class="size-cell">
+                    <div class="size-label">M</div>
+                    <div class="size-time">2–4 wks</div>
+                    <div class="size-desc">New feature with a new core workflow. Low complexity, minimal integrations.</div>
+                </div>
+                <div class="size-cell">
+                    <div class="size-label">L</div>
+                    <div class="size-time">2–3 months</div>
+                    <div class="size-desc">Multi-screen new workflow, dedicated small team, some infrastructure impact</div>
+                </div>
+                <div class="size-cell">
+                    <div class="size-label">XL</div>
+                    <div class="size-time">3–6 months</div>
+                    <div class="size-desc">New supplier module, analytics tool, or significant platform product</div>
+                </div>
+            </div>
+
+            <div class="doc-h3">How PMs Fill It — 3-Step Checklist</div>
+            <div class="checklist-steps">
+                <div class="checklist-step">
+                    <div class="checklist-step-num">1</div>
+                    <div class="checklist-step-text">When a feature enters "Next / Upcoming," fill all UX fields</div>
+                </div>
+                <div class="checklist-step">
+                    <div class="checklist-step-num">2</div>
+                    <div class="checklist-step-text">If unknown, set Owner = TBD + Size = M and add Start quarter</div>
+                </div>
+                <div class="checklist-step">
+                    <div class="checklist-step-num">3</div>
+                    <div class="checklist-step-text">Update fields when scope or timing changes</div>
+                </div>
+            </div>
+
+            <div class="doc-h3">How UX Uses It</div>
+            <div class="card-grid">
+                <div class="card card--blue">
+                    <div class="card-tag">UX Manager uses it to</div>
+                    <div class="card-title">Forecast load</div>
+                    <div class="card-body">Forecast upcoming demand, balance load across designers, rebalance work, negotiate scope early, and align with PM before work starts.</div>
+                </div>
+                <div class="card card--green">
+                    <div class="card-tag">UX IC uses it to</div>
+                    <div class="card-title">Understand demand + context</div>
+                    <div class="card-body">Understand upcoming demand and feature context. <em>Not for daily task tracking.</em></div>
+                </div>
+            </div>
+
+            <div class="doc-h3">Aha! Reports for UX Managers</div>
+            <div class="card-grid card-grid--3">
+                <div class="card">
+                    <div class="card-tag">Report 1</div>
+                    <div class="card-title">Load by Designer (Next 2 quarters)</div>
+                    <div class="card-body">Filter: Status = Next/Upcoming, UX Required = Yes · Group by: UX Owner · Show: T-shirt sizes</div>
+                </div>
+                <div class="card">
+                    <div class="card-tag">Report 2</div>
+                    <div class="card-title">Demand by Quarter (by Size)</div>
+                    <div class="card-body">Filter: UX Required = Yes · Group by: Quarter + Size · Show: Count</div>
+                </div>
+                <div class="card">
+                    <div class="card-tag">Report 3</div>
+                    <div class="card-title">Unassigned UX Work (Owner = TBD)</div>
+                    <div class="card-body">Filter: UX Owner = TBD, Status = Next/Upcoming · Sort by: Start date</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03 AHA → JIRA WORKFLOW -->
+        <section class="doc-section" id="workflow">
+            <span class="doc-section-index">03 / 05</span>
+            <h2 class="doc-h2">The Aha! → Jira Workflow: 4 Lanes</h2>
+            <p class="doc-p">Aha! is used for planned UX demand (feature level). Jira is used for actual UX work (task level). The system operates in four lanes, each with a clear owner and handoff point.</p>
+
+            <div class="doc-h3">Workflow Diagram</div>
+            <div class="lane-diagram">
+                <div class="lane-row">
+                    <div class="lane-label">
+                        <div class="lane-name">Lane 1</div>
+                        <div class="lane-owner">Product Planning (PM)</div>
+                    </div>
+                    <div class="lane-content">
+                        <div class="lane-box">
+                            <div class="lane-box-title">Product Roadmap &amp; Upcoming Features</div>
+                            <ul class="lane-box-list">
+                                <li>What features are coming</li>
+                                <li>Target timeframe</li>
+                            </ul>
+                        </div>
+                        <div class="lane-arrow-col">→</div>
+                        <div class="lane-box" style="background: #eff6ff; border-color: #bfdbfe;">
+                            <div class="lane-box-title" style="color: #1d4ed8;">Aha!</div>
+                            <div class="lane-note">5 UX fields filled here</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lane-row">
+                    <div class="lane-label">
+                        <div class="lane-name">Lane 2</div>
+                        <div class="lane-owner">UX Planning &amp; Assignment (Aha!)</div>
+                    </div>
+                    <div class="lane-content">
+                        <div class="lane-box">
+                            <div class="lane-box-title">Aha! Feature — Planned UX Demand</div>
+                            <ul class="lane-box-list">
+                                <li>UX Design Required</li>
+                                <li>UX Design Phase</li>
+                                <li>UX T-Shirt Size</li>
+                                <li>UX Start / End</li>
+                                <li>UX Designer Owner</li>
+                            </ul>
+                            <div class="lane-note">Feature-level planning (the levers)</div>
+                        </div>
+                        <div class="lane-arrow-col">→</div>
+                        <div class="lane-box">
+                            <div class="lane-box-title">UX Capacity Review (UX Manager)</div>
+                            <ul class="lane-box-list">
+                                <li>Review upcoming UX demand</li>
+                                <li>Balance load across designers</li>
+                                <li>Adjust timing or ownership</li>
+                                <li>Align with PM before work starts</li>
+                            </ul>
+                            <div class="lane-note">Assignment here means feature-ownership, not daily work</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lane-row">
+                    <div class="lane-label">
+                        <div class="lane-name">Lane 3</div>
+                        <div class="lane-owner">UX Execution &amp; Iteration (Jira)</div>
+                    </div>
+                    <div class="lane-content">
+                        <div class="lane-box">
+                            <div class="lane-box-title">Jira Epic (Auto-synced from Aha!)</div>
+                            <ul class="lane-box-list">
+                                <li>Feature context</li>
+                                <li>UX fields (read-only)</li>
+                            </ul>
+                        </div>
+                        <div class="lane-arrow-col">→</div>
+                        <div class="lane-box">
+                            <div class="lane-box-title">Jira Plans (Iteration-Level View)</div>
+                            <ul class="lane-box-list">
+                                <li>UX workload per IC</li>
+                                <li>Tickets per iteration</li>
+                                <li>Spillover &amp; delivery support load</li>
+                            </ul>
+                            <div class="lane-note">Used by UX Managers to protect iteration capacity</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lane-row">
+                    <div class="lane-label">
+                        <div class="lane-name">Lane 4</div>
+                        <div class="lane-owner">Review &amp; Feedback Loop</div>
+                    </div>
+                    <div class="lane-content">
+                        <div class="lane-box">
+                            <div class="lane-box-title">UX Delivery Outcomes</div>
+                            <ul class="lane-box-list">
+                                <li>Designs shipped</li>
+                                <li>Reviews completed</li>
+                                <li>Support delivered</li>
+                            </ul>
+                        </div>
+                        <div class="lane-arrow-col">→</div>
+                        <div class="lane-box">
+                            <div class="lane-box-title">Planning Feedback Loop</div>
+                            <ul class="lane-box-list">
+                                <li>Was UX size accurate?</li>
+                                <li>Did work start early enough?</li>
+                                <li>Where did scope creep occur?</li>
+                            </ul>
+                            <div class="lane-note">Improves future capacity planning</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-h3">What Lives Where</div>
+            <div class="lives-where">
+                <div class="lives-col">
+                    <div class="lives-col-title">Aha!</div>
+                    <ul>
+                        <li>Planned UX demand</li>
+                        <li>Feature ownership</li>
+                        <li>Capacity forecasting</li>
+                        <li>Roadmap-level decisions</li>
+                    </ul>
+                </div>
+                <div class="lives-col">
+                    <div class="lives-col-title">Jira</div>
+                    <ul>
+                        <li>UX tasks</li>
+                        <li>Iteration commitments</li>
+                        <li>Work-in-progress</li>
+                        <li>Actual effort &amp; delivery</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="doc-h3">Guardrails (Very Important)</div>
+            <div class="guardrail-row">
+                <div class="guardrail">
+                    <div class="guardrail-icon">⚠</div>
+                    No UX Jira tickets before work starts
+                </div>
+                <div class="guardrail">
+                    <div class="guardrail-icon">⚠</div>
+                    Aha! assignment = sprint commitment
+                </div>
+                <div class="guardrail">
+                    <div class="guardrail-icon">⚠</div>
+                    Jira Plans = iteration health check for UX
+                </div>
+            </div>
+
+            <div class="principle-box">
+                <div class="principle-box-title">Core Principle</div>
+                <p>Aha! shows intent. Jira shows reality. UX managers manage the gap.</p>
+                <div class="principle-donts">
+                    <div class="principle-donts-title">Do not</div>
+                    <ul>
+                        <li>Turn Aha! into a task tracker</li>
+                        <li>Show daily status updates in Aha!</li>
+                        <li>Mix IC task tracking into planning views</li>
+                    </ul>
+                </div>
+                <p style="margin-top:14px;">Focus on clarity, role boundaries, and planning confidence.</p>
+            </div>
+        </section>
+
+        <!-- 04 CROSS-FUNCTIONAL WORKFLOW -->
+        <section class="doc-section" id="collab">
+            <span class="doc-section-index">04 / 05</span>
+            <h2 class="doc-h2">Cross-Functional Collaboration: T-Shirt Workflow</h2>
+            <p class="doc-p">The T-shirt sizing system lives inside a broader cross-functional framework. This is a transparent checklist used by UX, PM, and Engineering to take a product from 0→1 — with quality control and progress tracking at every phase gate.</p>
+
+            <div class="callout">
+                <p><strong>Design principle:</strong> The product development size is a structural tool for a "0 to 1" product launch, inspired by the Lean Startup's Build-Measure-Learn cycle. The goal is to maximize validated learning and minimize wasted effort.</p>
+            </div>
+
+            <div class="doc-h3">T-Shirt Size Framework</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Description</th>
+                            <th>Typical Duration</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>XS</td>
+                            <td>A small, contained feature or a simple task that can be built on an existing product/platform. Focus on a single-use assumption.</td>
+                            <td>1–2 weeks</td>
+                            <td>UI improvement, tooltip, or button behavior</td>
+                        </tr>
+                        <tr>
+                            <td>S</td>
+                            <td>A new, but very simple product/solution with one core workflow. Low technical complexity and minimal integrations. Focus on the core value proposition.</td>
+                            <td>2–4 weeks</td>
+                            <td>Adding a filter, a settings module</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>A new feature/product with a few core features and workflows. Medium technical complexity. May include simple integrations. Requires a dedicated, small team.</td>
+                            <td>2–4 months</td>
+                            <td>Mid-size dashboard or feature set</td>
+                        </tr>
+                        <tr>
+                            <td>L</td>
+                            <td>A significant product/feature at a sub-platform within the company. High technical complexity, multiple integrations, and requires significant infrastructure setup. Requires a cross-functional team.</td>
+                            <td>3–6 months</td>
+                            <td>New supplier module or analytics tool</td>
+                        </tr>
+                        <tr>
+                            <td>XL</td>
+                            <td>A completely new, highly complex product ecosystem that requires a large team, a new technology stack, and extensive legal/compliance review. A net-new platform or product line.</td>
+                            <td>6–18 months</td>
+                            <td>Launching a new AI-based or network product</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="doc-h3">5-Phase 0→1 Process Checklist</div>
+            <p class="doc-p">Each feature moves through five phases. Phase gates (Approved / Extended / Risk / None) ensure cross-functional visibility before work advances. Each step has a defined owner, effort estimate, and size applicability (XS–XL).</p>
+
+            <div class="card-grid">
+                <div class="card card--blue">
+                    <div class="card-tag">Phase 1</div>
+                    <div class="card-title">Discovery — Understand the Problem</div>
+                    <div class="card-body">Define business goal, collect insights, conduct user research, clarify user types, explore technical feasibility, define product hypothesis. <strong>Owner: PM, UX, Eng, UXR.</strong></div>
+                </div>
+                <div class="card card--blue">
+                    <div class="card-tag">Phase 2</div>
+                    <div class="card-title">Ideation — Define the Solution</div>
+                    <div class="card-body">Generate directions, define navigation and flow, visualize main ideas, check technical feasibility, run concept validation tests, select architecture. <strong>Owner: UX, Eng, UXR.</strong></div>
+                </div>
+                <div class="card card--green">
+                    <div class="card-tag">Phase 3</div>
+                    <div class="card-title">Design &amp; Define — Shape the MVP</div>
+                    <div class="card-body">Design system design, high-fidelity prototypes, usability testing, define "done," accessibility and localization review. <strong>Owner: UX, Eng, PM.</strong></div>
+                </div>
+                <div class="card card--green">
+                    <div class="card-tag">Phase 4</div>
+                    <div class="card-title">Build &amp; Iterate — Develop MVP</div>
+                    <div class="card-body">Sprint planning, implement product, weekly builds, QA &amp; bug tracking, internal alpha feedback. <strong>Owner: PM, UX, Eng.</strong></div>
+                </div>
+                <div class="card card--purple" style="grid-column: 1 / -1;">
+                    <div class="card-tag">Phase 5</div>
+                    <div class="card-title">Launch &amp; Learn — Release + Measure</div>
+                    <div class="card-body">Baby-alpha version, post-launch survey, analytics tracking, retrospective &amp; improvement plan, publish learnings. <strong>Owner: PM, UX, All.</strong></div>
+                </div>
+            </div>
+
+            <div class="doc-h3">Transparency + Quality Control</div>
+            <p class="doc-p">Each phase ends with a gate status and optional notes. Status options: <strong>Approved</strong>, <strong>In Progress</strong>, <strong>Done</strong>, <strong>Delay</strong>, <strong>Blocked</strong>, <strong>Reviewed</strong>. Phase Final Status is set as: Approved · Extended N Days · Risk · None.</p>
+            <div class="callout callout--success">
+                <p>Each phase works with a <strong>cross-functional span</strong> (PM, UX, Eng) and a long-confirm: confirm steps are taken to ensure work is properly handed off. Size-scoped columns (XS–XL) control which steps apply to each project size.</p>
+            </div>
+        </section>
+
+        <!-- 05 IMPLEMENTATION + OUTCOMES -->
+        <section class="doc-section" id="implementation">
+            <span class="doc-section-index">05 / 05</span>
+            <h2 class="doc-h2">Implementation &amp; Expected Outcomes</h2>
+
+            <div class="doc-h3">8-Week Phased Rollout</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-title">Weeks 1–2 &nbsp;·&nbsp; Foundation</div>
+                    <div class="timeline-body">
+                        <ul>
+                            <li>Configure 5 UX fields in Aha! and set up automation rules</li>
+                            <li>Brief UX Leads on the new workflow — Aha! for planning, Jira for execution</li>
+                            <li>Run a pilot on 3–5 in-flight features to validate the model</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">Weeks 3–4 &nbsp;·&nbsp; PM Alignment</div>
+                    <div class="timeline-body">
+                        <ul>
+                            <li>Present pilot results to PM team with concrete before/after data</li>
+                            <li>Co-define the T-shirt sizing guide and cross-functional workflows</li>
+                            <li>Resolve edge cases and build shared understanding before enforcement</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">Weeks 5–8 &nbsp;·&nbsp; Full Rollout</div>
+                    <div class="timeline-body">
+                        <ul>
+                            <li>Activate system-level enforcement: features blocked from sprint without complete UX fields</li>
+                            <li>Launch capacity dashboard for leadership — roadmap vs. UX capacity at a glance</li>
+                            <li>Establish quarterly forecast review as standard operating cadence</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-h3">Investment &amp; Return</div>
+            <div class="card-grid card-grid--3">
+                <div class="card card--blue">
+                    <div class="card-tag">Implementation Cost</div>
+                    <div class="card-title">140 person-hours</div>
+                    <div class="card-body">Spread across 8 weeks; primarily UX Lead and PM configuration time</div>
+                </div>
+                <div class="card card--green">
+                    <div class="card-tag">Tool Spend</div>
+                    <div class="card-title">$0</div>
+                    <div class="card-body">Built entirely within existing Aha! + Jira configuration — no new software required</div>
+                </div>
+                <div class="card card--green">
+                    <div class="card-tag">Break-Even Point</div>
+                    <div class="card-title">1 sprint</div>
+                    <div class="card-body">A single prevented sprint delay fully recovers the implementation investment</div>
+                </div>
+            </div>
+
+            <div class="doc-h3">Measurable Outcomes</div>
+            <div class="card-grid card-grid--3">
+                <div class="card card--blue">
+                    <div class="card-tag">Sprint Escalations</div>
+                    <div class="card-title">−60%</div>
+                    <div class="card-body">UX blockers surfacing mid-sprint drop by more than half</div>
+                </div>
+                <div class="card card--blue">
+                    <div class="card-tag">Forecast Accuracy</div>
+                    <div class="card-title">95%</div>
+                    <div class="card-body">Design capacity predictable 2–3 quarters ahead of delivery</div>
+                </div>
+                <div class="card card--blue">
+                    <div class="card-tag">Capacity Utilization</div>
+                    <div class="card-title">+25%</div>
+                    <div class="card-body">Balanced workload distribution reduces overload and designer burnout</div>
+                </div>
+            </div>
+
+            <div class="doc-h3">Three Decisions Needed</div>
+            <div class="callout">
+                <p><strong>Decision 1 — Approve 8-Week Pilot</strong><br>Scope: 3–5 features. Low disruption, fully reversible. Produces real data before full commitment.</p>
+            </div>
+            <div class="callout">
+                <p><strong>Decision 2 — Assign Implementation Owner</strong><br>Proposed: Head of UX as DRI, VP of Product as Executive Sponsor. Both required to unblock cross-functional configuration.</p>
+            </div>
+            <div class="callout">
+                <p><strong>Decision 3 — Commit to Enforcement Date</strong><br>Target: 5 UX fields mandatory and system-enforced by Week 5. Committing to this date prevents the pilot from stalling at the alignment stage.</p>
+            </div>
+        </section>
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- STRUCTURED FOOTER -->
+  <footer class="footer--structured" role="contentinfo">
+    <div class="container">
+      <nav class="footer__nav" aria-label="Site navigation">
+        <div>
+          <span class="footer__col-label">Decision Architecture</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+            <li><a href="../../decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+            <li><a href="../../decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+            <li><a href="../../decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">Founder</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#founder" class="footer__col-link">Overview</a></li>
+            <li><a href="../../founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+            <li><a href="../../founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+            <li><a href="../../founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">Applied Systems</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#applied-systems" class="footer__col-link">Overview</a></li>
+            <li><a href="../../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+            <li><a href="../../applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+            <li><a href="../../applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+            <li><a href="../../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">General</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#about" class="footer__col-link">About</a></li>
+            <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+            <li><a href="../../applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+            <li><a href="../../sitemap.html" class="footer__col-link">Sitemap</a></li>
+            <li><a href="../../kateyu-resume.html" class="footer__col-link">Resume</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="footer__bottom">
+        <p class="footer__bottom-copy">&copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture</p>
+        <div class="footer__bottom-links">
+          <a href="../../applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a>
+          <a href="../../sitemap.html" class="footer__bottom-link">Sitemap</a>
+          <a href="../../kateyu-resume.html" class="footer__bottom-link">Resume</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/staff-portfolio.js"></script>
+</body>
+</html>

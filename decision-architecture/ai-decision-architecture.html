@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>AI as Decision Architecture in Enterprise Systems · Kate Jie Yu</title>
+  <meta name="description" content="How I design AI as a structured decision layer within complex product and organizational systems — governance, autonomy boundaries, and human-in-the-loop architecture.">
+  <link rel="shortcut icon" type="image/x-icon" href="../img/KJY_logo_bar.jpg">
+  <link rel="apple-touch-icon" href="./img/KJY_logo_bar.jpg">
+<link rel="stylesheet" href="../style/theme.css">
+<link rel="stylesheet" href="../style/base.css">
+<link rel="stylesheet" href="../style/components.css">
+<link rel="stylesheet" href="../style/case-study.css">
+  <style>
+    /* ── PAGE-SPECIFIC: extra diag-cell color variants ── */
+    .cs-diag-cell--red    { border-top: 3px solid #dc2626; }
+    .cs-diag-cell--orange { border-top: 3px solid #ea580c; }
+    .cs-diag-cell--amber  { border-top: 3px solid #f59e0b; }
+    .cs-diag-cell--purple { border-top: 3px solid #7c3aed; }
+    .cs-diag-cell--slate  { border-top: 3px solid #475569; }
+
+    /* ── Individual card outlines, no table-level border ── */
+    #problem .cs-diag-grid { background: transparent; gap: 12px; border: none; overflow: visible; }
+    #problem .cs-diag-cell { border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; border-left: 1px solid #e5e7eb; border-top: 1px solid #e5e7eb; border-radius: 8px; }
+    #problem .cs-diag-cell.cs-diag-cell--red    { border-top: 3px solid #dc2626; }
+    #problem .cs-diag-cell.cs-diag-cell--orange { border-top: 3px solid #ea580c; }
+    #problem .cs-diag-cell.cs-diag-cell--amber  { border-top: 3px solid #f59e0b; }
+    #problem .cs-diag-cell.cs-diag-cell--purple { border-top: 3px solid #7c3aed; }
+    #problem .cs-diag-cell.cs-diag-cell--slate  { border-top: 3px solid #475569; }
+
+    /* ── PAGE-SPECIFIC: project evidence cards ── */
+    .cs-projects {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: #e5e7eb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 28px 0;
+    }
+    .cs-project-row {
+      background: #fff;
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: 220px 1fr 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .cs-project-row:hover { background: #fafafa; }
+    .cs-project-name { font-size: 0.9375rem; font-weight: 700; color: #111827; line-height: 1.3; margin-bottom: 6px; }
+    .cs-project-context { font-size: 0.8125rem; color: #6b7280; line-height: 1.55; }
+    .cs-project-col-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+    .cs-project-col-text { font-size: 0.8125rem; color: #6b7280; line-height: 1.6; }
+    .cs-project-col-text strong { color: #111827; font-weight: 600; }
+
+    @media (max-width: 900px) {
+      .cs-project-row { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .cs-project-row { grid-template-columns: 1fr; gap: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- NAV — verbatim from index-refactored.html; all classes from staff-portfolio.css -->
+<header class="header" role="banner">
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__container"> <a href="../index.html" class="nav__logo"> <img src="../img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48"> <!--<span class="nav__logo-text">Kate Jie Yu</span>--> </a>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="../index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+        <li><a href="../index.html#founder" class="nav__link">Founder</a></li>
+        <li><a href="../index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+        <li><a href="../index.html#about" class="nav__link">About</a></li>
+        <li><a href="../kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+      </ul>
+      <button
+          class="nav__toggle"
+          id="nav-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> </button>
+    </div>
+  </nav>
+</header>
+
+  <main id="main" role="main">
+    <div class="container">
+
+      <a href="../index.html#decision-architecture" class="cs-back">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 12L6 8l4-4"/></svg>
+        Decision Architecture Work
+      </a>
+
+      <!-- ══ PAGE HEADER ══ -->
+      <header class="cs-header">
+        <div class="cs-eyebrow">
+          <span class="cs-pill">AI Systems Architecture</span>
+          <span class="cs-pill cs-pill--grey">Decision Governance</span>
+          <span class="cs-pill cs-pill--grey">Enterprise Product Strategy</span>
+        </div>
+
+        <h1 class="cs-h1">
+          AI as Decision Architecture<br>
+          <span>in Enterprise Systems</span>
+        </h1>
+
+        <p class="cs-lead">
+          AI does not replace decision-making. It restructures it — redistributing authority across roles, systems, and thresholds in ways that require deliberate governance or produce hidden organizational risk. This framework was developed directly from four enterprise AI initiatives: AI Agent Demo, AI AutoPilot, Supply Chain AI Workflow, and Discovery Gen AI. Each one surfaced the same category of failure. Not model quality. Governance architecture.
+        </p>
+
+        <div class="cs-meta-grid">
+          <div>
+            <span class="cs-meta-label">My Role</span>
+            <span class="cs-meta-value">AI Systems Strategist · Decision Architecture Designer</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Framing</span>
+            <span class="cs-meta-value">Structural principles extracted from applied enterprise AI work</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Initiatives</span>
+            <span class="cs-meta-value">AI Agent Demo · AI AutoPilot · Supply Chain AI Workflow · Discovery Gen AI</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Organizational Span</span>
+            <span class="cs-meta-value">Product · Engineering · Operations · Leadership</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ══ EXECUTIVE THESIS ══ -->
+      <div class="cs-tldr">
+        <div class="cs-tldr-label">Executive Thesis</div>
+        <ul>
+          <li><strong>AI is a redistribution of authority.</strong> Every recommendation, suggestion, or autonomous action shifts who is responsible for an outcome — from a human to a model, from senior judgment to an automated threshold, from a structured review to a real-time inference. That redistribution is a governance event, whether it is treated as one or not.</li>
+          <li><strong>Unstructured AI is a governance risk, not a UX problem.</strong> When autonomy thresholds are undefined, escalation paths are missing, and feedback loops are absent, AI systems accumulate silent failures — decisions made outside human awareness that compound until they surface as operational incidents.</li>
+          <li><strong>The design problem is not the AI. It is the decision architecture surrounding it.</strong> What I design is the governance layer: what AI can decide, what it must escalate, how humans intervene, and how the system learns from the gap between its inferences and the outcomes that follow.</li>
+        </ul>
+      </div>
+
+      <!-- ══ EVIDENCE ACCESS BAR ══ -->
+      <div class="cs-access-bar">
+        <span class="cs-access-label">Access</span>
+        <a href="ai-decision/syncopro-evolution-engine.html" class="cs-access-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="8" r="3"/>
+            <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.22 3.22l1.42 1.42M11.36 11.36l1.42 1.42M3.22 12.78l1.42-1.42M11.36 4.64l1.42-1.42"/>
+          </svg>
+          Decision Intelligence System
+        </a>
+        <a href="ai-decision/sap-product-ai-system.html" class="cs-access-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 2h6l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+            <polyline points="10 2 10 6 14 6"/>
+          </svg>
+          AI Development System
+        </a>
+        <a href="ai-decision/ai-systems-library.html" class="cs-access-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 4h12M2 8h12M2 12h8"/>
+          </svg>
+          AI Systems Library
+        </a>
+
+        <div style="width: 100%; height: 0; border-top: 1px solid #f3f4f6; margin: 4px 0;"></div>
+
+        <span class="cs-access-label">Live Work</span>
+        <a href="https://katejieyu.github.io/AI-demo/" target="_blank" rel="noopener noreferrer" class="cs-access-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="8" r="6"/>
+            <path d="M8 2a9 9 0 0 1 0 12M8 2a9 9 0 0 0 0 12M2 8h12"/>
+          </svg>
+          AI Agent Demo
+        </a>
+        <a href="../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" target="_blank" rel="noopener noreferrer" class="cs-access-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 2h6l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+            <polyline points="10 2 10 6 14 6"/>
+          </svg>
+          AI AutoPilot
+        </a>
+        <a href="../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" target="_blank" rel="noopener noreferrer" class="cs-access-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 2h6l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+            <polyline points="10 2 10 6 14 6"/>
+          </svg>
+          Discovery Gen AI
+        </a>
+        <a href="../applied-systems/case-studies/sap/sap-scm-data-driven-ai-for-effortless-workflow-2025.html" target="_blank" rel="noopener noreferrer" class="cs-access-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 2h6l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+            <polyline points="10 2 10 6 14 6"/>
+          </svg>
+          Supply Chain AI Workflow
+        </a>
+      </div>
+
+      <!-- ══ 01 THE STRUCTURAL PROBLEM ══ -->
+      <section class="cs-section" id="problem">
+        <span class="cs-section-index">01 / 06</span>
+        <h2 class="cs-h2">The Structural Problem</h2>
+
+        <p class="cs-p">Enterprise organizations adopt AI as a capability layer — adding recommendation engines, workflow assistants, and automated actions onto existing operational systems. What they rarely design is the layer that determines how AI-generated signals interact with human decision authority. The result: a set of structural failures that present as UX problems but are architectural ones.</p>
+
+        <p class="cs-p">The core failure is not that AI makes wrong recommendations. It is that the system has no defined model for what to do when the recommendation is uncertain, contested, or consequential beyond its training context. Two failure modes follow: humans override AI consistently and it loses organizational utility, or AI acts without oversight and accumulates errors outside human awareness. Both are readable from the architecture before they occur.</p>
+
+        <div class="cs-diag-grid">
+          <div class="cs-diag-cell cs-diag-cell--red">
+            <div class="cs-diag-layer">Problem 01</div>
+            <div class="cs-diag-title">Decision Latency</div>
+            <div class="cs-diag-desc">High-volume decisions that require human review at each instance create bottlenecks that scale with the organization. AI can reduce latency — but only if decision boundaries are clear enough to route the right decisions to the right authority level.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--orange">
+            <div class="cs-diag-layer">Problem 02</div>
+            <div class="cs-diag-title">Escalation Friction</div>
+            <div class="cs-diag-desc">When AI surfaces a recommendation outside the model's confidence range, there is often no defined path for escalation. Without an escalation model, ambiguous or consequential decisions default to ad hoc handling — absorbing human bandwidth and producing inconsistent outcomes.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--amber">
+            <div class="cs-diag-layer">Problem 03</div>
+            <div class="cs-diag-title">Autonomy Without Boundaries</div>
+            <div class="cs-diag-desc">AI systems given operational authority without defined autonomy thresholds act in contexts they were not designed for, at scales that weren't anticipated, with consequences that accumulate before they become visible.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--purple">
+            <div class="cs-diag-layer">Problem 04</div>
+            <div class="cs-diag-title">Human Override Ambiguity</div>
+            <div class="cs-diag-desc">If human override of AI output is possible but undefined — no clear interface, no audit trail, no feedback mechanism — it happens invisibly. Operators learn to work around the system rather than with it, and the AI accumulates no signal about the cases where it was wrong.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--slate">
+            <div class="cs-diag-layer">Problem 05</div>
+            <div class="cs-diag-title">Silent Failure Risk</div>
+            <div class="cs-diag-desc">Silent failure produces no immediate signal. An AI system making confidently wrong recommendations in low-visibility contexts — or gradually drifting from its calibration baseline without a correction mechanism — accumulates errors until the damage surfaces at scale.</div>
+          </div>
+        </div>
+
+        <div class="cs-callout">
+          <p><strong>The governance gap:</strong> These problems share a root cause: AI deployed without a structured model for decision authority, escalation routing, autonomy scope, override mechanics, and feedback calibration. They are not solvable with better models. They require governance design.</p>
+        </div>
+      </section>
+
+      <!-- ══ 02 DECISION ARCHITECTURE FRAMEWORK ══ -->
+      <section class="cs-section" id="framework">
+        <span class="cs-section-index">02 / 06</span>
+        <h2 class="cs-h2">AI Decision Architecture Framework</h2>
+
+        <p class="cs-p">This framework emerged from working directly on the four initiatives described in Section 03 — not from modeling failure modes in the abstract, but from encountering them in production. It structures AI's role in organizational decision-making across five layers, each answering a question the system and organization deploying it must be able to answer reliably — concurrently, not sequentially.</p>
+
+        <div class="cs-visual">
+          <div class="cs-visual-canvas" style="padding: 40px 32px;">
+            <div class="cs-arch">
+
+              <!-- Layer 1 -->
+              <div class="cs-arch-layer cs-arch-layer--intent">
+                <span class="cs-arch-badge">Layer 1</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Signal Detection</div>
+                  <div class="cs-arch-desc">What patterns in operational data are decision-relevant? What confidence threshold distinguishes signal from noise?</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Data ingestion scope</span>
+                    <span class="cs-arch-item">Relevance classification</span>
+                    <span class="cs-arch-item">Confidence scoring</span>
+                    <span class="cs-arch-item">Anomaly detection</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Layer 2 -->
+              <div class="cs-arch-layer" style="background: rgba(37,99,235,0.05); border: 1.5px solid rgba(37,99,235,0.2); border-radius: 8px;">
+                <span class="cs-arch-badge" style="background: rgba(37,99,235,.1); color: #1d4ed8;">Layer 2</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Recommendation &amp; Contextualization</div>
+                  <div class="cs-arch-desc">What action does the AI recommend, and what context does a human need to evaluate it? How is uncertainty surfaced, not suppressed?</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Recommendation generation</span>
+                    <span class="cs-arch-item">Rationale transparency</span>
+                    <span class="cs-arch-item">Uncertainty signaling</span>
+                    <span class="cs-arch-item">Confidence display</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Layer 3 — critical governance layer -->
+              <div class="cs-arch-layer" style="background: rgba(124,58,237,0.06); border: 1.5px solid rgba(124,58,237,0.25); border-radius: 8px;">
+                <span class="cs-arch-badge" style="background: rgba(124,58,237,.12); color: #6d28d9;">Layer 3 — Governance Critical</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Autonomy Threshold &amp; Escalation Model</div>
+                  <div class="cs-arch-desc">Under what conditions can AI act autonomously? What triggers escalation to human review? Who has authority to decide at each escalation level?</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Confidence-based routing</span>
+                    <span class="cs-arch-item">Consequence classification</span>
+                    <span class="cs-arch-item">Escalation path definition</span>
+                    <span class="cs-arch-item">Role-based authority</span>
+                    <span class="cs-arch-item">Cross-tier escalation logic</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Boundary line -->
+              <div class="cs-arch-layer cs-arch-layer--boundary">
+                <span class="cs-arch-boundary-label">Human Authority Boundary — decisions above this line require explicit human confirmation</span>
+              </div>
+
+              <!-- Layer 4 -->
+              <div class="cs-arch-layer cs-arch-layer--execution">
+                <span class="cs-arch-badge">Layer 4</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Human-in-the-Loop Safeguards</div>
+                  <div class="cs-arch-desc">How does a human confirm, modify, or reject AI output? How is that action recorded, attributed, and surfaced back to the model?</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Explicit override interface</span>
+                    <span class="cs-arch-item">Intervention audit trail</span>
+                    <span class="cs-arch-item">Modification logging</span>
+                    <span class="cs-arch-item">Confirmation gates</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Layer 5 -->
+              <div class="cs-arch-layer cs-arch-layer--guardrail" style="margin-top: 4px;">
+                <span class="cs-arch-badge">Layer 5</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Feedback &amp; Model Recalibration</div>
+                  <div class="cs-arch-desc">How do outcomes — including human overrides — update the model's confidence calibration and escalation thresholds? How does the governance layer itself improve over time?</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Override pattern analysis</span>
+                    <span class="cs-arch-item">Outcome-to-prediction mapping</span>
+                    <span class="cs-arch-item">Threshold recalibration</span>
+                    <span class="cs-arch-item">Governance drift detection</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 01</span>
+            <span class="cs-fig-text">Five-layer AI decision architecture. Layer 3 is the governance-critical layer: it defines the conditions under which AI acts autonomously versus escalates to human review. The human authority boundary is a structural assertion, not a UX preference — it must be explicit, enforced, and auditable.</span>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">Why Layer 3 is the architecture's load-bearing element</h3>
+        <p class="cs-p">Layers 1, 2, 4, and 5 are largely technical — data processing, recommendation generation, interface design, model learning. Layer 3 is a <strong>governance decision about organizational authority</strong>: which actions the system can take without human confirmation, under what conditions, and with what consequence model in place when it is wrong.</p>
+        <p class="cs-p">Without it, the human authority boundary is implicit — existing wherever the system draws it, not where the organization intends. Implicit boundaries shift under pressure and collapse under sustained ambiguity. With Layer 3 formalized, authority is bounded, escalation is predictable, and the boundary holds under exactly the conditions that test it.</p>
+
+        <div class="cs-pullquote">
+          <p>AI does not replace decision-making. It restructures it — and every restructuring is a governance event that must be designed, not assumed.</p>
+        </div>
+      </section>
+
+      <!-- ══ 03 APPLIED IN PRACTICE ══ -->
+      <section class="cs-section" id="applied">
+        <span class="cs-section-index">03 / 06</span>
+        <h2 class="cs-h2">Applied in Practice</h2>
+
+        <p class="cs-p">In each initiative, the AI capability functioned. The governance architecture did not. The four cases below are not feature post-mortems — they are a record of where boundary definition, escalation routing, and trust calibration were absent or underdeveloped, and what that cost organizationally.</p>
+
+        <div class="cs-projects">
+          <!-- Project 1 -->
+          <div class="cs-project-row">
+            <div>
+              <div class="cs-project-name">AI Agent Demo</div>
+              <div class="cs-project-context">AI-assisted order confirmation and advance ship notice workflow agent built as a live prototype for SAP Business Network — demonstrating Joule-style agentic assistance inside active supply chain operations.</div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Decision Bottleneck</div>
+              <div class="cs-project-col-text">Suppliers managing high volumes of order confirmations and ASN submissions faced repetitive, time-sensitive decisions with no AI support. Each transaction required manual field-by-field validation — creating latency and error exposure at scale.</div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Boundary Problem</div>
+              <div class="cs-project-col-text">The prototype needed to demonstrate AI-assisted decision-making without implying full autonomy. The design challenge: make the agent feel genuinely helpful — surfacing the right data, suggesting the right action — while keeping the human explicitly in the confirmation loop. <strong>Helpfulness and authority boundary had to coexist in the same interface.</strong></div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Governance Insight</div>
+              <div class="cs-project-col-text">Agentic demos are governance prototypes. How the AI surfaces its reasoning, how it signals confidence, and how it hands off to human confirmation are not UX choices — they are live assertions about where the authority boundary sits. <strong>The demo makes the governance model visible before the production system is built.</strong></div>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="cs-project-row" style="background: #fafafa;">
+            <div>
+              <div class="cs-project-name">AI AutoPilot</div>
+              <div class="cs-project-context">Multi-tier buy-sell supply chain orchestration. AI agents suggesting coordinated actions across buyer, supplier, and logistics tiers simultaneously.</div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Decision Bottleneck</div>
+              <div class="cs-project-col-text">High-volume cross-tier transaction decisions required human review at each node, creating latency that grew nonlinearly with supply chain complexity. The coordination burden exceeded human operational capacity at scale.</div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Boundary Problem</div>
+              <div class="cs-project-col-text">AI agents lacked a defined autonomy threshold. When a recommendation crossed role boundaries — a buyer action triggering supplier commitment — no model existed for which human held confirmation authority or at what point escalation was required. <strong>Cross-role escalation was structurally undefined.</strong></div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Governance Insight</div>
+              <div class="cs-project-col-text">Autonomy thresholds must be role-specific, not system-wide. An action that is low-consequence within a single tier becomes high-consequence when it propagates across tiers. The escalation model must encode <strong>organizational consequence scope</strong> — not just model confidence.</div>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="cs-project-row">
+            <div>
+              <div class="cs-project-name">Supply Chain AI Workflow</div>
+              <div class="cs-project-context">AI-generated recommendations surfaced inside active operational workflows — guiding operators through high-volume triage and routing decisions in real time.</div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Decision Bottleneck</div>
+              <div class="cs-project-col-text">Recommendation volume exceeded operators' capacity for genuine evaluation. The system produced output at a rate that forced a choice: trust it uncritically or override it reflexively. Neither is calibrated judgment — and neither is sound governance.</div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Boundary Problem</div>
+              <div class="cs-project-col-text">The interface surfaced recommendations without clearly distinguishing between AI authority and human authority. Operators were uncertain whether they were confirming a suggestion or making an independent decision. <strong>Recommendation and decision authority were visually indistinguishable.</strong></div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Governance Insight</div>
+              <div class="cs-project-col-text">The interface is a governance layer. How AI output is presented — with what confidence signal, what rationale, what override affordance — determines whether humans exercise genuine judgment or become approval proxies. <strong>Transparency is a governance prerequisite. Treating it as a UX preference is how trust calibration fails.</strong></div>
+            </div>
+          </div>
+
+          <!-- Project 4 -->
+          <div class="cs-project-row" style="background: #fafafa;">
+            <div>
+              <div class="cs-project-name">Discovery Gen AI</div>
+              <div class="cs-project-context">AI-generated content integrated directly into the product's response flow — enhancing outputs for end users in a live enterprise environment.</div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Decision Bottleneck</div>
+              <div class="cs-project-col-text">AI-generated content needed to improve response quality at scale, but in an enterprise context, a confidently wrong output carries significantly higher organizational cost than in consumer deployment. Trust had to be earned at the organizational level — and there was no architecture to earn it with.</div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Boundary Problem</div>
+              <div class="cs-project-col-text">There was no mechanism for users to signal when AI-generated content was wrong or inappropriate for context. Corrections happened outside the system. <strong>The feedback loop was absent — the model had no path to learn from its failures in production.</strong></div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Governance Insight</div>
+              <div class="cs-project-col-text">A feedback mechanism is not an analytics feature. It is the structure that allows the system to correct itself. Without it, confidence calibration diverges from real-world accuracy — silently, over time. <strong>Feedback loops are how governance stays current. Their absence is how it calcifies.</strong></div>
+            </div>
+          </div>
+
+          <!-- Project 5 -->
+          <div class="cs-project-row">
+            <div>
+              <div class="cs-project-name">AI-Native Product Development System</div>
+              <div class="cs-project-context">Structured AI system built at SyncoPro and extended for SAP — nine skill modules (Define, Diagnose, Goal, Generate, Challenge, Refine, Self-Study, Self-Test, Execution Readiness) orchestrated into a governed reasoning chain for product teams.</div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Decision Bottleneck</div>
+              <div class="cs-project-col-text">Product teams using AI for planning produced faster outputs with the same structural gaps: problems undefined, assumptions unchallenged, decisions unlogged, execution outputs too vague to build from. AI amplified speed without improving quality.</div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Boundary Problem</div>
+              <div class="cs-project-col-text">Without a governance structure, AI could generate solutions, refine them, and produce plans — all without ever challenging whether the original problem definition was correct or whether the solution had been stress-tested. <strong>The system had no authority boundary between generating and acting.</strong></div>
+            </div>
+            <div>
+              <div class="cs-project-col-label">Governance Insight</div>
+              <div class="cs-project-col-text">The same governance principles that prevent silent failure in operational AI — authority boundaries, mandatory escalation, feedback loops — apply to AI-assisted planning. Skill 05 (Challenge) is the system's authority gate: the AI cannot advance a solution it has not stress-tested. <strong><a href="ai-decision/sap-product-ai-system.html" style="color: #2563eb;">See full case study →</a></strong> For the self-evolving extension of this system, see <strong><a href="ai-decision/syncopro-evolution-engine.html" style="color: #2563eb;">When Products Learn →</a></strong></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="cs-callout">
+          <p><strong>What these cases have in common:</strong> The governance layer — autonomy thresholds, escalation routing, transparency mechanics, feedback loops — was either absent or treated as secondary. That sequencing is the pattern. This framework is designed to interrupt it.</p>
+        </div>
+      </section>
+
+      <!-- ══ 04 STRATEGIC INSIGHTS ══ -->
+      <section class="cs-section" id="insights">
+        <span class="cs-section-index">04 / 06</span>
+        <h2 class="cs-h2">Strategic Insights</h2>
+
+        <p class="cs-p">These principles were not derived analytically. Each one is traceable to a specific failure mode encountered directly across these four initiatives. They apply at the governance layer, independent of the AI capability underneath.</p>
+
+        <div class="cs-visual">
+          <div class="cs-table-scroll">
+            <table class="cs-table">
+              <thead>
+                <tr>
+                  <th>Principle</th>
+                  <th>What It Addresses</th>
+                  <th>What Happens Without It</th>
+                  <th>Architectural Response</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>AI is a redistribution of authority</td>
+                  <td>Every AI action shifts who is responsible for an outcome — from a human to a model, from senior judgment to automated threshold</td>
+                  <td>Authority diffuses without accountability. Errors occur without clear organizational ownership</td>
+                  <td>Map decision authority explicitly at each layer. Name who is responsible for what the AI decides, and under what conditions</td>
+                </tr>
+                <tr>
+                  <td>Autonomy without escalation modeling creates hidden risk</td>
+                  <td>AI systems given operational scope without defined escalation paths act in the absence of oversight when confidence is low or context is novel</td>
+                  <td>Silent failure accumulates. Errors compound in low-visibility corners before surfacing at scale</td>
+                  <td>Define confidence thresholds that trigger escalation. Design escalation paths before they are needed — not after the first incident</td>
+                </tr>
+                <tr>
+                  <td>Transparency is required for trust calibration</td>
+                  <td>Humans cannot calibrate appropriate trust in AI output if they cannot see the basis for the recommendation or its confidence level</td>
+                  <td>Operators either overtrust or reflexively override — neither produces good outcomes. Trust becomes binary rather than calibrated</td>
+                  <td>Surface AI rationale and confidence signal as first-class interface elements, not metadata. Uncertainty is not a weakness to conceal — it is a governance input</td>
+                </tr>
+                <tr>
+                  <td>Human override must be explicit, not implied</td>
+                  <td>If overriding AI output is possible but not designed — no affordance, no audit trail, no feedback — it happens invisibly and extracts no learning</td>
+                  <td>Operators work around the system. The AI accumulates no signal from the cases where it was wrong. Governance erodes without detection</td>
+                  <td>Make override a first-class interaction: logged, attributed, and fed directly into recalibration. Override is data — treat it as such</td>
+                </tr>
+                <tr>
+                  <td>Feedback loops are governance infrastructure</td>
+                  <td>The mechanism by which outcomes update model calibration is the structural foundation of long-term governance reliability</td>
+                  <td>Confidence calibration diverges from real-world accuracy. Governance becomes detached from organizational reality — silently</td>
+                  <td>Design feedback loops as governance infrastructure, not reporting dashboards. They must be cadenced, structured, and connected directly to threshold calibration</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 02</span>
+            <span class="cs-fig-text">Cross-project governance principles. Each is traceable to a specific failure mode encountered in enterprise AI deployment — not derived from theory. These are structural requirements, not design guidelines.</span>
+          </div>
+        </div>
+
+        <div class="cs-pullquote">
+          <p>Autonomy without an escalation model is not a feature. It is a liability — and the liability grows silently until it surfaces as an incident.</p>
+        </div>
+      </section>
+
+      <!-- ══ 05 THE GOVERNANCE LAYER AS PRODUCT ══ -->
+      <section class="cs-section" id="governance">
+        <span class="cs-section-index">05 / 06</span>
+        <h2 class="cs-h2">The Governance Layer as Product</h2>
+
+        <p class="cs-p">The dominant framing in enterprise AI treats governance as a constraint — guardrails applied after capability is built. That framing is backwards. Governance is what makes it safe to give AI more authority over time.</p>
+
+        <p class="cs-p">Well-designed governance creates a trust accumulation mechanism. As the system demonstrates reliable performance within defined boundaries, the evidence base for expanding them grows — thresholds widen, escalation refines, review requirements contract where the track record is strong. None of this is possible without a governance layer designed from the start: decisions logged, overrides tracked, outcomes measured, recalibration cadenced rather than incident-driven.</p>
+
+        <div class="cs-visual">
+          <div class="cs-visual-canvas">
+            <div class="cs-loop">
+              <div class="cs-loop-node cs-loop-node--blue">
+                Define Scope
+                <div class="cs-loop-sublabel">Autonomy thresholds &amp; boundaries</div>
+              </div>
+              <div class="cs-loop-arrow">→</div>
+              <div class="cs-loop-node">
+                Deploy
+                <div class="cs-loop-sublabel">Within governed boundaries</div>
+              </div>
+              <div class="cs-loop-arrow">→</div>
+              <div class="cs-loop-node cs-loop-node--amber">
+                Observe
+                <div class="cs-loop-sublabel">Overrides, escalations, outcomes</div>
+              </div>
+              <div class="cs-loop-arrow">→</div>
+              <div class="cs-loop-node cs-loop-node--green">
+                Recalibrate
+                <div class="cs-loop-sublabel">Thresholds &amp; escalation paths</div>
+              </div>
+              <div class="cs-loop-arrow">→</div>
+              <div class="cs-loop-node cs-loop-node--blue">
+                Expand Scope
+                <div class="cs-loop-sublabel">Evidence-based trust growth</div>
+              </div>
+            </div>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 03</span>
+            <span class="cs-fig-text">Governance-enabled trust accumulation loop. Autonomy scope expands only when the evidence base from governed deployments supports it. Recalibration is a structured cadence — not a response to failure. This is how AI systems earn organizational authority over time, rather than having it granted or revoked.</span>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">What this means for product strategy</h3>
+        <p class="cs-p">For organizations building AI-enabled products, the governance layer is a strategic asset, not compliance overhead. An AI product with well-designed governance can move faster and take on more consequential use cases — because it has an evidence-based model for when expanding scope is safe. The organizations that scale AI most effectively are not the ones with the most capable models. They are the ones with the most rigorous governance architectures.</p>
+
+        <p class="cs-p">This means AI product development requires two parallel workstreams: capability development and governance architecture. Before governance is designed in parallel: escalation paths are missing, autonomy scope is undefined, and the first significant failure requires retracting authority that was never clearly bounded. After: both workstreams expand together on an evidence base.</p>
+
+        <div class="cs-outcomes">
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Decision Latency</div>
+            <div class="cs-outcome-stat">Bounded</div>
+            <div class="cs-outcome-desc">Defined autonomy thresholds route decisions by confidence level — high-confidence actions proceed; low-confidence ones escalate.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Escalation Paths</div>
+            <div class="cs-outcome-stat">Formalized</div>
+            <div class="cs-outcome-desc">Explicit routing by consequence level and role replaces ad hoc handling. Ambiguous AI output has a governed path, not an improvised one.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Governance Drift</div>
+            <div class="cs-outcome-stat">Structured</div>
+            <div class="cs-outcome-desc">Feedback loops surface divergence between model confidence and actual outcomes on a defined cadence — before it compounds into operational risk.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Autonomy Scope</div>
+            <div class="cs-outcome-stat">Governable</div>
+            <div class="cs-outcome-desc">Evidence-based threshold recalibration makes authority expansion a structured decision, not an assumption about model capability.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 06 CLOSING THESIS ══ -->
+      <section class="cs-section" id="thesis">
+        <span class="cs-section-index">06 / 06</span>
+        <h2 class="cs-h2">What This Demonstrates</h2>
+
+        <p class="cs-p">This case is a record of what happens when AI is deployed without governance architecture — and a demonstration of how to build it with the precision it requires. The design challenge — extending AI authority without losing organizational control — is the defining problem of enterprise AI at scale.</p>
+
+        <h3 class="cs-h3">Systems-level AI thinking</h3>
+        <p class="cs-p">I approach AI integration as a decision architecture problem, not a feature design problem. The question is not what the AI should do — it is what it should be authorized to decide, under what conditions, with what recourse when it is wrong, and how that authorization evolves as the system earns reliability.</p>
+
+        <h3 class="cs-h3">Governance-first product strategy</h3>
+        <p class="cs-p">Working across these initiatives crystallized a principle I apply to all AI product strategy: <strong>governance is not downstream of capability — it is the enabling condition for it</strong>. An AI system with well-designed governance expands its authority as it earns trust. Without it, the first significant failure requires retracting authority that was never clearly defined.</p>
+
+        <p class="cs-p">SyncoPro applies this decision layer model directly to AI-assisted product planning and validation workflows. The AI-Native Product Development System built for SyncoPro embeds the same governance structure — authority boundaries, challenge gates, decision logs, readiness thresholds — into every product planning cycle. <a href="ai-decision/sap-product-ai-system.html" style="color: #2563eb; font-weight: 600;">See the full system →</a></p>
+
+        <div class="cs-pullquote">
+          <p>Governance is not downstream of capability. It is the enabling condition for it.</p>
+        </div>
+
+        <div class="cs-pullquote">
+          <p>The organizations that scale AI most effectively are not those with the most capable models — they are those with the most rigorous governance architectures.</p>
+        </div>
+      </section>
+
+    </div><!-- /container -->
+  </main>
+
+ <!-- STRUCTURED FOOTER -->
+<footer class="footer--structured" role="contentinfo">
+  <div class="container">
+    <nav class="footer__nav" aria-label="Site navigation">
+      <div> <span class="footer__col-label">Decision Architecture</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+          <li><a href="../decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+          <li><a href="../decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+          <li><a href="../decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+          <li><a href="ai-decision/sap-product-ai-system.html" class="footer__col-link">SAP Product AI System</a></li>
+          <li><a href="ai-decision/syncopro-evolution-engine.html" class="footer__col-link">Decision Intelligence System</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Founder</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#founder" class="footer__col-link">Overview</a></li>
+          <li><a href="../founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+          <li><a href="../founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+          <li><a href="../founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Applied Systems</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#applied-systems" class="footer__col-link">Overview</a></li>
+          <li><a href="../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+          <li><a href="../applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+          <li><a href="../applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+          <li><a href="../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">General</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#about" class="footer__col-link">About</a></li>
+          <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+          <li><a href="../applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+          <li><a href="../sitemap.html" class="footer__col-link">Sitemap</a></li>
+          <li><a href="../kateyu-resume.html" class="footer__col-link">Resume</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="footer__bottom">
+      <p class="footer__bottom-copy"> &copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture </p>
+      <div class="footer__bottom-links"> <a href="../applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a> <a href="../sitemap.html" class="footer__bottom-link">Sitemap</a> <a href="../kateyu-resume.html" class="footer__bottom-link">Resume</a> </div>
+    </div>
+  </div>
+</footer>
+  <script src="../js/staff-portfolio.js"></script>
+</body>
+</html>

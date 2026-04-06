@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>AI Systems Library · Kate Jie Yu</title>
+  <meta name="description" content="A growing library of reusable AI systems that encapsulate how work gets done — from product development to portfolio optimization. Each system is structured, modular, and improves over time.">
+  <link rel="shortcut icon" type="image/x-icon" href="../../img/KJY_logo_bar.jpg">
+  <link rel="apple-touch-icon" href="../../img/KJY_logo_bar.jpg">
+  <link rel="stylesheet" href="../../style/theme.css">
+  <link rel="stylesheet" href="../../style/base.css">
+  <link rel="stylesheet" href="../../style/components.css">
+  <link rel="stylesheet" href="../../style/case-study.css">
+  <style>
+    /* PAGE-SPECIFIC: pill color variants */
+    .cs-pill--green  { background-color: rgba(16,185,129,0.1); color: #059669; }
+    .cs-pill--purple { background-color: rgba(124,58,237,0.1); color: #7c3aed; }
+    .cs-pill--amber  { background-color: rgba(245,158,11,0.1); color: #b45309; }
+
+    /* ── PROBLEM LIST ── */
+    .lib-problem-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 28px 0;
+    }
+    .lib-problem-row {
+      background: #fff;
+      padding: 20px 28px;
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .lib-problem-row:hover { background: #fafafa; }
+    .lib-problem-num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #dc2626;
+      padding-top: 2px;
+    }
+    .lib-problem-text {
+      font-size: 0.9375rem;
+      color: #374151;
+      line-height: 1.6;
+    }
+    .lib-problem-sub {
+      font-size: 0.8125rem;
+      color: #6b7280;
+      margin-top: 4px;
+      line-height: 1.55;
+    }
+
+    /* ── SYSTEM CARDS ── */
+    .lib-systems {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .lib-system-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.15s;
+    }
+    .lib-system-card:hover { border-color: #d1d5db; }
+    .lib-system-card--future {
+      opacity: 0.6;
+      cursor: default;
+    }
+    .lib-system-card--future:hover { border-color: #e5e7eb; }
+
+    /* Card header — name + tagline + status + invoke */
+    .lib-system-head {
+      padding: 28px 32px 24px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .lib-system-head-left { flex: 1; min-width: 0; }
+    .lib-system-head-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .lib-system-name {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: #111827;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .lib-system-tagline {
+      font-size: 0.875rem;
+      color: #6b7280;
+      line-height: 1.6;
+      max-width: 640px;
+    }
+    .lib-system-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    .lib-system-status--live {
+      background: rgba(16,185,129,0.1);
+      color: #059669;
+    }
+    .lib-system-status--future {
+      background: rgba(107,114,128,0.1);
+      color: #6b7280;
+    }
+    .lib-system-invoke {
+      font-family: ui-monospace, 'SFMono-Regular', monospace;
+      font-size: 0.8125rem;
+      color: #2563eb;
+      background: rgba(37,99,235,0.06);
+      padding: 6px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* Card body — data columns */
+    .lib-system-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+    }
+    .lib-system-col {
+      padding: 24px 28px;
+      border-right: 1px solid #f3f4f6;
+    }
+    .lib-system-col:last-child { border-right: none; }
+    .lib-system-col-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .lib-system-skills {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .lib-system-skill {
+      font-size: 0.8125rem;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.4;
+    }
+    .lib-system-skill::before {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #d1d5db;
+      flex-shrink: 0;
+    }
+    /* Evolution skills get a different dot color */
+    .lib-system-skill--evo::before { background: #a78bfa; }
+
+    /* Sub-section divider inside a col */
+    .lib-system-subsection {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #f3f4f6;
+    }
+
+    /* Modes list */
+    .lib-system-modes {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .lib-system-mode {
+      font-size: 0.8125rem;
+      color: #374151;
+      line-height: 1.45;
+    }
+    .lib-system-mode strong {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    /* Modules list (portfolio) */
+    .lib-system-modules {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .lib-system-module {
+      font-size: 0.8125rem;
+      color: #374151;
+      line-height: 1.45;
+      display: flex;
+      gap: 6px;
+    }
+    .lib-system-module strong {
+      font-weight: 600;
+      color: #111827;
+      flex-shrink: 0;
+    }
+
+    /* Deliverable block */
+    .lib-system-deliverable {
+      font-size: 0.8125rem;
+      color: #6b7280;
+      line-height: 1.65;
+    }
+
+    /* ── HOW IT WORKS CHAIN ── */
+    .lib-chain {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin: 28px 0;
+    }
+    .lib-chain-row {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 0;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 0;
+    }
+    .lib-chain-row:first-child { border-radius: 8px 8px 0 0; }
+    .lib-chain-row:last-child  { border-radius: 0 0 8px 8px; }
+    .lib-chain-row + .lib-chain-row { border-top: none; }
+    .lib-chain-label {
+      padding: 18px 20px;
+      border-right: 1px solid #e5e7eb;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      background: #f9fafb;
+    }
+    .lib-chain-desc {
+      padding: 18px 24px;
+      font-size: 0.875rem;
+      color: #374151;
+      line-height: 1.6;
+      display: flex;
+      align-items: center;
+    }
+    .lib-chain-desc code {
+      font-family: ui-monospace, 'SFMono-Regular', monospace;
+      font-size: 0.8125rem;
+      background: rgba(37,99,235,0.06);
+      color: #2563eb;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ── IMPACT LIST ── */
+    .lib-impact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 28px 0;
+    }
+    .lib-impact-cell {
+      background: #fff;
+      padding: 28px 32px;
+    }
+    .lib-impact-cell:hover { background: #fafafa; }
+    .lib-impact-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+    .lib-impact-stat {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .lib-impact-desc {
+      font-size: 0.8125rem;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    /* ── SHIFT STATEMENT ── */
+    .lib-shift {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 36px 40px;
+      background: #f9fafb;
+      margin: 28px 0;
+    }
+    .lib-shift-row {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .lib-shift-row:last-child { margin-bottom: 0; }
+    .lib-shift-from {
+      font-size: 0.9375rem;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+    .lib-shift-arrow {
+      text-align: center;
+      font-size: 1rem;
+      color: #2563eb;
+      font-weight: 700;
+    }
+    .lib-shift-to {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: #111827;
+      line-height: 1.5;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .lib-system-body { grid-template-columns: 1fr 1fr; }
+      .lib-system-col:nth-child(2) { border-right: none; }
+      .lib-system-col:nth-child(3) { grid-column: 1 / -1; border-top: 1px solid #f3f4f6; border-right: none; }
+      .lib-impact-grid { grid-template-columns: 1fr; }
+      .lib-chain-row { grid-template-columns: 1fr; }
+      .lib-chain-label { border-right: none; border-bottom: 1px solid #e5e7eb; }
+    }
+    @media (max-width: 768px) {
+      .lib-system-head { flex-direction: column; gap: 16px; }
+      .lib-system-head-right { align-items: flex-start; }
+      .lib-system-body { grid-template-columns: 1fr; }
+      .lib-system-col { border-right: none; border-top: 1px solid #f3f4f6; }
+      .lib-system-col:first-child { border-top: none; }
+      .lib-shift-row { grid-template-columns: 1fr; gap: 4px; }
+      .lib-shift-arrow { text-align: left; }
+    }
+    @media (max-width: 480px) {
+      .lib-problem-row { grid-template-columns: 1fr; }
+      .lib-system-head { padding: 20px; }
+      .lib-system-col { padding: 20px; }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!— NAV -->
+  <header class="header" role="banner">
+    <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+      <div class="nav__container">
+        <a href="../../index.html" class="nav__logo">
+          <img src="../../img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48">
+        </a>
+        <ul class="nav__menu" id="nav-menu">
+          <li><a href="../../index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+          <li><a href="../../index.html#founder" class="nav__link">Founder</a></li>
+          <li><a href="../../index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+          <li><a href="../../index.html#about" class="nav__link">About</a></li>
+          <li><a href="../../kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+        </ul>
+        <button
+          class="nav__toggle"
+          id="nav-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu">
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" role="main">
+    <div class="container">
+
+      <!— BREADCRUMB -->
+      <nav aria-label="Breadcrumb">
+        <ol class="cs-breadcrumb">
+          <li>
+            <a href="../ai-decision-architecture.html">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 12L6 8l4-4"/></svg>
+              AI Decision Architecture
+            </a>
+          </li>
+          <li><span class="cs-breadcrumb-sep">/</span></li>
+          <li><span class="cs-breadcrumb-current">AI Systems Library</span></li>
+        </ol>
+      </nav>
+
+      <!— ══ PAGE HEADER ══ -->
+      <header class="cs-header">
+        <div class="cs-eyebrow">
+          <span class="cs-pill">AI Systems Design</span>
+          <span class="cs-pill cs-pill--purple">Reusable Intelligence</span>
+          <span class="cs-pill cs-pill--green">Workflow Architecture</span>
+          <span class="cs-pill cs-pill--amber">Structured Reasoning</span>
+        </div>
+
+        <h1 class="cs-h1">
+          AI Systems Library<br>
+          <span>Building Reusable Intelligence for Product Work</span>
+        </h1>
+
+        <p class="cs-lead">
+          Most product work is done with AI through one-off prompts. The output is only as structured as the prompt. This is a different approach — a growing library of AI systems that encapsulate how work gets done, each reusable, structured, and designed to improve over time.
+        </p>
+
+        <div class="cs-meta-grid">
+          <div>
+            <span class="cs-meta-label">My Role</span>
+            <span class="cs-meta-value">System Designer · AI Workflow Architect</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Systems Live</span>
+            <span class="cs-meta-value">Product AI System · Portfolio AI System</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Output Type</span>
+            <span class="cs-meta-value">Executable Claude skills — structured workflow files invoked with a single command</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Connects To</span>
+            <span class="cs-meta-value">AI Decision Architecture · AI-Native Product Development System</span>
+          </div>
+        </div>
+      </header>
+
+      <!— ══ EXEC SUMMARY ══ -->
+      <div class="cs-tldr">
+        <div class="cs-tldr-label">The Core Idea</div>
+        <ul>
+          <li><strong>AI usage today is fragmented.</strong> Prompts are one-off. Thinking quality varies across sessions. Workflows are inconsistent. Knowledge is not accumulated. AI helps generate outputs, but doesn't improve how work is done.</li>
+          <li><strong>An AI System Library solves this structurally.</strong> Instead of asking AI ad-hoc questions, you invoke systems — each with defined workflows, skill modules, execution rules, and consistent output formats. The system enforces structure so reasoning quality doesn't depend on how well you prompted that day.</li>
+          <li><strong>Each system is a Claude skill.</strong> A reusable <code>.md</code> file placed in <code>~/.claude/commands/</code>. Invoke with one command. Get a governance-structured reasoning chain, not a generic AI response. Each system also includes a self-evolution loop — it can detect its own drift, regenerate assumptions, and heal gaps without rebuilding from scratch.</li>
+        </ul>
+      </div>
+
+      <!— ══ ACCESS BAR ══ -->
+      <div class="cs-access-bar">
+        <span class="cs-access-label">Access</span>
+<a href="https://katejieyu.github.io/ai-systems-library/" class="cs-access-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          AI Systems Library
+        </a>
+      </div>
+
+      <!— ══ 01 THE PROBLEM ══ -->
+      <section class="cs-section" id="problem">
+        <span class="cs-section-index">01 / 05</span>
+        <h2 class="cs-h2">The Problem</h2>
+
+        <p class="cs-p">AI usage in most product and design workflows is structurally fragile. Every session starts from zero. Reasoning quality depends on how well a single prompt was written. There is no accumulated knowledge, no enforced structure, no consistent output format. The result: AI helps people go faster, but it doesn't help them think better.</p>
+
+        <div class="lib-problem-list">
+          <div class="lib-problem-row">
+            <div class="lib-problem-num">01</div>
+            <div>
+              <div class="lib-problem-text">Prompts are one-off and not reusable</div>
+              <div class="lib-problem-sub">The same work gets prompted differently each time. A good session is the exception, not the default. There is no institutional memory.</div>
+            </div>
+          </div>
+          <div class="lib-problem-row">
+            <div class="lib-problem-num">02</div>
+            <div>
+              <div class="lib-problem-text">Thinking quality varies across sessions</div>
+              <div class="lib-problem-sub">Without structure, the depth of reasoning depends on the quality of the prompt. Some sessions produce rigorous analysis. Most produce plausible-sounding output.</div>
+            </div>
+          </div>
+          <div class="lib-problem-row">
+            <div class="lib-problem-num">03</div>
+            <div>
+              <div class="lib-problem-text">Workflows are inconsistent</div>
+              <div class="lib-problem-sub">Different people approach the same problem type in different ways. There is no shared operating model. Outputs are not comparable or composable.</div>
+            </div>
+          </div>
+          <div class="lib-problem-row">
+            <div class="lib-problem-num">04</div>
+            <div>
+              <div class="lib-problem-text">Knowledge is not accumulated</div>
+              <div class="lib-problem-sub">Every session ends with the AI forgetting everything. Hard-won frameworks, critique structures, and output templates are not preserved or invokable.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-callout">
+          <p><strong>The consequence:</strong> AI helps generate outputs, but doesn't improve how work is done. Speed increases. Structural quality does not.</p>
+        </div>
+      </section>
+
+      <!— ══ 02 THE SOLUTION ══ -->
+      <section class="cs-section" id="solution">
+        <span class="cs-section-index">02 / 05</span>
+        <h2 class="cs-h2">The Solution: An AI System Library</h2>
+
+        <p class="cs-p">A collection of modular, reusable AI systems — each designed for a specific type of work. Instead of prompting ad-hoc, you invoke a system. The system runs a defined workflow, enforces reasoning structure, and produces consistent, actionable outputs. Every time.</p>
+
+        <p class="cs-p">Each system is packaged as a Claude skill: a structured <code>.md</code> file that defines the workflow, skill modules, operating rules, and output format. Anyone can install it in one step and invoke it with one command. Each system also includes a self-evolution loop — when context changes or gaps appear, the system can re-examine its own assumptions, detect drift, and heal itself without a full rebuild.</p>
+
+        <div class="cs-callout cs-callout--green" style="background:rgba(16,185,129,0.05);border-left-color:#10b981;">
+          <p><strong>The design principle:</strong> A system is not a better prompt. It is a structured workflow that makes it impossible to skip the hard thinking — regardless of how it was invoked or who invoked it.</p>
+        </div>
+      </section>
+
+      <!— ══ 03 HOW IT WORKS ══ -->
+      <section class="cs-section" id="how">
+        <span class="cs-section-index">03 / 05</span>
+        <h2 class="cs-h2">How It Works</h2>
+
+        <p class="cs-p">Instead of asking AI ad-hoc questions, you invoke systems. Each system is a Claude skill installed once and available everywhere. The invocation is a single command. The system handles the rest — running a defined workflow, enforcing structure at each stage, and producing a consistent output.</p>
+
+        <div class="lib-chain">
+          <div class="lib-chain-row">
+            <div class="lib-chain-label">Install</div>
+            <div class="lib-chain-desc">Copy the <code>.md</code> skill file to <code>~/.claude/commands/</code>. One step. Available in every Claude Code session from that point.</div>
+          </div>
+          <div class="lib-chain-row">
+            <div class="lib-chain-label">Invoke</div>
+            <div class="lib-chain-desc">Type <code>/product-ai-system run [problem]</code> or <code>/portfolio-ai-system audit [url]</code>. The system activates its workflow. No configuration needed.</div>
+          </div>
+          <div class="lib-chain-row">
+            <div class="lib-chain-label">Run workflow</div>
+            <div class="lib-chain-desc">The system runs each phase in sequence. Each phase has defined inputs, outputs, and handoff conditions. Phases cannot be skipped. The Product AI System runs 16 phases — from issue definition through execution readiness and exit check.</div>
+          </div>
+          <div class="lib-chain-row">
+            <div class="lib-chain-label">Enforce structure</div>
+            <div class="lib-chain-desc">Operating rules prevent generic outputs, unnamed owners, and vague metrics. Every skill output ends with: Confidence level + Unresolved Gaps + Next Recommendation.</div>
+          </div>
+          <div class="lib-chain-row">
+            <div class="lib-chain-label">Produce output</div>
+            <div class="lib-chain-desc">Consistent, actionable output — not a document to edit, but a structured artifact with decisions logged, owners named, and next steps defined.</div>
+          </div>
+          <div class="lib-chain-row">
+            <div class="lib-chain-label">Evolve</div>
+            <div class="lib-chain-desc">When context changes, invoke <code>/product-ai-system evolve</code>. The system runs a self-evolution loop — re-examining assumptions, detecting gaps, and healing its own workflow before the next cycle begins.</div>
+          </div>
+        </div>
+
+        <div class="cs-pullquote">
+          <p>The goal is not faster output. It is better reasoning at the stage when it is cheapest to change — before decisions are made.</p>
+        </div>
+      </section>
+
+      <!— ══ 04 THE SYSTEMS ══ -->
+      <section class="cs-section" id="systems">
+        <span class="cs-section-index">04 / 05</span>
+        <h2 class="cs-h2">The Systems</h2>
+
+        <p class="cs-p">Two systems are live. The Product AI System v3.0 runs a 16-phase cycle — from raw problem definition through self-inquiry, hypothesis generation, challenge, gap detection, self-healing, and execution readiness. It includes a self-evolution loop (detects drift and heals its own logic) and a self-learning mode (converts your corrections into permanent improvements). The Portfolio AI System includes a drift protocol — a structured re-run sequence the user triggers when the portfolio changes significantly. More systems will be added as additional work domains are systematized.</p>
+
+        <div class="lib-systems">
+
+          <!— SYSTEM 01 -->
+          <div class="lib-system-card">
+            <div class="lib-system-head">
+              <div class="lib-system-head-left">
+                <div class="lib-system-name">Product AI System</div>
+                <div class="lib-system-tagline">Moves product work from raw problem to execution-ready output through a 16-phase reasoning cycle. Includes a self-evolution mode that detects drift and heals its own logic, and a self-learning mode that converts your corrections into permanent improvements. v3.0</div>
+              </div>
+              <div class="lib-system-head-right">
+                <span class="lib-system-status lib-system-status--live">
+                  <span style="width:6px;height:6px;border-radius:50%;background:#059669;display:inline-block;"></span>
+                  Live
+                </span>
+                <span class="lib-system-invoke">/product-ai-system run [problem]</span>
+              </div>
+            </div>
+            <div class="lib-system-body">
+              <div class="lib-system-col">
+                <div class="lib-system-col-label">16-Phase Cycle</div>
+                <div class="lib-system-skills">
+                  <span class="lib-system-skill">Define Issue</span>
+                  <span class="lib-system-skill">Diagnose</span>
+                  <span class="lib-system-skill">Define Goal</span>
+                  <span class="lib-system-skill">Self Inquiry</span>
+                  <span class="lib-system-skill">Hypothesis</span>
+                  <span class="lib-system-skill">Generate Solution</span>
+                  <span class="lib-system-skill">Challenge Solution</span>
+                  <span class="lib-system-skill">Self Test</span>
+                  <span class="lib-system-skill">Gap Detection</span>
+                  <span class="lib-system-skill">Self Healing</span>
+                  <span class="lib-system-skill">Self Study</span>
+                  <span class="lib-system-skill">4-Perspective Test</span>
+                  <span class="lib-system-skill">Execution Readiness</span>
+                  <span class="lib-system-skill">Persona Refresh</span>
+                  <span class="lib-system-skill">README Sync</span>
+                  <span class="lib-system-skill">Exit Criteria Check</span>
+                </div>
+              </div>
+              <div class="lib-system-col">
+                <div class="lib-system-col-label">Commands</div>
+                <div class="lib-system-modes">
+                  <div class="lib-system-mode"><strong>run</strong> — full 16-phase cycle</div>
+                  <div class="lib-system-mode"><strong>evolve</strong> — self-evolution: detect drift, fix gaps, re-test</div>
+                  <div class="lib-system-mode"><strong>learn</strong> — learning loop: convert corrections into permanent improvements</div>
+                  <div class="lib-system-mode"><strong>feature-update</strong> — re-align system after a feature changes</div>
+                </div>
+              </div>
+              <div class="lib-system-col">
+                <div class="lib-system-col-label">End Deliverable</div>
+                <div class="lib-system-deliverable">Epics, tasks, acceptance criteria, readiness score 0–100, and a Cycle Summary with final problem, goal, solution, and top risks.</div>
+              </div>
+            </div>
+          </div>
+
+          <!— SYSTEM 02 -->
+          <div class="lib-system-card">
+            <div class="lib-system-head">
+              <div class="lib-system-head-left">
+                <div class="lib-system-name">Portfolio AI System</div>
+                <div class="lib-system-tagline">Evaluates and improves portfolios as products competing for hiring decisions. Covers positioning, content strategy, UX/QA, hiring simulation, full content rewrite, and a self-evolution trigger for when the portfolio changes significantly.</div>
+              </div>
+              <div class="lib-system-head-right">
+                <span class="lib-system-status lib-system-status--live">
+                  <span style="width:6px;height:6px;border-radius:50%;background:#059669;display:inline-block;"></span>
+                  Live
+                </span>
+                <span class="lib-system-invoke">/portfolio-ai-system audit [portfolio]</span>
+              </div>
+            </div>
+            <div class="lib-system-body">
+              <div class="lib-system-col">
+                <div class="lib-system-col-label">7-Step Workflow</div>
+                <div class="lib-system-skills">
+                  <span class="lib-system-skill">Define Intent</span>
+                  <span class="lib-system-skill">Diagnose Issues</span>
+                  <span class="lib-system-skill">Goal Alignment</span>
+                  <span class="lib-system-skill">Hiring Simulation</span>
+                  <span class="lib-system-skill">UX / QA / Mobile Check</span>
+                  <span class="lib-system-skill">Rewrite &amp; Improvement</span>
+                  <span class="lib-system-skill">Execution Plan</span>
+                </div>
+              </div>
+              <div class="lib-system-col">
+                <div class="lib-system-col-label">Modular Skills</div>
+                <div class="lib-system-modules">
+                  <div class="lib-system-module"><strong>Audit workflow</strong> <span>— full 7-step evaluation</span></div>
+                  <div class="lib-system-module"><strong>Homepage rewrite</strong> <span>— headline, CTA, labels</span></div>
+                  <div class="lib-system-module"><strong>Mobile QA</strong> <span>— 375px checklist</span></div>
+                  <div class="lib-system-module"><strong>Hiring simulation</strong> <span>— 4-perspective verdicts</span></div>
+                  <div class="lib-system-module"><strong>Consistency</strong> <span>— positioning, tone, structure</span></div>
+                  <div class="lib-system-module"><strong>Content strategy</strong> <span>— signal hierarchy, what to remove</span></div>
+                  <div class="lib-system-module"><strong>Strategy check</strong> <span>— validate against strategy</span></div>
+                  <div class="lib-system-module"><strong>Site scan</strong> <span>— cross-page audit + consistency</span></div>
+                  <div class="lib-system-module"><strong>Execution</strong> <span>— apply fixes to files</span></div>
+                  <div class="lib-system-module"><strong>Site execution</strong> <span>— page-by-page changes</span></div>
+                </div>
+              </div>
+              <div class="lib-system-col">
+                <div class="lib-system-col-label">End Deliverable</div>
+                <div class="lib-system-deliverable">Full audit report, exact before/after rewrites, hiring verdict per role, mobile issue list, and a prioritized execution plan.</div>
+              </div>
+            </div>
+          </div>
+
+          <!— MORE SYSTEMS -->
+          <div class="lib-system-card lib-system-card--future">
+            <div class="lib-system-head">
+              <div class="lib-system-head-left">
+                <div class="lib-system-name" style="color:#9ca3af;">More systems in development</div>
+                <div class="lib-system-tagline" style="color:#9ca3af;">The library grows as additional work domains are systematized. Each new system follows the same design principle: structured workflow over ad-hoc prompting, enforced reasoning structure, consistent output format.</div>
+              </div>
+              <div class="lib-system-head-right">
+                <span class="lib-system-status lib-system-status--future">Coming</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="cs-visual-caption" style="margin-top:0;">
+          <span class="cs-fig-label">Fig. 01</span>
+          <span class="cs-fig-text">Current AI System Library — two live systems. Each is an independent Claude skill: installable separately, invokable with one command. Both share the same design principle: structured workflow over ad-hoc prompting, enforced reasoning structure, and consistent output format. The Product AI System v3.0 runs a 16-phase cycle and includes a self-evolution loop (detects drift, heals logic) and a self-learning mode (converts corrections into permanent improvements). The Portfolio AI System includes a drift protocol — a structured re-run sequence triggered when the portfolio changes significantly. More systems will be added as additional work domains are systematized.</span>
+        </div>
+      </section>
+
+      <!— ══ 05 IMPACT + WHY THIS MATTERS ══ -->
+      <section class="cs-section" id="impact">
+        <span class="cs-section-index">05 / 05</span>
+        <h2 class="cs-h2">Impact and Why This Matters</h2>
+
+        <div class="lib-impact-grid">
+          <div class="lib-impact-cell">
+            <div class="lib-impact-label">AI Usage</div>
+            <div class="lib-impact-stat">Systematized</div>
+            <div class="lib-impact-desc">Turned fragmented, one-off AI usage into reusable systems. The same reasoning chain runs every time, regardless of how well the session started.</div>
+          </div>
+          <div class="lib-impact-cell">
+            <div class="lib-impact-label">Output Consistency</div>
+            <div class="lib-impact-stat">Enforced</div>
+            <div class="lib-impact-desc">Improved consistency and quality across sessions. No generic language, no unnamed owners, no vague metrics — the system enforces this structurally.</div>
+          </div>
+          <div class="lib-impact-cell">
+            <div class="lib-impact-label">Decision Clarity</div>
+            <div class="lib-impact-stat">Increased</div>
+            <div class="lib-impact-desc">Reduced ambiguity in decision-making. Every output includes a decision log, confidence level, and explicit unresolved gaps — so nothing important is silently assumed.</div>
+          </div>
+          <div class="lib-impact-cell">
+            <div class="lib-impact-label">System Longevity</div>
+            <div class="lib-impact-stat">Self-Improving</div>
+            <div class="lib-impact-desc">Each system includes a self-evolution loop. When context changes or gaps appear, the system re-examines its own assumptions, detects drift, and heals without a full rebuild.</div>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">The broader shift this work represents</h3>
+
+        <div class="lib-shift">
+          <div class="lib-shift-row">
+            <div class="lib-shift-from">Using AI to generate answers</div>
+            <div class="lib-shift-arrow">&rarr;</div>
+            <div class="lib-shift-to">Designing AI systems that structure thinking</div>
+          </div>
+          <div class="lib-shift-row">
+            <div class="lib-shift-from">One-off prompts per session</div>
+            <div class="lib-shift-arrow">&rarr;</div>
+            <div class="lib-shift-to">Reusable systems that encode how work gets done</div>
+          </div>
+          <div class="lib-shift-row">
+            <div class="lib-shift-from">AI as a tool that produces outputs</div>
+            <div class="lib-shift-arrow">&rarr;</div>
+            <div class="lib-shift-to">AI as part of the workflow itself</div>
+          </div>
+          <div class="lib-shift-row">
+            <div class="lib-shift-from">Better prompting as the solution</div>
+            <div class="lib-shift-arrow">&rarr;</div>
+            <div class="lib-shift-to">Better system design as the solution</div>
+          </div>
+        </div>
+
+        <p class="cs-p">This is the foundation of AI-native product work. Not using AI more, but designing the systems that determine how AI is authorized to reason. The same governance principle that applies to enterprise AI deployments — define what AI can do autonomously, what requires human judgment, and what feedback loop closes the system — applies at the level of individual workflows.</p>
+
+        <div class="cs-pullquote">
+          <p>AI is no longer just a tool — it becomes part of the workflow itself. The library is the infrastructure.</p>
+        </div>
+
+        <h3 class="cs-h3">Connection to AI Decision Architecture</h3>
+        <p class="cs-p">The AI System Library is itself an instance of the AI Decision Architecture framework. Each system defines authority boundaries (what AI generates vs. what requires human confirmation), escalation paths (when the system stops and asks), and feedback loops (confidence levels and unresolved gaps that feed back into future invocations). The library is the practical instantiation of AI governance applied to knowledge work.</p>
+      </section>
+
+    </div><!— /container -->
+  </main>
+
+  <!— STRUCTURED FOOTER -->
+  <footer class="footer--structured" role="contentinfo">
+    <div class="container">
+      <nav class="footer__nav" aria-label="Site navigation">
+        <div>
+          <span class="footer__col-label">Decision Architecture</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+            <li><a href="../../decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+            <li><a href="../../decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+            <li><a href="../../decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+            <li><a href="../../decision-architecture/ai-decision/sap-product-ai-system.html" class="footer__col-link">SAP Product AI System</a></li>
+            <li><a href="../../decision-architecture/ai-decision/ai-systems-library.html" class="footer__col-link">AI Systems Library</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">Founder</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#founder" class="footer__col-link">Overview</a></li>
+            <li><a href="../../founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+            <li><a href="../../founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+            <li><a href="../../founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">Applied Systems</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#applied-systems" class="footer__col-link">Overview</a></li>
+            <li><a href="../../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+            <li><a href="../../applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+            <li><a href="../../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">General</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#about" class="footer__col-link">About</a></li>
+            <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+            <li><a href="../../applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+            <li><a href="../../sitemap.html" class="footer__col-link">Sitemap</a></li>
+            <li><a href="../../kateyu-resume.html" class="footer__col-link">Resume</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="footer__bottom">
+        <p class="footer__bottom-copy">&copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture</p>
+        <div class="footer__bottom-links">
+          <a href="../../applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a>
+          <a href="../../sitemap.html" class="footer__bottom-link">Sitemap</a>
+          <a href="../../kateyu-resume.html" class="footer__bottom-link">Resume</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = navMenu.classList.toggle('nav__menu--open');
+        navToggle.setAttribute('aria-expanded', isOpen);
+      });
+    }
+  </script>
+</body>
+</html>

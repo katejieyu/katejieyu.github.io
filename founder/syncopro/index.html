@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<title>SyncoPro — Designing Decision Infrastructure from Zero to One · Kate Jie Yu</title>
+<meta name="description" content="How I designed SyncoPro as a decision infrastructure platform — from structural diagnosis through MVP architecture, governance modeling, and AI boundary design.">
+<link rel="shortcut icon" type="image/x-icon" href="../../img/KJY_logo_bar.jpg">
+<link rel="apple-touch-icon" href="../../img/KJY_logo_bar.jpg">
+<link rel="stylesheet" href="../../style/theme.css">
+<link rel="stylesheet" href="../../style/base.css">
+<link rel="stylesheet" href="../../style/components.css">
+<style>
+/* ============================================================
+       CASE STUDY PAGE STYLES
+       All case-study-specific classes are prefixed cs- to avoid
+       any conflict with staff-portfolio.css.
+       Nav (.header, .nav__*), footer (.footer, .footer__*),
+       .container, .skip-link come from staff-portfolio.css only.
+    ============================================================ */
+
+body {
+    padding-top: 80px;
+}
+/* ── BACK LINK ── */
+.cs-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    text-decoration: none;
+    padding: 24px 0 0;
+    transition: color 150ms ease-out;
+}
+.cs-back:hover {
+    color: #7c3aed;
+}
+.cs-back svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+/* ── PAGE HEADER ── */
+.cs-header {
+    padding: 48px 0 56px;
+    border-bottom: 1px solid #e5e7eb;
+}
+.cs-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.cs-pill {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background-color: rgba(124, 58, 237, 0.1);
+    color: #7c3aed;
+}
+.cs-pill--grey {
+    background-color: #f3f4f6;
+    color: #6b7280;
+}
+.cs-pill--green {
+    background-color: rgba(5, 150, 105, 0.08);
+    color: #059669;
+}
+.cs-pill--amber {
+    background-color: rgba(217, 119, 6, 0.08);
+    color: #b45309;
+}
+.cs-pill--blue {
+    background-color: rgba(37, 99, 235, 0.08);
+    color: #2563eb;
+}
+.cs-h1 {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #111827;
+    margin-bottom: 16px;
+}
+.cs-h1 span {
+    color: #7c3aed;
+}
+.cs-lead {
+    font-size: 1.125rem;
+    color: #6b7280;
+    line-height: 1.75;
+    margin-bottom: 40px;
+}
+.cs-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 24px;
+    padding-top: 28px;
+    border-top: 1px solid #f3f4f6;
+}
+.cs-meta-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    display: block;
+    margin-bottom: 4px;
+}
+.cs-meta-value {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    line-height: 1.4;
+}
+/* ── EXECUTIVE SUMMARY ── */
+.cs-tldr {
+    background-color: rgba(124, 58, 237, 0.04);
+    border-left: 3px solid #7c3aed;
+    border-radius: 0 8px 8px 0;
+    padding: 24px 32px;
+    margin: 48px 0;
+}
+.cs-tldr-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #7c3aed;
+    margin-bottom: 12px;
+}
+.cs-tldr ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.cs-tldr li {
+    font-size: 1rem;
+    color: #111827;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.65;
+}
+.cs-tldr li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #7c3aed;
+    font-weight: 600;
+}
+/* ── EVIDENCE ACCESS BAR ── */
+.cs-access-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0 48px;
+    padding-top: 20px;
+    border-top: 1px solid #f3f4f6;
+}
+.cs-access-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    margin-right: 4px;
+    white-space: nowrap;
+}
+.cs-access-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #374151;
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #fff;
+    transition: border-color 150ms ease-out, color 150ms ease-out;
+    white-space: nowrap;
+}
+.cs-access-btn:hover {
+    border-color: #7c3aed;
+    color: #7c3aed;
+}
+.cs-access-btn svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+/* ── ARCHITECTURAL DECISIONS GRID ── */
+.cs-decisions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 28px 0;
+}
+.cs-decision-cell {
+    background: #fff;
+    padding: 28px 24px;
+}
+.cs-decision-cell:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+.cs-decision-q {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #7c3aed;
+    margin-bottom: 8px;
+}
+.cs-decision-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+.cs-decision-desc {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.65;
+}
+/* ── SECTIONS ── */
+.cs-section {
+    padding: 64px 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+.cs-section:last-of-type {
+    border-bottom: none;
+}
+.cs-section-index {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    display: block;
+    margin-bottom: 8px;
+}
+.cs-h2 {
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: #111827;
+    margin-bottom: 24px;
+}
+.cs-h3 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+    margin: 36px 0 12px;
+}
+.cs-p {
+    font-size: 1rem;
+    color: #6b7280;
+    line-height: 1.75;
+    margin-bottom: 16px;
+}
+.cs-p strong {
+    color: #111827;
+    font-weight: 600;
+}
+/* ── PULL QUOTE ── */
+.cs-pullquote {
+    border-left: 3px solid #111827;
+    padding: 4px 0 4px 24px;
+    margin: 36px 0;
+}
+.cs-pullquote p {
+    font-size: 1.125rem;
+    font-weight: 600;
+    font-style: italic;
+    color: #111827;
+    line-height: 1.5;
+}
+/* ── CALLOUT ── */
+.cs-callout {
+    background: #f3f4f6;
+    border-left: 3px solid #7c3aed;
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 20px 0;
+}
+.cs-callout p {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.65;
+    margin: 0;
+}
+.cs-callout p strong {
+    color: #111827;
+    font-weight: 600;
+}
+/* ── VISUAL FRAME ── */
+.cs-visual {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 28px 0;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+.cs-visual-canvas {
+    background: #f9fafb;
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+.cs-visual-caption {
+    padding: 12px 24px;
+    border-top: 1px solid #e5e7eb;
+    background: #fff;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.cs-fig-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.cs-fig-text {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.5;
+    font-style: italic;
+}
+/* ── DIAGNOSIS GRID ── */
+.cs-diag-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 24px 0;
+}
+.cs-diag-cell {
+    background: #fff;
+    padding: 28px 24px;
+}
+.cs-diag-layer {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    margin-bottom: 6px;
+}
+.cs-diag-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+.cs-diag-desc {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.6;
+}
+.cs-diag-cell--red {
+    border-top: 3px solid #dc2626;
+}
+.cs-diag-cell--orange {
+    border-top: 3px solid #ea580c;
+}
+.cs-diag-cell--amber {
+    border-top: 3px solid #f59e0b;
+}
+.cs-diag-cell--purple {
+    border-top: 3px solid #7c3aed;
+}
+.cs-diag-cell--slate {
+    border-top: 3px solid #475569;
+}
+.cs-diag-cell--blue {
+    border-top: 3px solid #2563eb;
+}
+/* ── ARCHITECTURE LAYER DIAGRAM ── */
+.cs-arch {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 100%;
+}
+.cs-arch-layer {
+    border-radius: 8px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.cs-arch-layer--intent {
+    background: rgba(37, 99, 235, 0.08);
+    border: 1.5px solid rgba(37, 99, 235, 0.3);
+}
+.cs-arch-layer--readiness {
+    background: rgba(124, 58, 237, 0.06);
+    border: 1.5px solid rgba(124, 58, 237, 0.3);
+}
+.cs-arch-layer--governance {
+    background: rgba(245, 158, 11, 0.06);
+    border: 1.5px solid rgba(245, 158, 11, 0.3);
+}
+.cs-arch-layer--ai {
+    background: rgba(16, 185, 129, 0.06);
+    border: 1.5px solid rgba(16, 185, 129, 0.3);
+}
+.cs-arch-layer--feedback {
+    background: rgba(71, 85, 105, 0.06);
+    border: 1.5px solid rgba(71, 85, 105, 0.3);
+}
+.cs-arch-layer--boundary {
+    background: #f9fafb;
+    border: 1.5px dashed #d1d5db;
+    border-radius: 0;
+    padding: 10px 24px;
+    justify-content: center;
+}
+.cs-arch-badge {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.cs-arch-layer--intent .cs-arch-badge {
+    background: rgba(37,99,235,.15);
+    color: #1d4ed8;
+}
+.cs-arch-layer--readiness .cs-arch-badge {
+    background: rgba(124,58,237,.15);
+    color: #6d28d9;
+}
+.cs-arch-layer--governance .cs-arch-badge {
+    background: rgba(245,158,11,.15);
+    color: #92400e;
+}
+.cs-arch-layer--ai .cs-arch-badge {
+    background: rgba(16,185,129,.15);
+    color: #059669;
+}
+.cs-arch-layer--feedback .cs-arch-badge {
+    background: rgba(71,85,105,.15);
+    color: #334155;
+}
+.cs-arch-body {
+}
+.cs-arch-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 4px;
+}
+.cs-arch-desc {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
+.cs-arch-boundary-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+}
+.cs-arch-items {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+}
+.cs-arch-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.cs-arch-item::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+    opacity: 0.5;
+}
+/* ── VERSION EVOLUTION TABLE ── */
+.cs-table-scroll {
+    overflow-x: auto;
+}
+.cs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+.cs-table thead th {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    padding: 10px 16px;
+    text-align: left;
+    border-bottom: 2px solid #e5e7eb;
+    background: #f9fafb;
+    white-space: nowrap;
+}
+.cs-table tbody td {
+    padding: 13px 16px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #6b7280;
+    vertical-align: top;
+    line-height: 1.5;
+}
+.cs-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.cs-table tbody td:first-child {
+    font-weight: 600;
+    color: #111827;
+}
+.cs-table tbody tr:hover {
+    background: #f9fafb;
+}
+/* ── BADGE ── */
+.cs-badge {
+    display: inline-block;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+.cs-badge--intent {
+    background: rgba(37,99,235,.1);
+    color: #1d4ed8;
+}
+.cs-badge--purple {
+    background: rgba(124,58,237,.1);
+    color: #6d28d9;
+}
+.cs-badge--execution {
+    background: rgba(16,185,129,.1);
+    color: #059669;
+}
+.cs-badge--guardrail {
+    background: rgba(245,158,11,.1);
+    color: #92400e;
+}
+.cs-badge--shared {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+.cs-badge--red {
+    background: rgba(220,38,38,.1);
+    color: #b91c1c;
+}
+/* ── AI GOVERNANCE PANEL ── */
+.cs-gov-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 24px 0;
+}
+.cs-gov-cell {
+    background: #fff;
+    padding: 28px 24px;
+}
+.cs-gov-zone {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+}
+.cs-gov-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+.cs-gov-desc {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.6;
+}
+.cs-gov-cell--assist {
+    border-top: 3px solid #10b981;
+}
+.cs-gov-cell--assist .cs-gov-zone {
+    color: #059669;
+}
+.cs-gov-cell--escalate {
+    border-top: 3px solid #f59e0b;
+}
+.cs-gov-cell--escalate .cs-gov-zone {
+    color: #92400e;
+}
+.cs-gov-cell--human {
+    border-top: 3px solid #7c3aed;
+}
+.cs-gov-cell--human .cs-gov-zone {
+    color: #6d28d9;
+}
+/* ── EVIDENCE STRIP ── */
+.cs-evidence {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 28px 0;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08);
+}
+.cs-evidence-cell {
+    background: #fff;
+    padding: 24px 20px;
+}
+.cs-evidence-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    margin-bottom: 8px;
+}
+.cs-evidence-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.2;
+    margin-bottom: 8px;
+}
+.cs-evidence-desc {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.55;
+}
+.footer--structured {
+    padding: var(--space-5xl) 0 var(--space-3xl);
+    border-top: 1px solid var(--color-border-light);
+    background-color: var(--color-background);
+}
+.footer__nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4xl);
+    padding-bottom: var(--space-4xl);
+    border-bottom: 1px solid var(--color-border-light);
+    margin-bottom: var(--space-3xl)
+}
+.footer__col-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text);
+    margin-bottom: var(--space-lg);
+    display: block;
+}
+.footer__col-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+.footer__col-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    line-height: var(--line-height-normal);
+    transition: color var(--transition-fast);
+}
+.footer__col-link:hover {
+    color: var(--color-text);
+}
+.footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+.footer__bottom-copy {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+}
+.footer__bottom-links {
+    display: flex;
+    gap: var(--space-lg);
+}
+.footer__bottom-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+.footer__bottom-link:hover {
+    color: var(--color-text-secondary);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+.cs-gov-grid {
+    grid-template-columns: 1fr;
+}
+.cs-decisions {
+    grid-template-columns: 1fr;
+}
+.cs-evidence {
+    grid-template-columns: repeat(2, 1fr);
+}
+.footer__nav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3xl);
+}
+}
+
+@media (max-width: 768px) {
+.cs-h1 {
+    font-size: 1.75rem;
+}
+.cs-diag-grid {
+    grid-template-columns: 1fr;
+}
+.cs-evidence {
+    grid-template-columns: repeat(2, 1fr);
+}
+/* ── Responsive table: stacked cards on mobile ── */
+.cs-table-scroll { overflow-x: visible; }
+.cs-table thead { display: none; }
+.cs-table tbody tr {
+    display: block;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: #fff;
+}
+.cs-table tbody td {
+    display: flex;
+    gap: 12px;
+    border-bottom: 1px solid #f3f4f6;
+    padding: 10px 14px;
+}
+.cs-table tbody tr:last-child td:last-child { border-bottom: none; }
+.cs-table tbody td::before {
+    content: attr(data-label);
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    min-width: 90px;
+    flex-shrink: 0;
+    padding-top: 2px;
+}
+.cs-table tbody td:first-child { border-radius: 8px 8px 0 0; }
+}
+
+@media (max-width: 480px) {
+.cs-tldr {
+    padding: 20px;
+}
+.cs-section {
+    padding: 48px 0;
+}
+.cs-h2 {
+    font-size: 1.5rem;
+}
+.cs-evidence {
+    grid-template-columns: 1fr;
+}
+.footer__nav {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl)
+}
+.footer__bottom {
+    flex-direction: column;
+    align-items: flex-start
+}
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+} 
+</style>
+</head>
+
+<body>
+<a href="#main" class="skip-link">Skip to main content</a> 
+
+<!-- NAV — verbatim from index-refactored.html; all classes from staff-portfolio.css -->
+<header class="header" role="banner">
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__container"> <a href="../../index.html" class="nav__logo"> <img src="../../img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48"> <!--<span class="nav__logo-text">Kate Jie Yu</span>--> </a>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="../../index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+        <li><a href="../../index.html#founder" class="nav__link">Founder</a></li>
+        <li><a href="../../index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+        <li><a href="../../index.html#about" class="nav__link">About</a></li>
+        <li><a href="../../kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+      </ul>
+      <button
+          class="nav__toggle"
+          id="nav-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> </button>
+    </div>
+  </nav>
+</header>
+<main id="main" role="main">
+  <div class="container"> 
+    
+    <!-- BACK LINK --> 
+    <a href="../../index.html#founder" class="cs-back">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M10 12L6 8l4-4"/>
+    </svg>
+    Founder Work </a> 
+    
+    <!-- PAGE HEADER -->
+    <header class="cs-header">
+      <div class="cs-eyebrow"> <span class="cs-pill">Founder</span> <span class="cs-pill cs-pill--green">Platform Architecture</span> <span class="cs-pill cs-pill--blue">AI Governance Platform</span> <span class="cs-pill cs-pill--amber">0-to-1 Operating Model</span> </div>
+      <h1 class="cs-h1"> SyncoPro — Designing a <br>
+        <span>Decision Infrastructure Platform</span><br>
+        from Zero to One </h1>
+      <p class="cs-lead"> Enterprise planning tools have a structural problem: they model execution state, not decision readiness. SyncoPro is my attempt to design the layer that was missing — a system that operationalizes how product decisions get made, scoped, governed, and handed off to AI without losing human authority. </p>
+      <div class="cs-meta-grid">
+        <div> <span class="cs-meta-label">My Role</span> <span class="cs-meta-value">Founder · Decision Architecture Designer · Product Strategist</span> </div>
+        <div> <span class="cs-meta-label">Stage</span> <span class="cs-meta-value">Beta v3 live · v6 architecture in progress · Seed-stage</span> </div>
+        <div> <span class="cs-meta-label">Platform Type</span> <span class="cs-meta-value">AI-powered Execution Alignment System</span> </div>
+        <div> <span class="cs-meta-label">Primary Audience</span> <span class="cs-meta-value">Product Managers · Product Leaders · Founders with product responsibility</span> </div>
+      </div>
+    </header>
+    
+    <!-- EXECUTIVE SUMMARY -->
+    <div class="cs-tldr">
+      <div class="cs-tldr-label">Executive Summary</div>
+      <ul>
+        <li>Enterprise teams have lost the structural layer between planning intent and execution readiness — tools track status but cannot model decision quality or governance boundaries.</li>
+        <li>SyncoPro was architected as a five-layer decision infrastructure platform: intent modeling, readiness scoring, governance boundary logic, AI assistance, and forecast calibration.</li>
+        <li>MVP was defined as a minimum viable system slice — not a minimum feature set — operationalized in Beta v3 and evolving toward a full governance and AI boundary model in v6.</li>
+      </ul>
+    </div>
+    
+    <!-- EVIDENCE ACCESS BAR -->
+    <div class="cs-access-bar"> <span class="cs-access-label">Access</span> <a href="https://syncopro.com" target="_blank" rel="noopener noreferrer" class="cs-access-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="8" r="6"/>
+        <path d="M8 2a9 9 0 0 1 0 12M8 2a9 9 0 0 0 0 12M2 8h12"/>
+      </svg>
+      Visit SyncoPro </a> <a href="https://syncopro.com/beta/index.html" class="cs-access-btn" target="_blank">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="12" height="12" rx="2"/>
+        <path d="M5 8h6M8 5v6"/>
+      </svg>
+      View Product Beta v3 </a> <a href="Pitch-deck/index.html" class="cs-access-btn" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 2h6l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+        <polyline points="10 2 10 6 14 6"/>
+      </svg>
+      View Seed Deck </a> <a href="Vision/index.html" class="cs-access-btn" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 2h6l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+        <polyline points="10 2 10 6 14 6"/>
+      </svg>
+      View Product Vision </a> </div>
+    
+    <!-- SECTION 01 — FOUNDER FRAMING (REPLACEMENT) -->
+    <section class="cs-section" id="framing"> <span class="cs-section-index">01 / 07</span>
+      <h2 class="cs-h2">A Theory of Decision Infrastructure</h2>
+      <p class="cs-p"> Organizations don’t fail because people make poor decisions. They fail because the systems around decision-making provide no structural support
+        for determining whether a decision is ready, who has authority, and what governance applies—especially once AI enters the workflow.
+        The failure is architectural before it is human. </p>
+      <p class="cs-p"> SyncoPro is my attempt to build the missing layer: <strong>a decision infrastructure platform</strong> that turns each planning cycle (and each PRD)
+        into a <strong>skill-driven</strong> decision process—then learns from execution outcomes to improve the next cycle. </p>
+      
+      <!-- INVESTOR-GRADE SYSTEM DIAGRAM -->
+      <div class="cs-visual">
+  <div class="cs-visual-canvas cs-sync-canvas">
+    <div class="cs-sync" aria-label="SyncoPro Skills-to-Outcome Flywheel diagram">
+
+      <!-- Top note -->
+      <div class="cs-sync__top">
+        <div class="cs-sync__kicker">SyncoPro — Skills-to-Outcome Flywheel</div>
+        <div class="cs-sync__pill">
+          Skills runtime: pluggable (MCP → skills-first model)
+        </div>
+      </div>
+
+      <!-- 3-column grid -->
+      <div class="cs-sync__grid">
+
+        <!-- Column 1 -->
+        <section class="cs-sync__col cs-sync__col--plain">
+          <div class="cs-sync__col-head">
+            <div class="cs-sync__col-eyebrow">Input</div>
+            <span class="cs-badge cs-badge--shared cs-sync__badge">PRD starts as a skill</span>
+          </div>
+
+          <h4 class="cs-sync__title">Planning Skills Entry</h4>
+          <p class="cs-sync__desc">
+            Each planning action is executed through a skill—structured prompts, templates, and guardrails that turn ambiguous planning into a consistent decision process.
+          </p>
+
+          <div class="cs-sync__chips">
+            <span class="cs-badge cs-badge--intent">PRD Creation</span>
+            <span class="cs-badge cs-badge--guardrail">Scope Boundary</span>
+            <span class="cs-badge cs-badge--execution">Alignment</span>
+            <span class="cs-badge cs-badge--red">Risk Scan</span>
+            <span class="cs-badge cs-badge--shared">Capacity / Estimation</span>
+            <span class="cs-badge cs-badge--shared">Governance Setup</span>
+          </div>
+
+          <div class="cs-sync__sub">
+            <div class="cs-sync__sub-eyebrow">Shared</div>
+            <p class="cs-sync__sub-desc">
+              A reusable <strong>Shared Skills Library</strong> captures org-level best practices and governance patterns—so teams don’t reinvent the same decisions.
+            </p>
+          </div>
+        </section>
+
+        <!-- Column 2 -->
+        <section class="cs-sync__col cs-sync__col--core">
+          <div class="cs-sync__col-head">
+            <div class="cs-sync__col-eyebrow cs-sync__col-eyebrow--core">Core Engine</div>
+            <span class="cs-badge cs-badge--purple cs-sync__badge">MVP (Now)</span>
+          </div>
+
+          <h4 class="cs-sync__title cs-sync__title--core">Decision Readiness Engine</h4>
+          <p class="cs-sync__desc">
+            SyncoPro’s MVP is not “a PRD tool.” It’s a minimum viable <strong>system slice</strong> that evaluates readiness, routes governance, and constrains AI within authority boundaries.
+          </p>
+
+          <div class="cs-sync__mini-grid">
+            <div class="cs-sync__mini">
+              <div class="cs-sync__mini-kicker">Layer 1</div>
+              <div class="cs-sync__mini-title">Intent Modeling</div>
+              <div class="cs-sync__mini-desc">Constraints, assumptions, scope boundaries, and known unknowns become structured objects—not buried in documents.</div>
+            </div>
+            <div class="cs-sync__mini">
+              <div class="cs-sync__mini-kicker">Layer 2</div>
+              <div class="cs-sync__mini-title">Readiness Scoring</div>
+              <div class="cs-sync__mini-desc">Alignment coverage, authority confirmation, information completeness, and risk acknowledgment become visible signals.</div>
+            </div>
+            <div class="cs-sync__mini">
+              <div class="cs-sync__mini-kicker">Layer 3</div>
+              <div class="cs-sync__mini-title">Governance Routing</div>
+              <div class="cs-sync__mini-desc">Authority boundaries and review sequences are structurally enforced—routing is system logic.</div>
+            </div>
+            <div class="cs-sync__mini">
+              <div class="cs-sync__mini-kicker">AI (Scoped)</div>
+              <div class="cs-sync__mini-title">Templates + Gap Detection</div>
+              <div class="cs-sync__mini-desc">AI improves planning quality inside governance—suggesting templates and preventing known gaps, without owning decisions.</div>
+            </div>
+          </div>
+
+          <div class="cs-sync__out">
+            <span class="cs-sync__out-label">Output:</span>
+            <span class="cs-badge cs-badge--execution">PRD / Plan becomes execution-ready</span>
+            <span class="cs-badge cs-badge--guardrail">Governance + accountability preserved</span>
+            <span class="cs-badge cs-badge--shared">AI boundaries enforced</span>
+          </div>
+        </section>
+
+        <!-- Column 3 -->
+        <section class="cs-sync__col cs-sync__col--plain">
+          <div class="cs-sync__col-head">
+            <div class="cs-sync__col-eyebrow">Next</div>
+            <span class="cs-badge cs-badge--shared cs-sync__badge">Learning loop</span>
+          </div>
+
+          <h4 class="cs-sync__title">Monitoring + Learning System</h4>
+          <p class="cs-sync__desc">
+            Execution outcomes become feedback signals—so the next planning cycle receives better templates, gap prevention, and more reliable readiness guidance.
+          </p>
+
+          <div class="cs-sync__stack">
+            <div class="cs-sync__mini cs-sync__mini--muted">
+              <div class="cs-sync__mini-title">Execution Monitoring</div>
+              <div class="cs-sync__mini-desc">Track progress signals from delivery systems without becoming “another tracker.”</div>
+            </div>
+            <div class="cs-sync__mini cs-sync__mini--muted">
+              <div class="cs-sync__mini-title">Outcome Tracking</div>
+              <div class="cs-sync__mini-desc">Capture scope stability, delivery friction, governance escalations, and missed assumptions.</div>
+            </div>
+            <div class="cs-sync__mini cs-sync__mini--muted">
+              <div class="cs-sync__mini-title">Experience Learning</div>
+              <div class="cs-sync__mini-desc">Learn recurring gap patterns and convert them into better skills, templates, and guardrails.</div>
+            </div>
+            <div class="cs-sync__mini cs-sync__mini--muted">
+              <div class="cs-sync__mini-title">Skill Optimization</div>
+              <div class="cs-sync__mini-desc">Improve the next planning cycle with best-fit templates, proactive warnings, and gap avoidance.</div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Arrow row -->
+      <div class="cs-sync__arrows" aria-hidden="true">
+        <div class="cs-sync__arrow">→</div>
+        <div class="cs-sync__arrow">→</div>
+        <div class="cs-sync__arrow cs-sync__arrow--loop">↺ feeds back</div>
+      </div>
+
+      <!-- Bottom loop pill -->
+      <div class="cs-sync__bottom">
+        <div class="cs-sync__bottom-pill">
+          <span class="cs-sync__bottom-strong">Next Planning Cycle</span>
+          <span class="cs-sync__dot">•</span> improved templates
+          <span class="cs-sync__dot">•</span> gap prevention
+          <span class="cs-sync__dot">•</span> higher decision confidence
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="cs-visual-caption">
+    <span class="cs-fig-label">Fig. 0</span>
+    <span class="cs-fig-text">
+      SyncoPro turns each PRD into a skill-driven decision process—then learns from outcomes to improve the next planning cycle.
+      The highlighted middle zone represents the MVP shipping path.
+    </span>
+  </div>
+</div>
+      
+      <!-- Thesis bullets -->
+      <p class="cs-p" style="margin-top: 18px;"> SyncoPro is the first implementation of a broader decision-infrastructure thesis. That thesis has three premises: </p>
+      <ul class="cs-tldr" style="margin: 0 0 24px; background: none; border-left: 3px solid #e5e7eb; padding: 16px 24px;">
+        <li>Decision quality is a system property.</li>
+        <li>Authority must be structurally modeled, not assumed.</li>
+        <li>AI is a redistribution of authority, not automation.</li>
+      </ul>
+      <p class="cs-p"> I built this after a decade observing the same structural gap across enterprise environments: teams have process in abundance, but lack a system that models <strong>decision readiness</strong> as a first-class object—structured enough to score, route, govern, and assist with AI without collapsing into “just another PM tool.” </p>
+      <div class="cs-pullquote">
+        <p>"The failure is architectural before it is human. Systems that cannot model decision readiness will consistently produce avoidable outcomes."</p>
+      </div>
+      <div class="cs-h3">Category Framing</div>
+      <p class="cs-p">Most tools track work. SyncoPro models decision readiness.</p>
+      <ul class="cs-tldr" style="margin: 0 0 20px; background: none; border-left: 3px solid #e5e7eb; padding: 16px 24px;">
+        <li>Track tasks → Model decision constraints</li>
+        <li>Report status → Surface decision risk</li>
+        <li>Coordinate execution → Structure authority</li>
+      </ul>
+      <p class="cs-p">This shifts planning from coordination to governance.</p>
+      <div class="cs-callout">
+        <p> <strong>Why this required a founder, not a feature team:</strong> Decision infrastructure spans product strategy, organizational systems, and AI governance simultaneously.
+          Designing it correctly required holding all three layers without collapsing any into a feature specification. </p>
+      </div>
+
+    </section>
+    
+    <!-- SECTION 02 — STRUCTURAL DIAGNOSIS -->
+    <section class="cs-section" id="diagnosis"> <span class="cs-section-index">02 / 07</span>
+      <h2 class="cs-h2">Why Decision Systems Break at the Planning–Execution Boundary</h2>
+      <p class="cs-p">These failure patterns don't present as decision problems in the moment. They surface as scope drift, alignment breakdown, or execution delays. The architectural root is consistent across all of them.</p>
+      <div class="cs-diag-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="cs-diag-cell cs-diag-cell--red">
+          <div class="cs-diag-layer">Failure Mode 01</div>
+          <div class="cs-diag-title">Planning–Execution Boundary Collapse</div>
+          <div class="cs-diag-desc">Planning artifacts don't carry forward the decision rationale that produced them. Execution teams inherit outputs without context — scope is re-litigated, the original boundary erodes. No tracking tool surfaces this because the decision was never modeled as such.</div>
+        </div>
+        <div class="cs-diag-cell cs-diag-cell--orange">
+          <div class="cs-diag-layer">Failure Mode 02</div>
+          <div class="cs-diag-title">Capacity and Authority Drift</div>
+          <div class="cs-diag-desc">Authority is assumed, not verified. Capacity is unmeasured against decision complexity. Consequential decisions get made under-prepared, with no mechanism to flag or record this at the time it occurs.</div>
+        </div>
+        <div class="cs-diag-cell cs-diag-cell--amber">
+          <div class="cs-diag-layer">Failure Mode 03</div>
+          <div class="cs-diag-title">AI Without Governance Amplifies Risk</div>
+          <div class="cs-diag-desc">AI tooling enters product workflows without governance context. Teams accept or override output through habit. There's no model for when AI assistance is appropriate, when review is required, or when human authority is final. Risk accumulates across hundreds of small decisions before it's visible.</div>
+        </div>
+        <div class="cs-diag-cell cs-diag-cell--purple">
+          <div class="cs-diag-layer">Failure Mode 04</div>
+          <div class="cs-diag-title">Readiness Signals Are Invisible</div>
+          <div class="cs-diag-desc">Teams have implicit intuition about when a decision is ready. That intuition is never formalized. So organizations decide on schedule rather than on readiness — timeline pressure drives decisions the underlying alignment state cannot support.</div>
+        </div>
+      </div>
+      <div class="cs-pullquote">
+        <p>"Every failed execution has the same root: a decision proceeded before the system was ready to support it."</p>
+      </div>
+      <p class="cs-p">These patterns appeared in planning cycles, AI feature adoption, and stakeholder reviews that produced approvals without alignment. The gap is architectural. Behavior change does not fix a missing system layer.</p>
+    </section>
+    
+    <!-- SECTION 03 — SYSTEM ARCHITECTURE -->
+    <section class="cs-section" id="architecture"> <span class="cs-section-index">03 / 07</span>
+      <h2 class="cs-h2">System Architecture Model</h2>
+      <p class="cs-p">SyncoPro answers five architectural questions simultaneously — each layer addresses a distinct failure mode, and each depends on the layer below it being structurally sound before it can operate.</p>
+      <div class="cs-visual">
+        <div class="cs-visual-canvas" style="padding: 40px 32px;">
+          <div class="cs-arch"> 
+            <!-- Layer 1 -->
+            <div class="cs-arch-layer cs-arch-layer--intent"> <span class="cs-arch-badge">Layer 1</span>
+              <div class="cs-arch-body">
+                <div class="cs-arch-title">Planning Intent Modeling</div>
+                <div class="cs-arch-desc">Captures and structures the reasoning behind a decision — not just what was decided, but why, under what constraints, with what known unknowns. Intent is a first-class object, not a document artifact.</div>
+                <div class="cs-arch-items"> <span class="cs-arch-item">Constraint mapping</span> <span class="cs-arch-item">Assumption documentation</span> <span class="cs-arch-item">Known unknowns</span> <span class="cs-arch-item">Scope boundary definition</span> </div>
+              </div>
+            </div>
+            
+            <!-- Boundary -->
+            <div class="cs-arch-layer cs-arch-layer--boundary"> <span class="cs-arch-boundary-label">→ Readiness Gate — decision does not proceed until intent model is structurally complete</span> </div>
+            
+            <!-- Layer 2 -->
+            <div class="cs-arch-layer cs-arch-layer--readiness"> <span class="cs-arch-badge">Layer 2</span>
+              <div class="cs-arch-body">
+                <div class="cs-arch-title">Decision Readiness Scoring</div>
+                <div class="cs-arch-desc">Scores the decision state against a defined readiness model — alignment coverage, authority confirmation, information completeness, and risk acknowledgment. Readiness is a calculated signal, not a gut check.</div>
+              </div>
+            </div>
+            
+            <!-- Boundary -->
+            <div class="cs-arch-layer cs-arch-layer--boundary"> <span class="cs-arch-boundary-label">→ Governance Gate — routing logic applies authority and review requirements based on readiness score</span> </div>
+            
+            <!-- Layer 3 -->
+            <div class="cs-arch-layer cs-arch-layer--governance"> <span class="cs-arch-badge">Layer 3</span>
+              <div class="cs-arch-body">
+                <div class="cs-arch-title">Governance Boundary Logic</div>
+                <div class="cs-arch-desc">Defines who has authority to proceed at which readiness threshold, what review sequences apply, and where escalation paths route. Governance is structural, not procedural — embedded in the architecture, not documented separately.</div>
+                <div class="cs-arch-items"> <span class="cs-arch-item">Authority level mapping</span> <span class="cs-arch-item">Review sequence routing</span> <span class="cs-arch-item">Escalation thresholds</span> <span class="cs-arch-item">Audit trail generation</span> </div>
+              </div>
+            </div>
+            
+            <!-- Boundary -->
+            <div class="cs-arch-layer cs-arch-layer--boundary"> <span class="cs-arch-boundary-label">→ AI Boundary — AI assistance operates within governance-defined scope only</span> </div>
+            
+            <!-- Layer 4 -->
+            <div class="cs-arch-layer cs-arch-layer--ai"> <span class="cs-arch-badge">Layer 4</span>
+              <div class="cs-arch-body">
+                <div class="cs-arch-title">AI Assistance Layer</div>
+                <div class="cs-arch-desc">AI operates as a coaching layer within the governance boundary — surfacing readiness gaps, flagging alignment risk, generating structured PRD sections, and recommending next actions. AI does not make decisions. It improves the information the decision-maker has available.</div>
+                <div class="cs-arch-items"> <span class="cs-arch-item">Readiness gap surfacing</span> <span class="cs-arch-item">Structured document generation</span> <span class="cs-arch-item">Risk pattern flagging</span> <span class="cs-arch-item">Next best action recommendation</span> </div>
+              </div>
+            </div>
+            
+            <!-- Boundary -->
+            <div class="cs-arch-layer cs-arch-layer--boundary"> <span class="cs-arch-boundary-label">→ Feedback Loop — execution outcomes route signal back to planning and AI calibration layers</span> </div>
+            
+            <!-- Layer 5 -->
+            <div class="cs-arch-layer cs-arch-layer--feedback"> <span class="cs-arch-badge">Layer 5</span>
+              <div class="cs-arch-body">
+                <div class="cs-arch-title">Feedback &amp; Forecast Calibration</div>
+                <div class="cs-arch-desc">Routes execution outcome signal back into the intent model and readiness scoring system — closing the loop between planning quality and outcomes, enabling the organization and AI layer to calibrate on actual decision performance rather than process compliance.</div>
+                <div class="cs-arch-items"> <span class="cs-arch-item">Outcome signal routing</span> <span class="cs-arch-item">Readiness model calibration</span> <span class="cs-arch-item">AI coaching adjustment</span> <span class="cs-arch-item">Planning quality index</span> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cs-visual-caption"> <span class="cs-fig-label">Fig. 1</span> <span class="cs-fig-text">SyncoPro five-layer decision infrastructure architecture — each layer has a defined governance boundary before the next layer activates.</span> </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+           FIG. 2 — AI DECISION SKILLS INFRASTRUCTURE DIAGRAM
+           adl__ prefix — zero collision with existing classes
+           ═══════════════════════════════════════════════════════ -->
+      <div class="cs-visual" style="margin-top: 40px;">
+        <div class="cs-visual-canvas" style="padding: 40px 32px; background: #ffffff;">
+          <div class="adl-section__header"> <span class="adl-section__header-eyebrow">Platform View</span>
+            <h3 class="adl-section__header-title">AI Decision Skills Infrastructure</h3>
+            <p class="adl-section__header-sub">Three-layer system that turns planning processes into learnable, improvable decision skills</p>
+          </div>
+          <!-- Layer 1 -->
+          <div class="adl adl--entry">
+            <div class="adl__label"> <span class="adl__num">1</span> <span class="adl__text">Planning Skills Entry</span> </div>
+            <div class="adl__box">
+              <div class="adl__grid">
+                <div class="adl__card adl__card--entry"> <span class="adl__icon adl__icon--entry">PRD</span> <strong>PRD Creation Skill</strong>
+                  <p>Structures requirements with AI-guided completeness checks</p>
+                </div>
+                <div class="adl__card adl__card--entry"> <span class="adl__icon adl__icon--entry">FRM</span> <strong>Decision Framing Skill</strong>
+                  <p>Surfaces tradeoffs and success criteria before commitment</p>
+                </div>
+                <div class="adl__card adl__card--entry"> <span class="adl__icon adl__icon--entry">RSK</span> <strong>Risk Assessment Skill</strong>
+                  <p>Identifies blockers and dependency risks early</p>
+                </div>
+                <div class="adl__card adl__card--entry"> <span class="adl__icon adl__icon--entry">ALN</span> <strong>Alignment Planning Skill</strong>
+                  <p>Maps stakeholders and surfaces misalignment before kickoff</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Arrow -->
+          <div class="adl__arrow" aria-hidden="true">
+            <div class="adl__arrow-line"></div>
+            <span class="adl__arrow-label">Skill inputs routed to engine</span>
+            <div class="adl__arrow-line adl__arrow-line--short"></div>
+            <div class="adl__arrow-head"></div>
+          </div>
+          <!-- Layer 2 -->
+          <div class="adl adl--engine">
+            <div class="adl__label"> <span class="adl__num">2</span> <span class="adl__text">Decision Readiness Engine</span> <span class="adl__badge adl__badge--mvp">Current MVP</span> </div>
+            <div class="adl__box">
+              <div class="adl__grid">
+                <div class="adl__card adl__card--engine"> <span class="adl__icon adl__icon--engine">INT</span> <strong>Intent Modeling</strong>
+                  <p>Parses planning inputs to understand decision type and context</p>
+                </div>
+                <div class="adl__card adl__card--engine"> <span class="adl__icon adl__icon--engine">SCR</span> <strong>Decision Readiness Scoring</strong>
+                  <p>Quantifies completeness, alignment, and confidence signal</p>
+                </div>
+                <div class="adl__card adl__card--engine"> <span class="adl__icon adl__icon--engine">GOV</span> <strong>Governance Routing</strong>
+                  <p>Directs decisions to appropriate review paths and owners</p>
+                </div>
+                <div class="adl__card adl__card--engine"> <span class="adl__icon adl__icon--engine">AI</span> <strong>AI Assistance</strong>
+                  <p>Generates recommendations, fills gaps, prompts reflection</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Arrow -->
+          <div class="adl__arrow" aria-hidden="true">
+            <div class="adl__arrow-line"></div>
+            <span class="adl__arrow-label">Decisions routed to execution</span>
+            <div class="adl__arrow-line adl__arrow-line--short"></div>
+            <div class="adl__arrow-head"></div>
+          </div>
+          <!-- Execution Band -->
+          <div class="adl__exec-band"> <span class="adl__exec-label">Execution Systems</span>
+            <div class="adl__exec-chips"> <span class="adl__chip">Jira / Linear</span> <span class="adl__chip">Confluence / Notion</span> <span class="adl__chip">Slack / Teams</span> <span class="adl__chip">Analytics / Data</span> <span class="adl__chip">CI/CD Pipeline</span> </div>
+          </div>
+          <!-- Arrow -->
+          <div class="adl__arrow" aria-hidden="true">
+            <div class="adl__arrow-line"></div>
+            <span class="adl__arrow-label">Outcomes fed back as signals</span>
+            <div class="adl__arrow-line adl__arrow-line--short"></div>
+            <div class="adl__arrow-head"></div>
+          </div>
+          <!-- Layer 3 -->
+          <div class="adl adl--future">
+            <div class="adl__label"> <span class="adl__num">3</span> <span class="adl__text">Learning &amp; Optimization</span> <span class="adl__badge adl__badge--future">Future System</span> </div>
+            <div class="adl__box">
+              <div class="adl__grid">
+                <div class="adl__card adl__card--future"> <span class="adl__icon adl__icon--future">MON</span> <strong>Execution Monitoring</strong>
+                  <p>Tracks decision implementation against original intent</p>
+                </div>
+                <div class="adl__card adl__card--future"> <span class="adl__icon adl__icon--future">TRK</span> <strong>Outcome Tracking</strong>
+                  <p>Measures real-world results vs. predicted readiness scores</p>
+                </div>
+                <div class="adl__card adl__card--future"> <span class="adl__icon adl__icon--future">LRN</span> <strong>Experience Learning</strong>
+                  <p>Builds institutional memory from patterns across decisions</p>
+                </div>
+                <div class="adl__card adl__card--future"> <span class="adl__icon adl__icon--future">OPT</span> <strong>Skill Optimization</strong>
+                  <p>Refines and improves planning skills for next cycle</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Feedback loop -->
+          <div class="adl__feedback" aria-label="Feedback loop">
+            <div class="adl__feedback-line"></div>
+            <span class="adl__feedback-label">↑ Improved skills feed next planning cycle</span> </div>
+          <!-- Legend -->
+          <div class="adl__legend" aria-label="Diagram legend">
+            <div class="adl__legend-item"><span class="adl__legend-dot adl__legend-dot--entry"></span>Layer 1 — Skills Entry</div>
+            <div class="adl__legend-item"><span class="adl__legend-dot adl__legend-dot--engine"></span>Layer 2 — Decision Readiness Engine (MVP)</div>
+            <div class="adl__legend-item"><span class="adl__legend-dot adl__legend-dot--future"></span>Layer 3 — Learning &amp; Optimization (Future)</div>
+            <div class="adl__legend-item"><span class="adl__legend-dot adl__legend-dot--exec"></span>External Execution Systems</div>
+          </div>
+        </div>
+        <div class="cs-visual-caption"> <span class="cs-fig-label">Fig. 2</span> <span class="cs-fig-text">SyncoPro as AI Decision Skills Infrastructure — planning processes enter as structured skills, pass through the Decision Readiness Engine, and outcomes loop back to improve future planning cycles.</span> </div>
+      </div>
+      <p class="cs-p">Each layer is separated by a gate, not a step. A decision cannot reach the AI assistance layer without an established intent model and a calculated readiness score. AI cannot operate outside the governance boundary. The feedback layer cannot calibrate without execution outcome signal. The gates enforce architectural discipline — not process compliance.</p>
+      <div class="cs-callout">
+        <p><strong>Why this is not a feature list:</strong> The five layers are architectural dependencies. Layer 4 (AI Assistance) is only coherent when Layer 3 (Governance Boundary) defines its scope. Shipping AI without the governance layer is not an MVP — it is a liability.</p>
+      </div>
+    </section>
+    
+    <!-- SECTION 04 — ARCHITECTURAL EVOLUTION -->
+    <section class="cs-section" id="mvp"> <span class="cs-section-index">04 / 07</span>
+      <h2 class="cs-h2">Architectural Evolution — Three Phases, Not Three Versions</h2>
+      <p class="cs-p">SyncoPro is phased, not iterated. Each phase was defined by a structural constraint the previous phase exposed — not by a roadmap or a release cycle.</p>
+      <div class="cs-pullquote">
+        <p>"A platform is not built by adding features. It is built by validating one architectural layer at a time, in the order the architecture demands."</p>
+      </div>
+      <div class="cs-h3">Phase I — Visibility</div>
+      <p class="cs-p"><strong>Beta v1–v2.</strong> Structured writing operationalized intent modeling as the architecture's first layer — the foundation all readiness scoring depends on. Constraint discovered: readiness signals without governance context produce information users cannot act on. A score without routing logic is a metric, not a system.</p>
+      <div class="cs-h3">Phase II — Modeling</div>
+      <p class="cs-p"><strong>Beta v3.</strong> Extended the system through Layer 3 — governance routing, authority verification, and AI assistance constrained within governance-defined scope. AI was introduced only after the governance layer was functional: an architectural requirement, not a delay. Constraint discovered: governance boundary logic requires organizational role context that individual users cannot self-configure. Enterprise deployment requires admin-layer authority mapping.</p>
+      <div class="cs-h3">Phase III — Governance</div>
+      <p class="cs-p"><strong>v6.</strong> Full five-layer architecture. Configurable governance boundary modeling, multi-stakeholder authority configurations, and the feedback loop that closes the system. The focus is boundary precision — the line between AI authority and human authority must be configurable across organizational structures, verifiable in the system record, and stable under edge cases Beta v3 could not anticipate.</p>
+      <div class="cs-table-scroll">
+        <table class="cs-table">
+          <thead>
+            <tr>
+              <th>Phase</th>
+              <th>Architectural Question</th>
+              <th>Layers Operationalized</th>
+              <th>Structural Constraint Revealed</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Phase">Phase I — Visibility<br>
+                <span style="font-weight:400;color:#9ca3af;font-size:0.75rem;">Beta v1–v2</span></td>
+              <td data-label="Question">Can decision intent be structurally modeled through writing?</td>
+              <td data-label="Layers">Layers 1–2. Intent capture and readiness signal without governance routing.</td>
+              <td data-label="Constraint">Readiness without governance produces signals users cannot act on. Score without routing is a metric, not a system.</td>
+              <td data-label="Status"><span class="cs-badge cs-badge--shared">Complete</span></td>
+            </tr>
+            <tr>
+              <td data-label="Phase">Phase II — Modeling<br>
+                <span style="font-weight:400;color:#9ca3af;font-size:0.75rem;">Beta v3 · Live</span></td>
+              <td data-label="Question">Can governance boundary logic be operationalized at the decision layer?</td>
+              <td data-label="Layers">Layers 1–3 with AI assistance scoped within governance-defined boundaries.</td>
+              <td data-label="Constraint">Governance requires organizational role context individual users cannot self-configure. Enterprise authority mapping requires an admin layer.</td>
+              <td data-label="Status"><span class="cs-badge cs-badge--execution">Live</span></td>
+            </tr>
+            <tr>
+              <td data-label="Phase">Phase III — Governance<br>
+                <span style="font-weight:400;color:#9ca3af;font-size:0.75rem;">v6 · In Progress</span></td>
+              <td data-label="Question">Can authority boundaries be configurable, verifiable, and stable across org contexts?</td>
+              <td data-label="Layers">All five layers. Configurable governance boundary modeling, feedback loop, trust calibration infrastructure.</td>
+              <td data-label="Constraint">Trust calibration requires persistent decision outcome data — a backend investment deliberately deferred until governance boundary is proven stable.</td>
+              <td data-label="Status"><span class="cs-badge cs-badge--purple">In Progress</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="cs-p">Each phase exposed a constraint that made the next phase non-optional.</p>
+    </section>
+    <section class="cs-section" id="ai-governance"> <span class="cs-section-index">05 / 07</span>
+      <h2 class="cs-h2">AI Governance — Authority Boundaries by Design</h2>
+      <p class="cs-p">The central governance question is not "how capable is the AI?" It is "where does AI authority end and human authority begin — and is that boundary structurally enforced or merely assumed?" In SyncoPro, AI authority is explicitly defined, spatially bounded, and architecturally non-negotiable. When confidence drops, the system degrades gracefully to human control.</p>
+      <div class="cs-gov-grid">
+        <div class="cs-gov-cell cs-gov-cell--assist">
+          <div class="cs-gov-zone">Zone 1 — AI Operates</div>
+          <div class="cs-gov-title">Within Defined Authority Boundary</div>
+          <div class="cs-gov-desc">AI assists → human awareness remains. Document structuring, gap identification, and readiness signal generation are information surfaces — they raise the quality of what the decision-maker sees without determining what gets decided. AI assistance in this zone should be invisible. If users notice it, the boundary is drawn in the wrong place.</div>
+        </div>
+        <div class="cs-gov-cell cs-gov-cell--escalate">
+          <div class="cs-gov-zone">Zone 2 — AI Escalates</div>
+          <div class="cs-gov-title">At the Authority Boundary</div>
+          <div class="cs-gov-desc">AI recommends → governance escalates. When AI encounters context outside its defined scope — authority ambiguity, low readiness under schedule pressure, high-stakes scope change — it surfaces a structured escalation signal. Escalation is not a failure state. A system that cannot escalate cleanly has no real governance model.</div>
+        </div>
+        <div class="cs-gov-cell cs-gov-cell--human">
+          <div class="cs-gov-zone">Zone 3 — Human Authority Final</div>
+          <div class="cs-gov-title">Beyond AI Operating Scope</div>
+          <div class="cs-gov-desc">AI suggests → humans own accountability. Authority assignment, escalation path configuration, risk threshold setting, and feedback interpretation are structurally outside AI scope — permanently. This is not a capability limitation. It is an architectural choice that reflects where decision accountability must reside.</div>
+        </div>
+      </div>
+      <div class="cs-h3">Escalation Logic</div>
+      <p class="cs-p">Escalation is structured, not reactive. When the system encounters a readiness score below threshold, an authority ambiguity, or a decision context outside the AI layer's defined scope, it surfaces a signal that identifies the triggering condition, the layer in which it occurred, and the human action required to resolve it. A system that escalates predictably and legibly is more trustworthy than one that appears smooth but accumulates unresolved judgment calls invisibly.</p>
+      <div class="cs-h3">Trust Calibration Architecture</div>
+      <p class="cs-p">Trust is earned at the boundary — through behavioral consistency, structured explainability, and calibration from outcome signal. SyncoPro's model operates on three mechanisms:</p>
+      <p class="cs-p"><strong>Behavioral consistency.</strong> AI behaves identically at the governance boundary across all instances. A single inconsistency erodes more trust than any individual recommendation error — it calls the governance model itself into question.</p>
+      <p class="cs-p"><strong>Structured explainability.</strong> Every recommendation surfaces with its reasoning: which readiness signals were present, which were absent, what the system cannot assess. Opacity in a governance-adjacent system is a governance failure. Users who cannot inspect AI reasoning cannot exercise genuine oversight.</p>
+      <p class="cs-p"><strong>Calibration from outcome signal.</strong> As execution outcomes feed back through the feedback layer, recommendation patterns adjust to reflect actual organizational decision performance — not a generalized training distribution. Calibration is specific to the organization and to the authority context.</p>
+      <div class="cs-pullquote">
+        <p>"AI governance is not a set of constraints applied to an AI system. It is an architectural definition of where AI authority ends — built into the system before AI is deployed, not negotiated after."</p>
+      </div>
+    </section>
+    
+    <!-- SECTION 06 — FOUNDER CONVICTION -->
+    <section class="cs-section" id="decisions"> <span class="cs-section-index">06 / 07</span>
+      <h2 class="cs-h2">Founder Conviction — Three Decisions That Defined the Architecture</h2>
+      <p class="cs-p">Founding a system is deciding what not to build. The three decisions below shaped this platform's architecture more than any feature choice.</p>
+      <div class="cs-decisions">
+        <div class="cs-decision-cell">
+          <div class="cs-decision-q">What I refused to build</div>
+          <div class="cs-decision-title">A dashboard, collaboration layer, or project tracking surface</div>
+          <div class="cs-decision-desc">Every market signal pointed toward these additions. They make a product look enterprise-ready. They would also have collapsed SyncoPro into the category it was designed to contrast. A dashboard that surfaces decision status is an execution mirror — not decision infrastructure. I refused to build them because doing so would have required abandoning the architecture's core premise: decision readiness is a pre-execution object, not a post-execution report.</div>
+        </div>
+        <div class="cs-decision-cell">
+          <div class="cs-decision-q">What I deliberately delayed</div>
+          <div class="cs-decision-title">AI capability, until the governance boundary was structurally proven</div>
+          <div class="cs-decision-desc">AI could not be deployed in SyncoPro until Layer 3 governance boundary logic was validated in production — not because AI was not ready, but because governance defines AI's operating scope. An AI layer without a governance boundary is not more capable. It is ungoverned. Capability without an accountability boundary is architectural debt. Phase III expands AI scope because Phase II established the boundary it must operate within.</div>
+        </div>
+        <div class="cs-decision-cell">
+          <div class="cs-decision-q">What tradeoff I accepted</div>
+          <div class="cs-decision-title">Slower surface appeal in exchange for structural defensibility</div>
+          <div class="cs-decision-desc">SyncoPro does not impress on first contact. No hero metric, no animated dashboard. What it has is architectural coherence from intent capture through governance routing through AI boundary enforcement through feedback calibration — a system difficult to replicate quickly because its defensibility is in the structure, not the surface. This is a deliberate filter. It defines the buyer this product is designed for, and the investor thesis as well.</div>
+        </div>
+      </div>
+      <div class="cs-callout">
+        <p><strong>The signal these decisions send:</strong> A founder who can articulate what they refused to build, what they delayed, and what tradeoff they accepted has a model of the system that extends beyond the current implementation. That is the architectural thinking infrastructure-category products require.</p>
+      </div>
+    </section>
+    
+    <!-- SECTION 07 — ARCHITECTURAL EVIDENCE -->
+    <section class="cs-section" id="evidence"> <span class="cs-section-index">07 / 07</span>
+      <h2 class="cs-h2">Architectural Evidence</h2>
+      <p class="cs-p">What follows is not a product marketing list. Each artifact demonstrates a specific architectural capability — the ability to hold a complex system across time, make deliberate structural tradeoffs, and maintain coherence under pressure to simplify.</p>
+      <div class="cs-evidence">
+        <div class="cs-evidence-cell">
+          <div class="cs-evidence-label">System Design Artifact</div>
+          <div class="cs-evidence-title">Full PRD</div>
+          <div class="cs-evidence-desc">Codifies decision layers, gate logic, governance routing, and AI boundary specifications. Written as a system design document — demonstrates capacity to formalize architectural constraints before implementation.</div>
+        </div>
+        <div class="cs-evidence-cell">
+          <div class="cs-evidence-label">Scoped Design Artifact</div>
+          <div class="cs-evidence-title">MVP PRD</div>
+          <div class="cs-evidence-desc">Defines the minimum viable system slice — not a minimum feature set. Demonstrates the ability to identify which vertical through the architecture is structurally coherent end-to-end and deployable without compromising governance integrity.</div>
+        </div>
+        <div class="cs-evidence-cell">
+          <div class="cs-evidence-label">Deployed Phase II System</div>
+          <div class="cs-evidence-title">Beta v3 — Live</div>
+          <div class="cs-evidence-desc">Operationalizes readiness logic under real constraints. Layers 1–3 in production with AI assistance constrained within governance-defined scope — demonstrates that the architectural model is implementable and structurally coherent as shipped.</div>
+        </div>
+        <div class="cs-evidence-cell">
+          <div class="cs-evidence-label">Phase III in Design</div>
+          <div class="cs-evidence-title">v6 Architecture</div>
+          <div class="cs-evidence-desc">Strengthens governance visibility and boundary enforcement. Configurable multi-stakeholder authority configurations, feedback loop infrastructure. The design process is itself evidence: Phase III was not scoped until Phase II produced the constraints that define it.</div>
+        </div>
+      </div>
+      <div class="cs-callout">
+        <p><strong>What this body of work demonstrates:</strong> System-level design thinking maintained across multiple development phases without collapsing into feature iteration. Deliberate constraint — refusing to build, accepting delay, trading surface appeal for structural defensibility. A category thesis that predates the product and survives contact with its implementation.</p>
+      </div>
+    </section>
+  </div>
+  <!-- /.container --> 
+</main>
+
+<!-- STRUCTURED FOOTER -->
+<footer class="footer--structured" role="contentinfo">
+  <div class="container">
+    <nav class="footer__nav" aria-label="Site navigation">
+      <div> <span class="footer__col-label">Decision Architecture</span>
+        <ul class="footer__col-links">
+          <li><a href="../../index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+          <li><a href="../../decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+          <li><a href="../../decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+          <li><a href="../../decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Founder</span>
+        <ul class="footer__col-links">
+          <li><a href="../../index.html#founder" class="footer__col-link">Overview</a></li>
+          <li><a href="#" class="footer__col-link">SyncoPro</a></li>
+          <li><a href="../mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+          <li><a href="../refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Applied Systems</span>
+        <ul class="footer__col-links">
+          <li><a href="../../index.html#applied-systems" class="footer__col-link">Overview</a></li>
+          <li><a href="../../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+          <li><a href="../../applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+          <li><a href="../../applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+          <li><a href="../../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">General</span>
+        <ul class="footer__col-links">
+          <li><a href="../../index.html#about" class="footer__col-link">About</a></li>
+          <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+          <li><a href="../../applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+          <li><a href="../../sitemap.html" class="footer__col-link">Sitemap</a></li>
+          <li><a href="../../kateyu-resume.html" class="footer__col-link">Resume</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="footer__bottom">
+      <p class="footer__bottom-copy"> &copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture </p>
+      <div class="footer__bottom-links"> <a href="../../applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a> <a href="../../sitemap.html" class="footer__bottom-link">Sitemap</a> <a href="../../kateyu-resume.html" class="footer__bottom-link">Resume</a> </div>
+    </div>
+  </div>
+</footer>
+<script src="../../js/staff-portfolio.js"></script>
+</body>
+</html>

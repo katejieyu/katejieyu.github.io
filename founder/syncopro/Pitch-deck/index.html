@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>SyncoPro — Pre-Seed Deck</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />	
+  <link rel="shortcut icon" type="image/x-icon" href="../../../img/syncopro-favicon.png">
+  <link rel="stylesheet" href="style/pitch-deck.css" />
+</head>
+<body>
+
+  <!-- SLIDE 01: Cover -->
+  <section class="slide slide--cover" id="s-cover" data-label="Cover">
+    <div class="slide-inner slide-inner--center">
+      <div class="brand">SyncoPro</div>
+      <h1 class="headline headline--display">Decision Infrastructure<br/>for Capital-Efficient<br/>Product Teams</h1>
+      <p class="subhead">Product teams don't fail at execution. They fail before it begins — when decisions are unclear, assumptions go unstated, and alignment is assumed rather than built.</p>
+      <p class="cover-meta">Pre-Seed · Confidential · Kate Yu</p>
+    </div>
+    <div class="slide-accent-bar"></div>
+  </section>
+
+  <!-- SLIDE 02: Problem -->
+  <section class="slide" id="s-problem" data-label="Problem">
+    <div class="slide-inner">
+      <span class="eyebrow">The Problem</span>
+      <h2 class="headline">Product teams fail before<br/>engineering begins.</h2>
+      <ul class="bullets">
+        <li>Most execution breakdowns trace back to a decision that was never clearly made — scope was assumed, constraints were implicit, ownership was fuzzy</li>
+        <li>By the time engineers start building, the structural gaps are already locked in — rework, misalignment, and re-scoping become inevitable</li>
+        <li>The tools teams use — Jira, Notion, Linear — track work in progress. None of them structure the decision before the work starts</li>
+      </ul>
+      <div class="diagram diagram--pipeline">
+        <div class="pipeline-node">Strategy</div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-node pipeline-node--gap">
+          <span class="gap-label">⚠ Decision Gap</span>
+          <span class="gap-sublabel">No readiness check</span>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-node">Planning</div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-node">Execution</div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-node">Analytics</div>
+      </div>
+      <p class="diagram-caption">Capital gets committed before clarity exists.</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 03: Cost -->
+  <section class="slide" id="s-cost" data-label="Cost">
+    <div class="slide-inner">
+      <span class="eyebrow">The Cost</span>
+      <h2 class="headline">Ambiguity is expensive.<br/>The bill arrives late.</h2>
+      <ul class="bullets">
+        <li><strong>PM time lost to rework:</strong> PMs spend an estimated 30–40% of their time re-clarifying scope, re-aligning stakeholders, and rewriting requirements that should have been locked before kickoff</li>
+        <li><strong>Post-sprint fixes cost more:</strong> Defects and scope gaps caught after engineering begins cost 5–10× more to resolve than those caught at decision time — a well-documented pattern in software delivery</li>
+        <li><strong>Feature waste compounds:</strong> Industry research consistently shows that a significant portion of shipped features see minimal or no sustained use — the root cause is often unclear success criteria, not poor engineering</li>
+      </ul>
+      <p class="diagram-caption" style="margin-top: 32px;">The tax isn't visible in the sprint — it shows up in the post-mortem.</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 04: Insight -->
+  <section class="slide" id="s-insight" data-label="Insight">
+    <div class="slide-inner">
+      <span class="eyebrow">The Insight</span>
+      <h2 class="headline">Execution problems are often<br/>decision problems upstream.</h2>
+      <ul class="bullets">
+        <li>The signals are structural, not individual — the same gaps recur across teams, orgs, and initiatives: unclear inputs, unstated assumptions, missing constraints, undefined success</li>
+        <li>These aren't PM failures. They're system failures — the product stack has no designated layer for decision readiness before commitment</li>
+        <li>When ambiguity is structural, the fix must be structural too — not a better template, but a purpose-built layer that sits at the decision moment</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SLIDE 05: Category Creation -->
+  <section class="slide" id="s-category" data-label="Category">
+    <div class="slide-inner">
+      <span class="eyebrow">Category Creation</span>
+      <h2 class="headline">Decision Infrastructure.<br/>The missing layer.</h2>
+      <p class="subhead" style="margin-bottom: 32px; font-size: 16px; color: var(--body);">Every mature product stack has strategy tools, execution tools, and analytics tools. None of them own the decision moment between strategy and planning.</p>
+      <div class="blocks blocks--three" style="margin-bottom: 24px;">
+        <div class="block">
+          <div class="block-num">EXISTS</div>
+          <div class="block-title">Strategy Layer</div>
+          <div class="block-body">OKRs · Roadmapping · Vision docs · Market analysis</div>
+        </div>
+        <div class="block" style="border-color: #F59E0B; background: #FFFBEB;">
+          <div class="block-num" style="color: #B45309;">MISSING</div>
+          <div class="block-title" style="color: #92400E;">Decision Layer</div>
+          <div class="block-body" style="color: #78350F;">Decision readiness · Ambiguity detection · Alignment verification · Go / No-Go clarity</div>
+        </div>
+        <div class="block">
+          <div class="block-num">EXISTS</div>
+          <div class="block-title">Execution Layer</div>
+          <div class="block-body">Jira · Linear · Notion · Confluence · Sprint tooling</div>
+        </div>
+      </div>
+      <p class="diagram-caption">SyncoPro is purpose-built for the missing layer. Not a feature of an existing tool — a new category.</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 06: Product -->
+  <section class="slide slide--locked" id="s-product" data-label="Product">
+    <div class="slide-inner">
+      <span class="eyebrow">The Product</span>
+      <h2 class="headline">Decision Readiness Engine</h2>
+      <div class="blocks blocks--three">
+        <div class="block">
+          <div class="block-num">01</div>
+          <div class="block-title">Structured Decision Frame</div>
+          <div class="block-body">Inputs · Assumptions · Constraints · Success criteria captured in a repeatable, auditable format before commitment</div>
+        </div>
+        <div class="block">
+          <div class="block-num">02</div>
+          <div class="block-title">Ambiguity Detection</div>
+          <div class="block-body">AI surfaces what's missing, contradictory, or undecided — not generic suggestions, but structured gap analysis against the decision frame</div>
+        </div>
+        <div class="block">
+          <div class="block-num">03</div>
+          <div class="block-title">Approval-Ready Brief</div>
+          <div class="block-body">Go / No-Go clarity delivered before a single sprint begins — with a stakeholder-ready summary and open question log</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-lock-overlay">
+      <div class="slide-lock-box">
+        <div class="slide-lock-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <p class="slide-lock-label">Password required to view</p>
+        <button class="slide-lock-btn" data-gate-trigger>Unlock slides</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 07: Differentiation -->
+  <section class="slide slide--locked" id="s-diff" data-label="Differentiation">
+    <div class="slide-inner">
+      <span class="eyebrow">Differentiation</span>
+      <h2 class="headline">Not another AI doc tool.<br/>A structural advantage.</h2>
+      <ul class="bullets">
+        <li><strong>Decision-layer positioning:</strong> SyncoPro sits upstream of execution tools — it's the gate before Jira, not a Jira add-on. Different workflow moment, different buyer, different data</li>
+        <li><strong>Writing-first architecture:</strong> Structured thinking drives the product, not generation. AI surfaces gaps and contradictions in what the PM has written — it doesn't write for them</li>
+        <li><strong>AI coaching, not generation:</strong> Most AI writing tools produce output. SyncoPro produces clarity — it asks the questions a senior PM would ask before signing off</li>
+        <li><strong>Kickoff simulation:</strong> Before any meeting, SyncoPro surfaces the stakeholder questions most likely to derail alignment — so the PM walks in prepared, not reactive</li>
+      </ul>
+    </div>
+    <div class="slide-lock-overlay"></div>
+  </section>
+
+  <!-- SLIDE 08: Target Customer -->
+  <section class="slide slide--locked" id="s-icp" data-label="ICP">
+    <div class="slide-inner">
+      <span class="eyebrow">Who Buys First</span>
+      <h2 class="headline">The Beachhead Customer</h2>
+      <div class="blocks blocks--three" style="margin-bottom: 28px;">
+        <div class="block">
+          <div class="block-num">PRIMARY</div>
+          <div class="block-title">Product Manager</div>
+          <div class="block-body">3–8 years experience · Owns the PRD · Responsible for alignment before kickoff · Feels the pain directly</div>
+        </div>
+        <div class="block">
+          <div class="block-num">SECONDARY</div>
+          <div class="block-title">Product Leader</div>
+          <div class="block-body">VP Product · CPO · Cares about decision quality at scale · Budget authority · Pattern-matches rework cost</div>
+        </div>
+        <div class="block">
+          <div class="block-num">CONTEXT</div>
+          <div class="block-title">Environment</div>
+          <div class="block-body">B2B SaaS · Series A–B · 30–150 person product org · High cross-functional dependency and recurring alignment friction</div>
+        </div>
+      </div>
+      <ul class="bullets bullets--compact">
+        <li><strong>Trigger:</strong> Post-mortem on a misallocated initiative, a missed milestone, or a roadmap reset that traced back to an unclear decision upstream</li>
+        <li><strong>Signal:</strong> Recurring sprint churn, late-stage scope changes, and stakeholder questions that should have been answered before kickoff</li>
+      </ul>
+    </div>
+    <div class="slide-lock-overlay"></div>
+  </section>
+
+  <!-- SLIDE 09: Market Opportunity -->
+  <section class="slide slide--locked" id="s-market" data-label="Market">
+    <div class="slide-inner">
+      <span class="eyebrow">Market Opportunity</span>
+      <h2 class="headline">A large, growing, and<br/>underserved buyer.</h2>
+      <ul class="bullets">
+        <li><strong>~1M product managers globally:</strong> A large professional population with high tool adoption, growing AI literacy, and a demonstrated willingness to pay for workflow tools that reduce friction</li>
+        <li><strong>Growing demand for structured product workflows:</strong> The shift to AI-assisted development is accelerating the need for upstream decision quality — speed amplifies the cost of ambiguity</li>
+        <li><strong>Beachhead: B2B SaaS product teams at Series A–B</strong> — high complexity, high cross-functional dependency, budget for workflow tooling, and a buyer (VP Product / PM Lead) who recognizes the pattern</li>
+      </ul>
+      <div class="diagram diagram--pipeline" style="margin-top: 36px;">
+        <div class="pipeline-node">~1M PMs</div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-node">B2B SaaS A–B</div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-node pipeline-node--gap">
+          <span class="gap-label">Beachhead</span>
+          <span class="gap-sublabel">High-complexity teams</span>
+        </div>
+      </div>
+      <p class="diagram-caption">Start dense, not broad. Expand through the decision graph.</p>
+    </div>
+    <div class="slide-lock-overlay"></div>
+  </section>
+
+  <!-- SLIDE 10: Business Model -->
+  <section class="slide slide--ask slide--locked" id="s-model" data-label="Business Model">
+    <div class="slide-inner">
+      <span class="eyebrow">Business Model</span>
+      <h2 class="headline">SaaS · Land and Expand</h2>
+      <div class="ask-grid">
+        <div class="ask-item">
+          <div class="ask-label">Individual</div>
+          <div class="ask-value ask-value--sm">PM seat · Core decision frame · Ambiguity detection · Approval brief export</div>
+        </div>
+        <div class="ask-item">
+          <div class="ask-label">Team</div>
+          <div class="ask-value ask-value--sm">Shared decision history · Cross-PM pattern visibility · Team-level reporting · Approval workflow</div>
+        </div>
+        <div class="ask-item">
+          <div class="ask-label">Enterprise</div>
+          <div class="ask-value ask-value--sm">SSO · Audit trail · Compliance exports · Custom integrations · Org-wide decision intelligence</div>
+        </div>
+      </div>
+      <ul class="bullets bullets--compact" style="margin-top: 8px;">
+        <li><strong>Land:</strong> Individual PM adopts during high-stakes initiative or post-mortem recovery — low friction, immediate value at decision time</li>
+        <li><strong>Expand:</strong> Decision history accumulates across the org · Pattern recognition becomes org-level intelligence · Team and enterprise tiers unlock governance and compliance value</li>
+      </ul>
+    </div>
+    <div class="slide-lock-overlay"></div>
+  </section>
+
+  <!-- SLIDE 11: Moat -->
+  <section class="slide slide--locked" id="s-moat" data-label="Moat">
+    <div class="slide-inner">
+      <span class="eyebrow">The Moat</span>
+      <h2 class="headline">A layer, not a feature.<br/>A graph, not a document.</h2>
+      <ul class="bullets">
+        <li><strong>Decision Graph:</strong> Every decision captured — inputs, assumptions, constraints, outcomes — builds a proprietary organizational intelligence layer that compounds over time and cannot be replicated by a point tool</li>
+        <li><strong>Workflow embedding:</strong> SyncoPro integrates into existing approval moments — kickoffs, stakeholder reviews, go/no-go gates — rather than adding a parallel process. Embedded tools are sticky tools</li>
+        <li><strong>Organizational intelligence:</strong> Cross-initiative pattern recognition reveals which decision types drive rework, which assumptions are most often wrong, and where ownership gaps cluster — insights no PM tool can generate</li>
+        <li><strong>Accumulating decision history:</strong> The longer a team uses SyncoPro, the more predictive and precise the ambiguity detection becomes. The moat grows with usage, not just with time</li>
+      </ul>
+    </div>
+    <div class="slide-lock-overlay"></div>
+  </section>
+
+  <!-- SLIDE 12: Validation -->
+  <section class="slide slide--locked" id="s-validation" data-label="Validation">
+    <div class="slide-inner">
+      <span class="eyebrow">Early Validation</span>
+      <h2 class="headline">Signal from the field.<br/>Not revenue — recognition.</h2>
+      <ul class="bullets">
+        <li><strong>PMs identifying hidden PRD gaps:</strong> Early conversations consistently surface the same pattern — PMs recognize structural ambiguity in their own documents when SyncoPro's framing is applied, gaps they hadn't consciously registered before</li>
+        <li><strong>Engineers flagging missing instrumentation:</strong> Engineering counterparts in early conversations identify missing success metrics and undefined edge cases as a primary source of mid-sprint scope changes — validating the upstream problem framing</li>
+        <li><strong>Stakeholder alignment issues discovered late:</strong> Recurring theme across conversations: alignment that appeared complete at kickoff breaks down when assumptions surface mid-sprint — the exact gap SyncoPro is designed to close</li>
+      </ul>
+      <div class="qa-answer" style="margin-top: 32px;">
+        <div class="qa-label">Honest framing</div>
+        <p>These are qualitative early signals from exploratory conversations — not revenue, not signed pilots. The pattern is consistent and directional. The next phase is structured design partner engagement to stress-test the product against real decisions.</p>
+      </div>
+    </div>
+    <div class="slide-lock-overlay"></div>
+  </section>
+
+  <!-- SLIDE 13: Founder -->
+  <section class="slide slide--locked" id="s-founder" data-label="Founder">
+    <div class="slide-inner">
+      <span class="eyebrow">Founder</span>
+      <h2 class="headline">Kate Yu<br/>Founder-Market Fit</h2>
+      <ul class="bullets">
+        <li><strong>10+ years in Enterprise SaaS:</strong> Direct pattern recognition of decision failure modes inside Fortune 500 product organizations — not observed from the outside, but experienced as a practitioner responsible for alignment and delivery</li>
+        <li><strong>Decision architecture practice:</strong> Built governance systems, gate-based workflows, and approval frameworks across product, UX, and systems roles — the problem SyncoPro solves is one she has personally solved, manually, many times over</li>
+        <li><strong>AI-native workflow design:</strong> Designed AI governance systems and structured decision workflows before "AI governance" was a recognized category — an early mover advantage in understanding where AI assists and where it creates risk</li>
+        <li><strong>Systems credibility:</strong> Staff → Principal-level strategist spanning product architecture, org design, and AI systems — the positioning and technical framing of SyncoPro reflect direct, hard-won expertise across all three</li>
+      </ul>
+    </div>
+    <div class="slide-lock-overlay"></div>
+  </section>
+
+  <!-- SLIDE 14: Ask -->
+  <section class="slide slide--ask slide--locked" id="s-ask" data-label="Ask">
+    <div class="slide-inner">
+      <span class="eyebrow">The Ask</span>
+      <h2 class="headline">Raising Pre-Seed</h2>
+      <div class="ask-grid">
+        <div class="ask-item">
+          <div class="ask-label">Raise</div>
+          <div class="ask-value">$750K–$1M</div>
+        </div>
+        <div class="ask-item">
+          <div class="ask-label">Use of Funds</div>
+          <div class="ask-value ask-value--sm">Product development · Structured beta expansion · Design partner pilots · First paid customer motion</div>
+        </div>
+        <div class="ask-item">
+          <div class="ask-label">18-Month Milestones</div>
+          <div class="ask-value ask-value--sm">3–5 design partners → 2 paid pilots → repeatable ICP motion → Series A readiness signal</div>
+        </div>
+      </div>
+      <p class="contact"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4922283d2c093a30272a26393b26672a2624">[email&#160;protected]</a> · linkedin.com/in/kateyu</p>
+    </div>
+    <div class="slide-accent-bar"></div>
+    <div class="slide-lock-overlay"></div>
+  </section>
+
+  <!-- Floating Nav -->
+  <nav class="deck-nav" aria-label="Deck navigation">
+    <div class="deck-nav-inner">
+      <button class="nav-btn" id="btn-prev" aria-label="Previous section">↑</button>
+      <button class="nav-btn nav-btn--menu" id="btn-menu" aria-label="Toggle section menu" aria-expanded="false">☰</button>
+      <span class="nav-counter" id="nav-counter">1 / 14</span>
+      <button class="nav-btn" id="btn-next" aria-label="Next section">↓</button>
+    </div>
+    <div class="nav-menu" id="nav-menu" aria-hidden="true">
+      <ul class="nav-menu-list" id="nav-menu-list"></ul>
+    </div>
+  </nav>
+
+<!-- PASSWORD GATE MODAL -->
+<div class="gate-backdrop" id="gateBackdrop"></div>
+<div class="gate-modal" id="gateModal" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <button class="gate-close" id="gateClose" aria-label="Close">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+  </button>
+  <div class="gate-lock-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+  </div>
+  <h2 class="gate-title" id="gateTitle">Restricted Access</h2>
+  <p class="gate-sub">The remaining slides are confidential.<br>Enter the password to continue.</p>
+  <div class="gate-input-wrap">
+    <div class="gate-input-inner">
+      <input class="gate-input" id="gateInput" type="password" placeholder="Enter password" autocomplete="off" spellcheck="false" />
+      <button class="gate-toggle" id="gateToggle" type="button" aria-label="Show password">
+        <svg class="eye-hide" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
+        <svg class="eye-show" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <button class="gate-submit" id="gateSubmit" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
+  </div>
+  <p class="gate-error" id="gateError">Incorrect password. Please try again.</p>
+  <p  class="gate-hint">Session access only &mdash; not stored.</p>
+</div>
+
+  <script src="js/pitch-deck.js"></script>
+</body>
+</html>

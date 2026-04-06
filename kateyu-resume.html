@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<meta name="title" property="og:title" content="Kate Jie Yu · Staff Product Designer · AI Systems &amp; Decision Architecture">
+<meta name="image" property="og:image" content="img/kate-studio.jpg">
+<meta name="description" property="og:description" content="Staff Product Designer specializing in AI systems and decision architecture. Ten years designing governance infrastructure for enterprise AI — authority boundaries, escalation models, and decision readiness systems. Founder of SyncoPro.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kate Jie Yu · Staff Product Designer · AI Systems &amp; Decision Architecture">
+<title>Kate Jie Yu · Staff Product Designer · AI Systems &amp; Decision Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="shortcut icon" type="image/x-icon" href="img/KJY_logo_bar.jpg" />
+<link rel="mask-icon" type="Kate Logo" href="img/KJY_logo_bar.jpg" color="#111" />
+<script src="https://kit.fontawesome.com/58cb869b6c.js" crossorigin="anonymous"></script>
+<link rel="apple-touch-icon" href="img/KJY_logo_bar.jpg">
+	<link rel="stylesheet" href="style/theme.css">
+<link rel="stylesheet" href="style/base.css">
+<link rel="stylesheet" href="style/components.css">
+<style>
+/* ============================================================
+   RESET
+   ============================================================ */
+*, *::before, *::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+/* ============================================================
+   RESUME HEADER/FOOTER (match kateyu-resume-br.html)
+   ============================================================ */
+.header-print {
+	height: 50px;
+}
+.main_nav_resume {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	max-height: 70px;
+	z-index: 999;
+	padding-top: 17px;
+	padding-bottom: 6px;
+	background: #fff;
+	overflow: hidden;
+	transition: all 0.3s;
+	opacity: 1;
+}
+.header-print .w-nav.head {
+	background: transparent;
+}
+.footer-print {
+	width: 100%;
+}
+/* Make space for fixed header */
+.resume-bg {
+	background: #f0f0f0;         /* full-width background */
+	padding: 40px 16px 48px;      /* page breathing room */
+	min-height: calc(100vh - 56px - 74px); /* allow header/footer */
+}
+/* ============================================================
+   RESUME PAGE WRAPPER
+   ============================================================ */
+.resume-bg {
+	background: #f0f0f0;         /* full-width background */
+	padding: 40px 16px 48px;      /* page breathing room */
+	min-height: calc(100vh - 56px - 74px); /* allow header/footer */
+}
+.page {
+	max-width: 850px;             /* centered resume card */
+	margin: 0 auto;
+	background: #ffffff;
+	padding: 48px;
+	box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+	position: relative;           /* for Download button positioning */
+}
+/* ============================================================
+   DOWNLOAD BUTTON
+   ============================================================ */
+.download-pdf-btn {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background: #1a1a1a;
+	color: #fff;
+	border: none;
+	padding: 6px 16px 6px 12px;
+	border-radius: 9999px;
+	font-family: 'Inter', sans-serif;
+	font-size: 12px;
+	font-weight: 500;
+	cursor: pointer;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+	transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.download-pdf-btn:hover {
+	background: #333;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.download-pdf-btn:active {
+	transform: scale(0.95);
+}
+.download-pdf-btn svg {
+	width: 14px;
+	height: 14px;
+}
+/* ============================================================
+   RESUME CONTENT STYLES
+   ============================================================ */
+/* Header */
+.name {
+	font-family: 'Playfair Display', serif;
+	font-size: 32px;
+	font-weight: 700;
+	color: #0f0f0f;
+	line-height: 1.2;
+	margin-bottom: 2px;
+}
+.titlePosition {
+	font-size: 13px;
+	font-weight: 500;
+	color: #4a4a4a;
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
+	margin-bottom: 12px;
+}
+.contact {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	font-size: 12.5px;
+	color: #555;
+}
+.contact a {
+	color: #555;
+	text-decoration: none;
+	transition: color 0.2s;
+}
+.contact a:hover {
+	color: #000;
+}
+.sep {
+	color: #ccc;
+	user-select: none;
+}
+.divider {
+	border: none;
+	border-top: 1px solid #d0d0d0;
+	margin: 24px 0 20px;
+}
+/* Sections */
+.section {
+	margin-bottom: 16px;
+}
+.section-title {
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.18em;
+	color: #0f0f0f;
+	padding-bottom: 2px;
+	border-bottom: 1px solid #e5e5e5;
+	margin-bottom: 8px;
+}
+.profile-text {
+	font-size: 12.5px;
+	color: #333;
+	line-height: 1.65;
+}
+/* Experience */
+.exp-item {
+	margin-bottom: 12px;
+}
+.exp-item:last-child {
+	margin-bottom: 0;
+}
+.exp-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	margin-bottom: 2px;
+}
+.exp-role {
+	font-size: 12.5px;
+	font-weight: 600;
+	color: #1a1a1a;
+}
+.exp-pipe {
+	font-size: 12.5px;
+	color: #555;
+	margin: 0 6px;
+}
+.exp-company {
+	font-size: 12.5px;
+	font-weight: 500;
+	color: #444;
+}
+.exp-period {
+	font-size: 12px;
+	color: #777;
+	white-space: nowrap;
+	margin-left: 16px;
+}
+.exp-bullets {
+	list-style: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+.exp-bullets li {
+	font-size: 12px;
+	font-family: 'Inter', sans-serif;
+	color: #333;
+	line-height: 1.6;
+	padding-left: 12px;
+	position: relative;
+	margin-bottom: 2px;
+}
+.exp-bullets li::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 8px;
+	width: 3px;
+	height: 3px;
+	background: #999;
+	border-radius: 50%;
+}
+/* Capabilities */
+.capabilities {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 6px;
+	font-size: 12px;
+}
+.cap-item {
+	color: #333;
+}
+.cap-slash {
+	color: #aaa;
+	margin-left: 6px;
+}
+/* Education */
+.edu-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+.edu-degree {
+	font-size: 12.5px;
+	font-weight: 600;
+	color: #1a1a1a;
+}
+.edu-school {
+	font-size: 12.5px;
+	color: #555;
+	margin-left: 8px;
+}
+.edu-period {
+	font-size: 12px;
+	color: #777;
+	white-space: nowrap;
+}
+.footer--structured {
+    padding: var(--space-5xl) 0 var(--space-3xl);
+    border-top: 1px solid var(--color-border-light);
+    background-color: var(--color-background);
+}
+.footer__nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4xl);
+    padding-bottom: var(--space-4xl);
+    border-bottom: 1px solid var(--color-border-light);
+    margin-bottom: var(--space-3xl)
+}
+.footer__col-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text);
+    margin-bottom: var(--space-lg);
+    display: block
+}
+.footer__col-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm)
+}
+.footer__col-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    line-height: var(--line-height-normal);
+    transition: color var(--transition-fast)
+}
+.footer__col-link:hover {
+    color: var(--color-text)
+}
+.footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-md)
+}
+.footer__bottom-copy {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary)
+}
+.footer__bottom-links {
+    display: flex;
+    gap: var(--space-lg)
+}
+.footer__bottom-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast)
+}
+.footer__bottom-link:hover {
+    color: var(--color-text-secondary)
+}
+
+	
+/* =====================================
+   LARGE READABILITY MODE (SCREEN ONLY)
+   ===================================== */
+
+@media screen {
+
+  .page {
+    max-width: 1200px;   /* much wider */
+    padding: 72px;       /* more breathing room */
+  }
+
+  .resume-bg {
+    padding-top: 90px;
+    padding-bottom: 10px; /* keep footer safe */
+  }
+
+  .name {
+    font-size: 48px;
+  }
+
+  .titlePosition {
+    font-size: 16px;
+  }
+
+  .profile-text {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .exp-role,
+  .exp-company,
+  .edu-degree,
+  .edu-school {
+    font-size: 15px;
+  }
+
+  .exp-bullets {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .exp-bullets li {
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+  }
+
+}
+	
+	/* =====================================
+   MOBILE READABILITY MODE (SCREEN ONLY)
+   ===================================== */
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .page { /* much wider */
+    padding: 40px 32px;       /* more breathing room */
+  }
+.footer__nav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3xl)
+}
+}
+
+@media (max-width: 480px) {
+    .page { /* much wider */
+    padding: 24px 16px;       /* more breathing room */
+  }
+.footer__nav {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl)
+}
+.footer__bottom {
+    flex-direction: column;
+    align-items: flex-start
+}
+}
+	
+/* ============================================================
+   PRINT STYLES — US Letter, one full page.
+   ============================================================ */
+@media print {
+
+  @page {
+    size: letter;
+    margin: 0.5in;
+  }
+
+  /* Hide all site chrome */
+  header,
+  footer,
+  .header-print,
+  .footer-print,
+  .main_nav_resume,
+  .download-pdf-btn,
+  .nav,
+  .w-nav-overlay,
+  .mobile-toggle {
+    display: none !important;
+  }
+
+  html, body {
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .resume-bg {
+    background: #fff !important;
+    padding: 0 !important;
+    min-height: auto !important;
+  }
+
+  .page {
+    max-width: none !important;
+    width: 100% !important;
+    min-height: calc(11in - 1in) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    position: static !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  .name {
+    font-size: 24px !important;
+    margin-bottom: 1px !important;
+  }
+
+  .titlePosition {
+    font-size: 10.5px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .contact {
+    font-size: 10px !important;
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+  }
+
+  .sep {
+    display: inline !important;
+  }
+
+  .divider {
+    margin: 10px 0 9px !important;
+  }
+
+  .section {
+    margin-bottom: 9px !important;
+  }
+
+  .section-title {
+    font-size: 9.5px !important;
+    margin-bottom: 4px !important;
+    padding-bottom: 2px !important;
+  }
+
+  .profile-text {
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+  }
+
+  .exp-item {
+    margin-bottom: 8px !important;
+  }
+
+  .exp-role,
+  .exp-pipe,
+  .exp-company {
+    font-size: 11px !important;
+  }
+
+  .exp-period {
+    font-size: 10.5px !important;
+  }
+
+  .exp-header {
+    margin-bottom: 1px !important;
+  }
+
+  .exp-bullets li {
+    font-size: 11px !important;
+    line-height: 1.55 !important;
+    margin-bottom: 2px !important;
+  }
+
+  .capabilities {
+    font-size: 10px !important;
+    gap: 3px 4px !important;
+  }
+
+  .edu-degree,
+  .edu-school {
+    font-size: 10.5px !important;
+  }
+
+  .edu-period {
+    font-size: 10px !important;
+  }
+
+  /* No page breaks within jobs or education */
+  .exp-item,
+  .edu-row {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .contact a {
+    color: #555 !important;
+    text-decoration: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+  <!-- Header & Navigation -->
+  
+<header class="header" role="banner">
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__container"> <a href="index.html" class="nav__logo"> <img src="img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48"> <!--<span class="nav__logo-text">Kate Jie Yu</span>--> </a>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+        <li><a href="index.html#founder" class="nav__link">Founder</a></li>
+        <li><a href="index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+        <li><a href="index.html#about" class="nav__link">About</a></li>
+        <li><a href="kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+      </ul>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu"> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> </button>
+    </div>
+  </nav>
+</header>
+
+
+<!-- ============================================================
+     RESUME CONTENT (PDF-ready .page card)
+     ============================================================ -->
+<div class="resume-bg">
+  <div class="page"> 
+    <!-- Download PDF Button -->
+    <button class="download-pdf-btn" onclick="printResume()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Download Resume </button>
+    
+    <!-- Header -->
+    <div class="name">Kate Jie Yu</div>
+    <div class="titlePosition">Staff Product Designer · AI Systems &amp; Decision Architecture</div>
+    <div class="contact"> <span>Bay Area, CA</span> <span class="sep">/</span> <span id="email-container"></span> <span class="sep">/</span> <a href="https://linkedin.com/in/katejieyu" target="_blank" rel="noopener noreferrer">linkedin.com/in/katejieyu</a> <span class="sep">/</span> <a href="https://katejieyu.com" target="_blank" rel="noopener noreferrer">katejieyu.com</a> <span class="sep">/</span> <a href="https://github.com/katejieyu" target="_blank" rel="noopener noreferrer">github.com/katejieyu</a> </div>
+    <hr class="divider" />
+    
+    <!-- Profile -->
+    <div class="section">
+      <div class="section-title">Profile</div>
+      <p class="profile-text">Staff product designer with <b>10+ years</b> building AI-native systems at the intersection of product, governance, and continuous learning. I design <b>self-evolving decision infrastructure</b> — systems that scan, prioritize, fix, and learn without relying on human detection alone. At SAP, shipped AI workflows across supply chain and enterprise platforms. At SyncoPro, built a <b>self-evolving product intelligence engine</b> with persistent memory, automated prioritization, and compounding iteration cycles. Known for <b>platform-level thinking</b> and turning ambiguous AI strategy into structured, executable systems.</p>
+    </div>
+    
+    <!-- Experience -->
+    <div class="section">
+      <div class="section-title">Experience</div>
+      <div class="exp-item">
+        <div class="exp-header">
+          <div><span class="exp-role">Founder &amp; Product Architect</span><span class="exp-pipe">|</span><span class="exp-company">SyncoPro</span></div>
+          <span class="exp-period">2025 -- Present</span> </div>
+        <ul class="exp-bullets">
+          <li>Built the <b>SyncoPro Evolution Engine</b> — a self-evolving product system that continuously scans, prioritizes, auto-fixes, and learns through persistent memory (SCAN-MEMORY), compounding accuracy with each iteration.</li>
+          <li>Designed an <b>AI-Native Product Development System</b> — 9-skill reasoning chain (Define → Challenge → Refine → Test) with structured output contracts, decision logs, and a governance gate that blocks execution until quality thresholds are met.</li>
+          <li>Defined <b>authority boundaries and escalation models</b> for AI-assisted planning — what the system decides autonomously, what requires human confirmation, and how that threshold recalibrates from outcomes.</li>
+        </ul>
+      </div>
+      <div class="exp-item">
+        <div class="exp-header">
+          <div><span class="exp-role">Staff Product Designer</span><span class="exp-pipe">|</span><span class="exp-company">SAP</span></div>
+          <span class="exp-period">2022 -- Present</span> </div>
+        <ul class="exp-bullets">
+          <li>Defined <b>system-level workflow architecture</b> for Supply Chain Collaboration (ASN, GRN, Discovery Analytics) — reduced processing time <b>30%</b>, operational errors <b>20%</b>, and customer satisfaction <b>+45%</b> through research-driven redesign.</li>
+          <li>Directed <b>Discovery Analytics v1.0 → v2.1</b> — drove <b>35% feature adoption growth</b> and <b>25% faster time-to-insight</b>; shipped GenAI interaction layer in 2024.</li>
+          <li>Pioneered <b>"Design-to-Code" operating model</b> — translating Figma outputs into production-ready prototypes; built reusable prompt architecture and AI-native workflows adopted across cross-functional teams.</li>
+          <li>Established <b>BN Design Component Library</b>; mentored 5 designers. Proposed two <b>AI-agent concepts</b> at SAP Hackathon 2025, earning executive recognition.</li>
+        </ul>
+      </div>
+      <div class="exp-item">
+        <div class="exp-header">
+          <div><span class="exp-role">Senior UX Designer</span><span class="exp-pipe">|</span><span class="exp-company">Synopsys</span></div>
+          <span class="exp-period">2020 -- 2022</span> </div>
+        <ul class="exp-bullets">
+          <li>Led <b>UX strategy and platform architecture</b> through full digital transformation; redesigned navigation and content systems, increasing engagement — delivered global platforms under pandemic-era constraints, recognized by VP for high-impact delivery.</li>
+        </ul>
+      </div>
+      <div class="exp-item">
+        <div class="exp-header">
+          <div><span class="exp-role">Web Designer &amp; Developer</span><span class="exp-pipe">|</span><span class="exp-company">Sage Intacct</span></div>
+          <span class="exp-period">2018 -- 2020</span> </div>
+        <ul class="exp-bullets">
+          <li>Drove <b>400% webinar traffic growth</b> in 2 months via UX redesign; designed enterprise event mobile app translating cross-functional requirements into a scalable UI system.</li>
+        </ul>
+      </div>
+      <div class="exp-item">
+        <div class="exp-header">
+          <div><span class="exp-role">Freelance Product Designer</span><span class="exp-pipe">|</span><span class="exp-company">Kate Studio</span></div>
+          <span class="exp-period">2014 -- Present</span> </div>
+        <ul class="exp-bullets">
+          <li>Independent practice delivering <b>end-to-end SaaS product design</b> across B2B and consumer platforms; founded <b>Mighty Coupons</b> and <b>ReferMeJob</b> — full 0→1 product ownership from concept through launch.</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Capabilities -->
+    <div class="section">
+      <div class="section-title">Capabilities</div>
+      <div class="capabilities">
+		  <span class="cap-item">Decision Infrastructure Design<span class="cap-slash">/</span></span>
+		  <span class="cap-item">AI Product Systems (Skills + Guardrails + Reuse)<span class="cap-slash">/</span></span>
+		  <span class="cap-item">Agentic Workflows<span class="cap-slash">/</span></span>
+		  <span class="cap-item">AI Governance &amp; Authority Boundaries<span class="cap-slash">/</span></span>
+		  <span class="cap-item">Design-to-Code Operating Models<span class="cap-slash">/</span></span>
+		  <span class="cap-item">Decision Readiness Systems<span class="cap-slash">/</span></span>
+		  <span class="cap-item">Organizational Governance Design<span class="cap-slash">/</span></span>
+		  <span class="cap-item">Enterprise SaaS Platforms<span class="cap-slash">/</span></span>
+		  <span class="cap-item">Product Strategy<span class="cap-slash">/</span></span>
+		  <span class="cap-item">0-to-1 Product Development<span class="cap-slash">/</span></span>
+		  <span class="cap-item">Design Systems<span class="cap-slash">/</span></span>
+    </div>
+   </div>
+    <!-- Education -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="edu-row">
+        <div><span class="edu-degree">Master of Arts</span><span class="edu-school">Academy of Art University</span></div>
+        <span class="edu-period">2016 -- 2018</span> </div>
+    </div>
+  <!-- /.page --> 
+</div>
+<!-- /.resume-bg --> 
+	</div>
+<!-- ============================================================
+     SITE FOOTER  (index.html footer style)
+     ============================================================ -->
+
+
+<!-- STRUCTURED FOOTER -->
+<footer class="footer--structured" role="contentinfo">
+  <div class="container">
+    <nav class="footer__nav" aria-label="Site navigation">
+      <div> <span class="footer__col-label">Decision Architecture</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+          <li><a href="decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+          <li><a href="decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+          <li><a href="decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Founder</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#founder" class="footer__col-link">Overview</a></li>
+          <li><a href="founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+          <li><a href="founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+          <li><a href="founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Applied Systems</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#applied-systems" class="footer__col-link">Overview</a></li>
+          <li><a href="applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+          <li><a href="applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+          <li><a href="applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+          <li><a href="applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">General</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#about" class="footer__col-link">About</a></li>
+          <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+          <li><a href="applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+          <li><a href="sitemap.html" class="footer__col-link">Sitemap</a></li>
+          <li><a href="kateyu-resume.html" class="footer__col-link">Resume</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="footer__bottom">
+      <p class="footer__bottom-copy"> &copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture </p>
+      <div class="footer__bottom-links"> <a href="applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a>  <a href="sitemap.html" class="footer__bottom-link">Sitemap</a> <a href="kateyu-resume.html" class="footer__bottom-link">Resume</a> </div>
+    </div>
+  </div>
+</footer>
+<script src="js/staff-portfolio.js"></script>
+	<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const user = "katejieyu";
+    const domain = "gmail.com";
+    const email = user + "@" + domain;
+
+    const link = document.createElement("a");
+    link.href = "mailto:" + email;
+    link.textContent = email;
+
+    document.getElementById("email-container").appendChild(link);
+  });
+
+  function printResume() {
+    const style = document.createElement('style');
+    style.id = 'print-scale-override';
+    style.textContent = '@page { size: letter; margin: 0.5in; } body { zoom: 1; }';
+    document.head.appendChild(style);
+    window.print();
+    document.head.removeChild(style);
+  }
+</script>
+
+</body>
+</html>

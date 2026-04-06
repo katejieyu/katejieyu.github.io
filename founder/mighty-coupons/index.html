@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<title>Mighty Coupons — Coupon-Driven Local Service Marketplace · Kate Jie Yu</title>
+<meta name="description" content="Designing a two-sided local marketplace as a decision system — structuring trust, offer authority, and AI-bounded intelligence to solve the cold-start problem for new local businesses.">
+<link rel="shortcut icon" type="image/x-icon" href="../../img/KJY_logo_bar.jpg">
+<link rel="apple-touch-icon" href="../../img/KJY_logo_bar.jpg">
+<link rel="stylesheet" href="../../style/theme.css">
+<link rel="stylesheet" href="../../style/base.css">
+<link rel="stylesheet" href="../../style/components.css">
+<style>
+/* ============================================================
+   CASE STUDY — MIGHTY COUPONS
+   All case-study-specific classes use cs- prefix.
+   Nav, footer, .container, .skip-link from staff-portfolio.css.
+   ============================================================ */
+
+body {
+    padding-top: 80px;
+}
+/* ── BACK LINK ── */
+.cs-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    text-decoration: none;
+    padding: 24px 0 0;
+    transition: color 150ms ease-out;
+}
+.cs-back:hover {
+    color: #7c3aed;
+}
+.cs-back svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+/* ── PAGE HEADER ── */
+.cs-header {
+    padding: 48px 0 56px;
+    border-bottom: 1px solid #e5e7eb;
+}
+.cs-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.cs-pill {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background-color: rgba(124, 58, 237, 0.1);
+    color: #7c3aed;
+}
+.cs-pill--grey {
+    background-color: #f3f4f6;
+    color: #6b7280;
+}
+.cs-pill--blue {
+    background-color: rgba(37, 99, 235, 0.08);
+    color: #2563eb;
+}
+.cs-pill--green {
+    background-color: rgba(5, 150, 105, 0.08);
+    color: #059669;
+}
+.cs-pill--amber {
+    background-color: rgba(217, 119, 6, 0.08);
+    color: #b45309;
+}
+.cs-h1 {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #111827;
+    margin-bottom: 16px;
+}
+.cs-h1 span {
+    color: #7c3aed;
+}
+.cs-lead {
+    font-size: 1.125rem;
+    color: #6b7280;
+    line-height: 1.75;
+    margin-bottom: 40px;
+}
+.cs-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 24px;
+    padding-top: 28px;
+    border-top: 1px solid #f3f4f6;
+}
+.cs-meta-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    display: block;
+    margin-bottom: 4px;
+}
+.cs-meta-value {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    line-height: 1.4;
+}
+.cs-meta-sub {
+    font-size: 0.75rem;
+    color: #6b7280;
+    line-height: 1.5;
+    margin-top: 4px;
+}
+/* ── EXECUTIVE SUMMARY ── */
+.cs-tldr {
+    background-color: rgba(124, 58, 237, 0.04);
+    border-left: 3px solid #7c3aed;
+    border-radius: 0 8px 8px 0;
+    padding: 24px 32px;
+    margin: 48px 0;
+}
+.cs-tldr-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #7c3aed;
+    margin-bottom: 12px;
+}
+.cs-tldr ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.cs-tldr li {
+    font-size: 1rem;
+    color: #111827;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.65;
+}
+.cs-tldr li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #7c3aed;
+    font-weight: 600;
+}
+/* ── ACCESS BAR ── */
+.cs-access-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0 48px;
+    padding-top: 20px;
+    border-top: 1px solid #f3f4f6;
+}
+.cs-access-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    margin-right: 4px;
+    white-space: nowrap;
+}
+.cs-access-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #374151;
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #fff;
+    transition: border-color 150ms ease-out, color 150ms ease-out;
+    white-space: nowrap;
+}
+.cs-access-btn:hover {
+    border-color: #7c3aed;
+    color: #7c3aed;
+}
+.cs-access-btn svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+/* ── SECTIONS ── */
+.cs-section {
+    padding: 64px 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+.cs-section:last-of-type {
+    border-bottom: none;
+}
+.cs-section-index {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    display: block;
+    margin-bottom: 8px;
+}
+.cs-h2 {
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: #111827;
+    margin-bottom: 24px;
+}
+.cs-h3 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+    margin: 36px 0 12px;
+}
+.cs-p {
+    font-size: 1rem;
+    color: #6b7280;
+    line-height: 1.75;
+    margin-bottom: 16px;
+}
+.cs-p strong {
+    color: #111827;
+    font-weight: 600;
+}
+/* ── PULL QUOTE ── */
+.cs-pullquote {
+    border-left: 3px solid #111827;
+    padding: 4px 0 4px 24px;
+    margin: 36px 0;
+}
+.cs-pullquote p {
+    font-size: 1.125rem;
+    font-weight: 600;
+    font-style: italic;
+    color: #111827;
+    line-height: 1.5;
+}
+/* ── CALLOUT ── */
+.cs-callout {
+    background: #f3f4f6;
+    border-left: 3px solid #7c3aed;
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 20px 0;
+}
+.cs-callout p {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.65;
+    margin: 0;
+}
+.cs-callout p strong {
+    color: #111827;
+    font-weight: 600;
+}
+.cs-callout--slate {
+    border-left-color: #475569;
+}
+.cs-callout--blue {
+    background: rgba(37, 99, 235, 0.04);
+    border-left-color: #2563eb;
+}
+.cs-callout--green {
+    background: rgba(5, 150, 105, 0.04);
+    border-left-color: #059669;
+}
+.cs-callout--amber {
+    background: rgba(217, 119, 6, 0.04);
+    border-left-color: #b45309;
+}
+/* ── DIAGNOSIS GRID ── */
+.cs-diag-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 24px 0;
+}
+.cs-diag-cell {
+    background: #fff;
+    padding: 28px 24px;
+}
+.cs-diag-layer {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    margin-bottom: 6px;
+}
+.cs-diag-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+.cs-diag-desc {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.6;
+}
+.cs-diag-cell--red {
+    border-top: 3px solid #dc2626;
+}
+.cs-diag-cell--orange {
+    border-top: 3px solid #ea580c;
+}
+.cs-diag-cell--amber {
+    border-top: 3px solid #f59e0b;
+}
+.cs-diag-cell--purple {
+    border-top: 3px solid #7c3aed;
+}
+.cs-diag-cell--blue {
+    border-top: 3px solid #2563eb;
+}
+.cs-diag-cell--green {
+    border-top: 3px solid #059669;
+}
+.cs-diag-cell--slate {
+    border-top: 3px solid #475569;
+}
+/* ── DECISIONS GRID ── */
+.cs-decisions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 28px 0;
+}
+.cs-decision-cell {
+    background: #fff;
+    padding: 28px 24px;
+}
+.cs-decision-cell:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+.cs-decision-q {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #7c3aed;
+    margin-bottom: 8px;
+}
+.cs-decision-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+.cs-decision-desc {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.65;
+}
+/* ── VISUAL FRAME ── */
+.cs-visual {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 28px 0;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08);
+}
+.cs-visual-canvas {
+    background: #f9fafb;
+    padding: 36px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: auto;
+}
+.cs-visual-caption {
+    padding: 12px 24px;
+    border-top: 1px solid #e5e7eb;
+    background: #fff;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.cs-fig-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.cs-fig-text {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.5;
+    font-style: italic;
+}
+/* ── SVG DIAGRAM ── */
+.cs-svg-diagram {
+    width: 100%;
+    max-width: 800px;
+    display: block;
+}
+/* ── ARCH LAYER ROWS ── */
+.cs-arch {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 100%;
+}
+.cs-arch-layer {
+    border-radius: 8px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.cs-arch-layer--consumer {
+    background: rgba(37,99,235,0.07);
+    border: 1.5px solid rgba(37,99,235,0.25);
+}
+.cs-arch-layer--merchant {
+    background: rgba(124,58,237,0.06);
+    border: 1.5px solid rgba(124,58,237,0.25);
+}
+.cs-arch-layer--shared {
+    background: rgba(5,150,105,0.06);
+    border: 1.5px solid rgba(5,150,105,0.25);
+}
+.cs-arch-layer--boundary {
+    background: #f9fafb;
+    border: 1.5px dashed #d1d5db;
+    border-radius: 0;
+    padding: 10px 24px;
+    justify-content: center;
+}
+.cs-arch-badge {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.cs-arch-layer--consumer .cs-arch-badge {
+    background: rgba(37,99,235,0.12);
+    color: #1d4ed8;
+}
+.cs-arch-layer--merchant .cs-arch-badge {
+    background: rgba(124,58,237,0.12);
+    color: #6d28d9;
+}
+.cs-arch-layer--shared .cs-arch-badge {
+    background: rgba(5,150,105,0.12);
+    color: #059669;
+}
+.cs-arch-body {
+    flex: 1;
+}
+.cs-arch-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 4px;
+}
+.cs-arch-desc {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
+.cs-arch-boundary-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+}
+.cs-arch-items {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+}
+.cs-arch-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.cs-arch-item::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+    opacity: 0.5;
+}
+/* ── CONTRIBUTION LIST ── */
+.cs-contrib-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px 0;
+}
+.cs-contrib-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+.cs-contrib-index {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    min-width: 28px;
+    padding-top: 3px;
+    flex-shrink: 0;
+}
+.cs-contrib-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 6px;
+}
+.cs-contrib-desc {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.65;
+}
+.cs-contrib-desc strong {
+    color: #111827;
+    font-weight: 600;
+}
+/* ── IMPACT GRID ── */
+.cs-impact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 28px 0;
+}
+.cs-impact-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 24px 20px;
+}
+.cs-impact-dimension {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    margin-bottom: 8px;
+}
+.cs-impact-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+.cs-impact-desc {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.6;
+}
+.cs-impact-card--purple {
+    border-top: 3px solid #7c3aed;
+}
+.cs-impact-card--blue {
+    border-top: 3px solid #2563eb;
+}
+.cs-impact-card--green {
+    border-top: 3px solid #059669;
+}
+.cs-impact-card--slate {
+    border-top: 3px solid #475569;
+}
+.cs-impact-card--amber {
+    border-top: 3px solid #f59e0b;
+}
+/* ── TEAM CHIPS ── */
+.cs-team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 24px;
+}
+.cs-team-member {
+    display: flex;
+    flex-direction: column;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 16px;
+    min-width: 150px;
+}
+.cs-team-role {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 2px;
+}
+.cs-team-context {
+    font-size: 0.6875rem;
+    color: #9ca3af;
+}
+.cs-team-member--highlight {
+    background: rgba(124, 58, 237, 0.04);
+    border-color: rgba(124, 58, 237, 0.25);
+}
+.cs-team-member--highlight .cs-team-role {
+    color: #7c3aed;
+}
+/* ── WEDGE LIST ── */
+.cs-wedge-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+}
+.cs-wedge-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 0.9375rem;
+    color: #374151;
+    line-height: 1.65;
+}
+.cs-wedge-num {
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(124,58,237,0.08);
+    color: #7c3aed;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.cs-wedge-item strong {
+    color: #111827;
+    font-weight: 600;
+}
+/* ── TOOLTIP ── */
+.cs-tooltip {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    max-width: 260px;
+    padding: 10px 14px;
+    background: #111827;
+    color: #f9fafb;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    border-radius: 7px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    opacity: 0;
+    transition: opacity 120ms ease-out;
+}
+.cs-tooltip.is-visible {
+    opacity: 1;
+}
+/* ── INTERACTIVE FLOW DIAGRAM (horizontal node strip) ── */
+.cs-flow-diagram {
+    margin: 36px 0;
+}
+.cs-flow-diagram-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    margin-bottom: 16px;
+}
+.cs-flow-nodes {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+.cs-flow-node {
+    flex: 1;
+    min-width: 130px;
+    max-width: 210px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px 14px 14px;
+    cursor: pointer;
+    transition: border-color 140ms ease-out, box-shadow 140ms ease-out;
+    position: relative;
+}
+.cs-flow-node:hover {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.08);
+    z-index: 2;
+}
+.cs-flow-node--blue {
+    border-top: 3px solid #2563eb;
+}
+.cs-flow-node--purple {
+    border-top: 3px solid #7c3aed;
+}
+.cs-flow-node--slate {
+    border-top: 3px solid #475569;
+}
+.cs-flow-node--green {
+    border-top: 3px solid #059669;
+}
+.cs-flow-node--amber {
+    border-top: 3px solid #f59e0b;
+}
+.cs-flow-arrow {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: #d1d5db;
+    padding: 0 2px;
+    align-self: center;
+    margin-top: 12px;
+}
+.cs-flow-node-step {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    margin-bottom: 5px;
+}
+.cs-flow-node-title {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.3;
+    margin-bottom: 6px;
+}
+.cs-flow-node-desc {
+    font-size: 0.75rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
+.cs-flow-node-hint {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #9ca3af;
+}
+.cs-flow-node:hover .cs-flow-node-hint {
+    color: #7c3aed;
+}
+/* ── PLATFORM ENGINE DIAGRAM (3-col grid) ── */
+.cs-engine-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+.cs-engine-cell {
+    background: #fff;
+    padding: 22px 20px;
+    cursor: pointer;
+    transition: background 140ms ease-out;
+}
+.cs-engine-cell:hover {
+    background: rgba(124,58,237,0.03);
+}
+.cs-engine-cell--blue {
+    border-top: 3px solid #2563eb;
+}
+.cs-engine-cell--purple {
+    border-top: 3px solid #7c3aed;
+}
+.cs-engine-cell--slate {
+    border-top: 3px solid #475569;
+}
+.cs-engine-cell--green {
+    border-top: 3px solid #059669;
+}
+.cs-engine-cell--amber {
+    border-top: 3px solid #f59e0b;
+}
+.cs-engine-cell--teal {
+    border-top: 3px solid #0891b2;
+}
+.cs-engine-cell-layer {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    margin-bottom: 5px;
+}
+.cs-engine-cell-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+.cs-engine-cell-desc {
+    font-size: 0.75rem;
+    color: #6b7280;
+    line-height: 1.55;
+}
+.cs-engine-cell-hint {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #9ca3af;
+}
+.cs-engine-cell:hover .cs-engine-cell-hint {
+    color: #7c3aed;
+}
+/* ── GROWTH LOOP ── */
+.cs-growth-loop {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 20px 0;
+    padding: 24px;
+    background: rgba(124,58,237,0.03);
+    border: 1px solid rgba(124,58,237,0.15);
+    border-radius: 12px;
+}
+.cs-loop-node {
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #111827;
+    white-space: nowrap;
+    line-height: 1.3;
+}
+.cs-loop-arrow {
+    color: #7c3aed;
+    font-size: 0.875rem;
+    padding: 0 6px;
+    flex-shrink: 0;
+}
+/* ── FOOTER ── */
+.footer--structured {
+    padding: var(--space-5xl) 0 var(--space-3xl);
+    border-top: 1px solid var(--color-border-light);
+    background-color: var(--color-background);
+}
+.footer__nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4xl);
+    padding-bottom: var(--space-4xl);
+    border-bottom: 1px solid var(--color-border-light);
+    margin-bottom: var(--space-3xl);
+}
+.footer__col-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text);
+    margin-bottom: var(--space-lg);
+    display: block;
+}
+.footer__col-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+.footer__col-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    line-height: var(--line-height-normal);
+    transition: color var(--transition-fast);
+}
+.footer__col-link:hover {
+    color: var(--color-text);
+}
+.footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+.footer__bottom-copy {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+}
+.footer__bottom-links {
+    display: flex;
+    gap: var(--space-lg);
+}
+.footer__bottom-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+.footer__bottom-link:hover {
+    color: var(--color-text-secondary);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+.cs-decisions {
+    grid-template-columns: 1fr;
+}
+.cs-impact-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+.cs-diag-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+.footer__nav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3xl);
+}
+}
+
+@media (max-width: 768px) {
+.cs-h1 {
+    font-size: 1.75rem;
+}
+.cs-diag-grid {
+    grid-template-columns: 1fr;
+}
+/* ── Flow nodes: vertical stack on mobile ── */
+.cs-flow-nodes {
+    flex-direction: column;
+    overflow-x: visible;
+    padding-bottom: 0;
+    gap: 0;
+}
+.cs-flow-node {
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 0;
+}
+.cs-flow-arrow {
+    text-align: center;
+    padding: 6px 0;
+    transform: rotate(90deg);
+    display: block;
+    font-size: 1.125rem;
+    color: #d1d5db;
+}
+}
+
+@media (max-width: 480px) {
+.cs-tldr {
+    padding: 20px;
+}
+.cs-section {
+    padding: 48px 0;
+}
+.cs-h2 {
+    font-size: 1.5rem;
+}
+.cs-impact-grid {
+    grid-template-columns: 1fr;
+}
+.footer__nav {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+}
+.footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+*, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+}
+}
+</style>
+</head>
+
+<body>
+<a href="#main" class="skip-link">Skip to main content</a> 
+
+<!-- NAV -->
+<header class="header" role="banner">
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__container"> <a href="../../index.html" class="nav__logo"> <img src="../../img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48"> </a>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="../../index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+        <li><a href="../../index.html#founder"               class="nav__link">Founder</a></li>
+        <li><a href="../../index.html#applied-systems"       class="nav__link">Applied Systems</a></li>
+        <li><a href="../../index.html#about"                 class="nav__link">About</a></li>
+        <li><a href="../../kateyu-resume.html"               class="nav__link nav__link--cta">Resume</a></li>
+      </ul>
+      <button class="nav__toggle" id="nav-toggle"
+              aria-label="Toggle navigation menu"
+              aria-expanded="false" aria-controls="nav-menu"> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> </button>
+    </div>
+  </nav>
+</header>
+<main id="main" role="main">
+  <div class="container"> 
+    
+    <!-- BACK --> 
+    <a href="../../index.html#founder" class="cs-back">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M10 12L6 8l4-4"/>
+    </svg>
+    Founder Work </a> 
+    
+    <!-- ══════════════════════════════════════
+         PAGE HEADER
+         ══════════════════════════════════════ -->
+    <header class="cs-header">
+      <div class="cs-eyebrow"> <span class="cs-pill">Founder</span> <span class="cs-pill cs-pill--blue">Marketplace Architecture</span> <span class="cs-pill cs-pill--green">AI Merchant Intelligence</span> <span class="cs-pill cs-pill--amber">MVP · Salon Vertical</span> </div>
+      <h1 class="cs-h1"> Mighty Coupons —<br>
+        <span>Coupon-Driven Local Service Marketplace</span> </h1>
+      <p class="cs-lead">
+        New local businesses face a structural cold-start problem: no prior signal, no review history,
+        no mechanism to earn local trust quickly. I designed Mighty Coupons as a decision architecture
+        problem — structuring how authority, trust, and AI-bounded intelligence operate across a
+        two-sided marketplace to make the first merchant-consumer exchange reliable by design.
+      </p>
+      <div class="cs-meta-grid">
+        <div> <span class="cs-meta-label">My Role</span> <span class="cs-meta-value">Head of Design &amp; Product Innovation</span>
+          <div class="cs-meta-sub">Marketplace architecture · Consumer decision flows · Merchant tooling · AI boundary design</div>
+        </div>
+        <div> <span class="cs-meta-label">Team</span> <span class="cs-meta-value">6-person founding team</span>
+          <div class="cs-meta-sub">Founder (PhD, Google) · Engineer (PhD, Microsoft) · 2 Engineers (TikTok) · Marketing Lead</div>
+        </div>
+        <div> <span class="cs-meta-label">Platform Type</span> <span class="cs-meta-value">Two-sided Local Marketplace</span>
+          <div class="cs-meta-sub">Merchant dashboard (desktop-first) · Consumer app (mobile-first)</div>
+        </div>
+        <div> <span class="cs-meta-label">Stage</span> <span class="cs-meta-value">Beta · Salon vertical</span>
+          <div class="cs-meta-sub">Early merchant users in testing · Category expansion planned</div>
+        </div>
+      </div>
+    </header>
+    
+    <!-- EXECUTIVE SUMMARY -->
+    <div class="cs-tldr">
+      <div class="cs-tldr-label">Executive Summary</div>
+      <ul>
+        <li>Market volatility raises the cost of early customer acquisition for new local businesses. Mighty Coupons addresses this structurally — coupon-driven discovery gives merchants a measurable, low-cost entry point into local consumer awareness.</li>
+        <li>The platform is a two-sided marketplace: a desktop-first merchant dashboard for coupon campaign management and booking operations, and a mobile-first consumer app for nearby deal discovery and direct service booking.</li>
+        <li>Three interlocking mechanisms define platform integrity: verified merchant identity, a standardized "control variables" offer schema for comparability, and an AI layer that surfaces operational and coupon strategy insights to merchants.</li>
+        <li>MVP is deliberately scoped to the Salon vertical — a category chosen for its appointment density, promotion sensitivity, and repeat-visit frequency. Early merchant beta testing is underway.</li>
+      </ul>
+    </div>
+    
+    <!-- ACCESS BAR -->
+    <div class="cs-access-bar"> <span class="cs-access-label">Platform</span> <a href="https://mighty.coupons/" target="_blank" rel="noopener noreferrer" class="cs-access-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="8" cy="8" r="6"/>
+        <path d="M8 2a9 9 0 0 1 0 12M8 2a9 9 0 0 0 0 12M2 8h12"/>
+      </svg>
+      Visit Mighty Coupons </a> <a href="https://onboarding.mighty.coupons/run?lang=en" target="_blank" rel="noopener noreferrer" class="cs-access-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="12" height="12" rx="2"/>
+        <path d="M5 8h6M8 5v6"/>
+      </svg>
+      Merchant Onboarding Flow </a> </div>
+    
+    <!-- ══════════════════════════════════════
+         01 / PROJECT OVERVIEW
+         ══════════════════════════════════════ -->
+    <section class="cs-section" id="overview"> <span class="cs-section-index">01 / 08</span>
+      <h2 class="cs-h2">Project Overview</h2>
+      <p class="cs-p"> Mighty Coupons originated from a structural observation: market volatility has made
+        the earliest phase of local business growth — attracting the first wave of customers —
+        disproportionately difficult. Established businesses have brand recognition and prior
+        engagement signals that feed discovery algorithms. New businesses enter with no prior
+        signal, no review history, and no structural mechanism to earn local trust quickly. </p>
+      <p class="cs-p"> The platform's response is a coupon-driven discovery model. Promotional offers serve as
+        the entry point — they give consumers a concrete, low-risk reason to try an unfamiliar
+        business, while giving merchants a measurable and controllable mechanism for early customer
+        acquisition. The surrounding infrastructure — verification, booking, and AI intelligence —
+        ensures that exchange is reliable and structurally sound for both sides. </p>
+      <div class="cs-pullquote">
+        <p>"The coupon is not a discount mechanism. It is a structured entry point — a controlled offer that gives consumers a reason to try a business they have not encountered before."</p>
+      </div>
+      <div class="cs-h3">Team</div>
+      <div class="cs-team-grid">
+        <div class="cs-team-member cs-team-member--highlight"> <span class="cs-team-role">Head of Design &amp; Product Innovation</span> <span class="cs-team-context">My role · Full platform design scope</span> </div>
+        <div class="cs-team-member"> <span class="cs-team-role">Founder</span> <span class="cs-team-context">PhD · Google background</span> </div>
+        <div class="cs-team-member"> <span class="cs-team-role">Engineer</span> <span class="cs-team-context">PhD · Microsoft background</span> </div>
+        <div class="cs-team-member"> <span class="cs-team-role">Engineer</span> <span class="cs-team-context">TikTok background</span> </div>
+        <div class="cs-team-member"> <span class="cs-team-role">Engineer</span> <span class="cs-team-context">TikTok background</span> </div>
+        <div class="cs-team-member"> <span class="cs-team-role">Marketing Lead</span> <span class="cs-team-context">Growth &amp; merchant acquisition</span> </div>
+      </div>
+      <div class="cs-callout">
+        <p> <strong>Operating context:</strong> No dedicated product management layer exists in this team.
+          All product strategy, design architecture, and cross-functional coordination between
+          engineering and marketing runs through my role. The scope is structural, not positional. </p>
+      </div>
+    </section>
+    
+    <!-- ══════════════════════════════════════
+         02 / MARKET CONTEXT
+         ══════════════════════════════════════ -->
+    <section class="cs-section" id="market-context"> <span class="cs-section-index">02 / 08</span>
+      <h2 class="cs-h2">Market Context</h2>
+      <p class="cs-p"> The problem Mighty Coupons addresses is structural, not cyclical. New local businesses face
+        a compounding set of conditions that make the early customer acquisition phase
+        disproportionately expensive and unreliable regardless of service quality. </p>
+      <div class="cs-diag-grid">
+        <div class="cs-diag-cell cs-diag-cell--red">
+          <div class="cs-diag-layer">Condition 01</div>
+          <div class="cs-diag-title">Market Instability Increases Consumer Risk Aversion</div>
+          <div class="cs-diag-desc"> Economic volatility makes consumers more selective about where they spend.
+            Spending defaults to familiar, trusted providers. New businesses — regardless of service quality —
+            face an elevated trust deficit precisely when they most need discovery volume. </div>
+        </div>
+        <div class="cs-diag-cell cs-diag-cell--orange">
+          <div class="cs-diag-layer">Condition 02</div>
+          <div class="cs-diag-title">Discovery Channels Are Structured for Established Brands</div>
+          <div class="cs-diag-desc"> Paid advertising rewards budget scale. Algorithmic discovery rewards prior engagement signals.
+            Review aggregators require a volume of past customers that new businesses do not yet have.
+            None of these channels solve the structural cold-start problem. </div>
+        </div>
+        <div class="cs-diag-cell cs-diag-cell--amber">
+          <div class="cs-diag-layer">Condition 03</div>
+          <div class="cs-diag-title">Promotional Offers Exist Without Booking Closure</div>
+          <div class="cs-diag-desc"> Merchants create promotional offers but distribute them through channels with no
+            appointment-booking infrastructure. Consumer intent is generated but not captured.
+            The conversion loop is structurally open — awareness without a path to a confirmed service visit. </div>
+        </div>
+      </div>
+      <div class="cs-callout cs-callout--slate">
+        <p> <strong>Design implication:</strong> The correct intervention is not a cheaper ad product
+          or a better directory. It is a platform that connects standardized promotional offers from
+          verified merchants to proximity-based consumer intent — and closes the loop with a booking
+          system that converts discovery into a confirmed service appointment. </p>
+      </div>
+    </section>
+    
+    <!-- ══════════════════════════════════════
+         03 / PRODUCT VISION
+         ══════════════════════════════════════ -->
+    <section class="cs-section" id="product-vision"> <span class="cs-section-index">03 / 08</span>
+      <h2 class="cs-h2">Product Vision</h2>
+      <p class="cs-p"> The platform is built around three structural mechanisms that define how trust,
+        comparability, and merchant intelligence operate. These are architectural commitments —
+        not features — that determine what kind of exchange the platform can reliably facilitate. </p>
+      <div class="cs-decisions">
+        <div class="cs-decision-cell">
+          <div class="cs-decision-q">Mechanism 01</div>
+          <div class="cs-decision-title">Verified Merchant Identity</div>
+          <div class="cs-decision-desc"> Consumer trust in a local marketplace depends on knowing that listed businesses are real
+            and operating. Verification is an identity confirmation — not a quality rating.
+            Unverified merchants are structurally absent from consumer-facing discovery.
+            This is an architectural constraint enforced at the data layer, not a policy filter. </div>
+        </div>
+        <div class="cs-decision-cell">
+          <div class="cs-decision-q">Mechanism 02</div>
+          <div class="cs-decision-title">"Control Variables" Offer Standardization</div>
+          <div class="cs-decision-desc"> Offers across the platform share a standardized schema — service type, discount format,
+            duration, and redemption conditions. This structure makes offers inherently comparable
+            for consumers and measurable for AI analysis. It also creates the consistent data substrate
+            that supports platform-level intelligence over time, as offer volume scales. </div>
+        </div>
+        <div class="cs-decision-cell">
+          <div class="cs-decision-q">Mechanism 03</div>
+          <div class="cs-decision-title">AI Merchant Intelligence Layer</div>
+          <div class="cs-decision-desc"> AI is scoped to the merchant side of the platform — where data asymmetry is highest.
+            Merchants can observe their own bookings; they cannot see platform-wide demand patterns
+            or comparative offer performance. The AI layer closes that gap: surfacing analysis of
+            coupon strategy effectiveness, service demand signals, and operating model recommendations
+            derived from the standardized offer data structure. </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ══════════════════════════════════════
+         04 / PLATFORM ARCHITECTURE
+         ══════════════════════════════════════ -->
+    <section class="cs-section" id="platform-architecture"> <span class="cs-section-index">04 / 08</span>
+      <h2 class="cs-h2">Platform Architecture</h2>
+      <p class="cs-p"> The platform is structured around three interdependent systems, each designed for the operating context of its primary user. </p>
+      <p class="cs-p"> The <strong>Consumer System</strong> is mobile-first — discovery and booking happen close to the point of service, on the move.
+        Consumers search for verified merchants nearby, browse and compare standardized promotional offers, discover deals,
+        and complete service bookings without leaving the app. The interface is structured as a decision flow — proximity,
+        offer comparison, and direct booking as a sequential low-friction path — not a passive directory. </p>
+      <p class="cs-p"> The <strong>Merchant System</strong> is desktop-first — managing coupon promotions, tracking service demand,
+        evaluating promotion performance, and controlling booking schedules is a deliberate operational task requiring a full-surface interface.
+        A <strong>merchant verification system</strong> gates platform access: only confirmed, legitimate businesses
+        are permitted to publish listings and appear in consumer-facing discovery. Verification is enforced at the
+        data layer — not as a policy filter, but as an architectural prerequisite. </p>
+      <p class="cs-p"> The <strong>AI Intelligence Layer</strong> sits on the merchant side, where data asymmetry is highest.
+        Merchants can observe their own bookings; they cannot see platform-wide demand patterns or comparative
+        offer performance. The AI layer closes that gap — surfacing coupon strategy analysis, service demand
+        signals, and operating model recommendations derived from the platform's standardized offer data structure.
+        Scope is explicitly bounded to decisions the data can support. </p>
+      
+      <!-- ── PLATFORM ARCHITECTURE DIAGRAM v2 ── --> 
+      <!-- ══════════════════════════════════════
+           PLATFORM ARCHITECTURE DIAGRAM v2
+           ══════════════════════════════════════ -->
+      <div class="arch" id="arch-diagram" aria-label="Platform architecture diagram"> 
+        
+        <!-- ── DIAGRAM HEADER ── -->
+        <div class="arch__header"> <span class="arch__header-label">System Architecture · Two-Sided Marketplace</span>
+          <div class="arch__header-legend"> <span class="arch__legend-dot arch__legend-dot--ai"></span><span class="arch__legend-text">AI Layer</span> <span class="arch__legend-dot arch__legend-dot--platform"></span><span class="arch__legend-text">Platform Core</span> <span class="arch__legend-dot arch__legend-dot--actors"></span><span class="arch__legend-text">Actors</span> </div>
+        </div>
+        
+        <!-- ══ LAYER 1: AI ══ -->
+        <div class="arch__band arch__band--ai">
+          <div class="arch__band-label"> <span class="arch__band-label-text">AI<br>
+            Layer</span> </div>
+          <div class="arch__band-body">
+            <div class="arch__cells">
+              <button class="arch__cell arch__cell--ai"
+                aria-label="AI Promotion Insights"
+                data-tip-title="AI Promotion Insights"
+                data-tip-fn="Analyzes historical booking and redemption data to surface timing, discount depth, and offer type recommendations."
+                data-tip-purpose="Closes the data asymmetry gap — merchants see their own bookings but not platform-wide patterns."
+                data-tip-impact="Reduces promotion guesswork. Improves offer ROI and platform-wide conversion quality."> <span class="arch__cell-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M7 4v3.5l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+              </span> <span class="arch__cell-name">AI Promotion Insights</span> <span class="arch__cell-sub">Timing · Discount depth</span> </button>
+              <button class="arch__cell arch__cell--ai"
+                aria-label="Coupon Strategy Analysis"
+                data-tip-title="Coupon Strategy Analysis"
+                data-tip-fn="Evaluates offer structure — discount format, duration, redemption conditions — against category benchmarks."
+                data-tip-purpose="Guides merchants toward offer types most likely to convert in their local market segment."
+                data-tip-impact="Higher-quality offers → better consumer experience → stronger marketplace liquidity."> <span class="arch__cell-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M4.5 7h5M7 4.5v5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+              </span> <span class="arch__cell-name">Coupon Strategy Analysis</span> <span class="arch__cell-sub">Format · Conversion modeling</span> </button>
+              <button class="arch__cell arch__cell--ai"
+                aria-label="Demand Signal Interpretation"
+                data-tip-title="Demand Signal Interpretation"
+                data-tip-fn="Aggregates consumer search, view, and booking events into readable demand signals for merchant dashboards."
+                data-tip-purpose="Translates platform-wide consumer behavior into actionable, merchant-side strategy inputs."
+                data-tip-impact="Creates a compounding feedback loop — better merchant decisions generate better offers, attracting more consumers."> <span class="arch__cell-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 10l3-4 2.5 2.5L10 4l2 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              </span> <span class="arch__cell-name">Demand Signal Interpretation</span> <span class="arch__cell-sub">Consumer signals → merchant strategy</span> </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- ── CONNECTOR: AI → Platform ── -->
+        <div class="arch__connector arch__connector--full" aria-hidden="true">
+          <div class="arch__connector-line"></div>
+          <span class="arch__connector-label">insights surface to merchant dashboard</span>
+          <div class="arch__connector-arrow"></div>
+        </div>
+        
+        <!-- ══ LAYER 2: PLATFORM ══ -->
+        <div class="arch__band arch__band--platform">
+          <div class="arch__band-label"> <span class="arch__band-label-text">Platform<br>
+            Core</span> </div>
+          <div class="arch__band-body">
+            <div class="arch__cells">
+              <button class="arch__cell arch__cell--platform"
+                aria-label="Offer Engine"
+                data-tip-title="Offer Engine"
+                data-tip-fn="Standardizes merchant promotions into a structured coupon schema — service type, discount format, duration, redemption conditions."
+                data-tip-purpose="Makes offers inherently comparable across all merchants, reducing consumer decision friction."
+                data-tip-impact="Improves conversion rate. Creates the consistent data substrate that enables AI analysis at scale."> <span class="arch__cell-accent" aria-hidden="true"></span> <span class="arch__cell-name">Offer Engine</span> <span class="arch__cell-sub">Standardized coupon schema</span> <span class="arch__cell-tag">Core</span> </button>
+              <button class="arch__cell arch__cell--platform"
+                aria-label="Booking Infrastructure"
+                data-tip-title="Booking Infrastructure"
+                data-tip-fn="Manages slot availability, appointment scheduling, and confirmation flow within a single in-app experience."
+                data-tip-purpose="Closes the conversion loop — turns consumer discovery intent into a confirmed service appointment."
+                data-tip-impact="Eliminates the drop-off gap between discovery and fulfillment. Generates reliable booking data for merchant analytics."> <span class="arch__cell-accent" aria-hidden="true"></span> <span class="arch__cell-name">Booking Infrastructure</span> <span class="arch__cell-sub">Discovery → confirmed appointment</span> <span class="arch__cell-tag">Core</span> </button>
+              <button class="arch__cell arch__cell--platform arch__cell--trust"
+                aria-label="Merchant Verification"
+                data-tip-title="Merchant Verification"
+                data-tip-fn="Validates business identity and operating status at the data layer before any listing is published."
+                data-tip-purpose="Unverified merchants are structurally absent from consumer discovery — not deprioritized, absent."
+                data-tip-impact="Establishes platform trust as a prerequisite, not a feature. Reduces consumer hesitation at point of booking."> <span class="arch__cell-accent" aria-hidden="true"></span> <span class="arch__cell-name">Merchant Verification</span> <span class="arch__cell-sub">Identity gate · Trust prerequisite</span> <span class="arch__cell-tag arch__cell-tag--trust">Trust</span> </button>
+              <button class="arch__cell arch__cell--platform"
+                aria-label="Marketplace Analytics"
+                data-tip-title="Marketplace Analytics"
+                data-tip-fn="Aggregates offer performance, redemption rates, and consumer engagement patterns into merchant-facing dashboards."
+                data-tip-purpose="Gives merchants visibility into platform-wide demand they cannot observe from their own data alone."
+                data-tip-impact="Enables data-driven promotion strategy. Feeds the AI layer with structured, normalized behavioral data."> <span class="arch__cell-accent" aria-hidden="true"></span> <span class="arch__cell-name">Marketplace Analytics</span> <span class="arch__cell-sub">Demand visibility · Performance signals</span> <span class="arch__cell-tag">Core</span> </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- ── CONNECTOR: Platform ↕ Actors ── -->
+        <div class="arch__connector arch__connector--split" aria-hidden="true">
+          <div class="arch__connector-half arch__connector-half--left">
+            <div class="arch__connector-line"></div>
+            <span class="arch__connector-label">promotions · availability</span>
+            <div class="arch__connector-arrow"></div>
+          </div>
+          <div class="arch__connector-divider"></div>
+          <div class="arch__connector-half arch__connector-half--right">
+            <div class="arch__connector-line"></div>
+            <span class="arch__connector-label">offers · booking access</span>
+            <div class="arch__connector-arrow"></div>
+          </div>
+        </div>
+        
+        <!-- ══ LAYER 3: ACTORS ══ -->
+        <div class="arch__band arch__band--actors">
+          <div class="arch__band-label"> <span class="arch__band-label-text">Actors</span> </div>
+          <div class="arch__band-body arch__band-body--actors"> 
+            
+            <!-- Merchant -->
+            <div class="arch__actor arch__actor--merchant">
+              <div class="arch__actor-header"> <span class="arch__actor-badge arch__actor-badge--supply">Supply Side</span> <span class="arch__actor-device">Desktop</span> </div>
+              <div class="arch__actor-title">Merchants</div>
+              <div class="arch__actor-sub">Local businesses · Salon MVP</div>
+              <ul class="arch__actor-list">
+                <li>Create &amp; manage coupon promotions</li>
+                <li>Set availability and booking schedules</li>
+                <li>Review demand analytics dashboard</li>
+                <li>Receive AI-generated strategy recommendations</li>
+              </ul>
+            </div>
+            
+            <!-- Flow arrows -->
+            <div class="arch__actor-flow" aria-hidden="true">
+              <div class="arch__flow-row arch__flow-row--fwd">
+                <div class="arch__flow-line"></div>
+                <span class="arch__flow-label">value flow →</span> </div>
+              <div class="arch__flow-row arch__flow-row--back">
+                <div class="arch__flow-line"></div>
+                <span class="arch__flow-label">← demand signals</span> </div>
+            </div>
+            
+            <!-- Consumer -->
+            <div class="arch__actor arch__actor--consumer">
+              <div class="arch__actor-header"> <span class="arch__actor-badge arch__actor-badge--demand">Demand Side</span> <span class="arch__actor-device">Mobile</span> </div>
+              <div class="arch__actor-title">Consumers</div>
+              <div class="arch__actor-sub">Nearby deal discovery</div>
+              <ul class="arch__actor-list">
+                <li>Search for nearby verified merchants</li>
+                <li>Browse &amp; compare standardized offers</li>
+                <li>Book services directly in-app</li>
+                <li>Generate demand signal data through behavior</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- ── CAPTION ── -->
+        <div class="arch__caption"> <span class="arch__caption-label">Fig. 01</span> <span class="arch__caption-text">Three-layer marketplace architecture. Hover any platform component for function, purpose, and marketplace impact. Value flows from merchants through the platform core to consumers; demand signals feed back through analytics and AI to inform merchant strategy.</span> </div>
+        
+        <!-- ══ GROWTH LOOP ══ -->
+        <div class="arch__loop">
+          <div class="arch__loop-header"> <span class="arch__loop-title">Marketplace Growth Loop</span> <span class="arch__loop-sub">Self-reinforcing flywheel · Salon MVP → category expansion</span> </div>
+          <div class="arch__loop-track">
+            <div class="arch__loop-step">
+              <div class="arch__loop-num">01</div>
+              <div class="arch__loop-content"> <span class="arch__loop-step-title">Consumer Discovery</span> <span class="arch__loop-step-desc">Consumers find nearby verified deals via mobile app</span> </div>
+            </div>
+            <div class="arch__loop-arrow" aria-hidden="true">→</div>
+            <div class="arch__loop-step">
+              <div class="arch__loop-num">02</div>
+              <div class="arch__loop-content"> <span class="arch__loop-step-title">Booking Volume</span> <span class="arch__loop-step-desc">Confirmed appointments generate demand signal data</span> </div>
+            </div>
+            <div class="arch__loop-arrow" aria-hidden="true">→</div>
+            <div class="arch__loop-step">
+              <div class="arch__loop-num">03</div>
+              <div class="arch__loop-content"> <span class="arch__loop-step-title">Merchant Adaptation</span> <span class="arch__loop-step-desc">AI insights guide merchants to adjust promotions</span> </div>
+            </div>
+            <div class="arch__loop-arrow" aria-hidden="true">→</div>
+            <div class="arch__loop-step">
+              <div class="arch__loop-num">04</div>
+              <div class="arch__loop-content"> <span class="arch__loop-step-title">Better Offers</span> <span class="arch__loop-step-desc">Higher-quality, more relevant deals appear on platform</span> </div>
+            </div>
+            <div class="arch__loop-arrow" aria-hidden="true">→</div>
+            <div class="arch__loop-step arch__loop-step--highlight">
+              <div class="arch__loop-num arch__loop-num--highlight">05</div>
+              <div class="arch__loop-content"> <span class="arch__loop-step-title">Platform Growth</span> <span class="arch__loop-step-desc">More consumers join → loop compounds</span> </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /arch --> 
+      
+      <!-- ── ARCH TOOLTIP ── -->
+      <div class="arch-tip" id="arch-tip" role="tooltip" aria-hidden="true">
+        <p class="arch-tip__title" id="arch-tip-title"></p>
+        <dl class="arch-tip__body">
+          <dt>Function</dt>
+          <dd id="arch-tip-fn"></dd>
+          <dt>Purpose</dt>
+          <dd id="arch-tip-purpose"></dd>
+          <dt>Marketplace impact</dt>
+          <dd id="arch-tip-impact"></dd>
+        </dl>
+      </div>
+      
+      <!-- ── A) CONSUMER EXPERIENCE FLOW ── -->
+      <div class="cs-h3">Consumer Experience Flow</div>
+      <p class="cs-p" style="margin-bottom:0;">Hover each node to see how the step functions within the full consumer decision path.</p>
+      <div class="cs-flow-diagram" aria-label="Consumer experience flow diagram">
+        <div class="cs-flow-nodes">
+          <div class="cs-flow-node cs-flow-node--blue"
+               data-desc="Consumers search nearby salons by location + service intent."
+               tabindex="0" role="button">
+            <div class="cs-flow-node-step">Step 01</div>
+            <div class="cs-flow-node-title">Search Nearby Deals</div>
+            <div class="cs-flow-node-desc">Location + service intent triggers proximity-based discovery.</div>
+            <span class="cs-flow-node-hint">Hover for detail</span> </div>
+          <div class="cs-flow-arrow" aria-hidden="true">→</div>
+          <div class="cs-flow-node cs-flow-node--blue"
+               data-desc="Standardized coupon offers enable fast comparison and reduce decision friction."
+               tabindex="0" role="button">
+            <div class="cs-flow-node-step">Step 02</div>
+            <div class="cs-flow-node-title">Deal Discovery</div>
+            <div class="cs-flow-node-desc">Comparable offers surface ranked by proximity and relevance.</div>
+            <span class="cs-flow-node-hint">Hover for detail</span> </div>
+          <div class="cs-flow-arrow" aria-hidden="true">→</div>
+          <div class="cs-flow-node cs-flow-node--slate"
+               data-desc="Booking closes the loop: discovery → confirmed appointment."
+               tabindex="0" role="button">
+            <div class="cs-flow-node-step">Step 03</div>
+            <div class="cs-flow-node-title">Booking Service</div>
+            <div class="cs-flow-node-desc">In-app booking converts intent into a confirmed slot.</div>
+            <span class="cs-flow-node-hint">Hover for detail</span> </div>
+          <div class="cs-flow-arrow" aria-hidden="true">→</div>
+          <div class="cs-flow-node cs-flow-node--green"
+               data-desc="Redeem offer at the merchant; fulfillment confirms real-world value."
+               tabindex="0" role="button">
+            <div class="cs-flow-node-step">Step 04</div>
+            <div class="cs-flow-node-title">Service Experience</div>
+            <div class="cs-flow-node-desc">Consumer visits the merchant and redeems the coupon offer.</div>
+            <span class="cs-flow-node-hint">Hover for detail</span> </div>
+          <div class="cs-flow-arrow" aria-hidden="true">→</div>
+          <div class="cs-flow-node cs-flow-node--purple"
+               data-desc="Feedback becomes a trust signal and improves future discovery relevance."
+               tabindex="0" role="button">
+            <div class="cs-flow-node-step">Step 05</div>
+            <div class="cs-flow-node-title">Review / Feedback</div>
+            <div class="cs-flow-node-desc">Post-visit signal enriches merchant trust and platform learning.</div>
+            <span class="cs-flow-node-hint">Hover for detail</span> </div>
+        </div>
+      </div>
+      
+      <!-- ── B) MERCHANT OPERATIONS FLOW ── -->
+      <div class="cs-h3">Merchant Operations Flow</div>
+      <p class="cs-p" style="margin-bottom:0;">Hover each node to understand the merchant-side workflow and how each step generates platform data.</p>
+      <div class="cs-flow-diagram" aria-label="Merchant operations flow diagram">
+        <div class="cs-flow-nodes">
+          <div class="cs-flow-node cs-flow-node--purple"
+               data-desc="Merchants publish offers using a standardized schema (control variables)."
+               tabindex="0" role="button">
+            <div class="cs-flow-node-step">Step 01</div>
+            <div class="cs-flow-node-title">Create Promotion</div>
+            <div class="cs-flow-node-desc">Standardized schema structures offer for cross-merchant comparability.</div>
+            <span class="cs-flow-node-hint">Hover for detail</span> </div>
+          <div class="cs-flow-arrow" aria-hidden="true">→</div>
+          <div class="cs-flow-node cs-flow-node--purple"
+               data-desc="Merchants iterate promotion types to acquire first-time customers."
+               tabindex="0" role="button">
+            <div class="cs-flow-node-step">Step 02</div>
+            <div class="cs-flow-node-title">Coupon Strategy</div>
+            <div class="cs-flow-node-desc">First-visit discounts and seasonal offers drive early acquisition.</div>
+            <span class="cs-flow-node-hint">Hover for detail</span> </div>
+          <div class="cs-flow-arrow" aria-hidden="true">→</div>
+          <div class="cs-flow-node cs-flow-node--slate"
+               data-desc="Desktop-first booking tools prevent conflicts and reduce admin overhead."
+               tabindex="0" role="button">
+            <div class="cs-flow-node-step">Step 03</div>
+            <div class="cs-flow-node-title">Booking Management</div>
+            <div class="cs-flow-node-desc">Desktop dashboard controls schedules and prevents double-bookings.</div>
+            <span class="cs-flow-node-hint">Hover for detail</span> </div>
+          <div class="cs-flow-arrow" aria-hidden="true">→</div>
+          <div class="cs-flow-node cs-flow-node--amber"
+               data-desc="Merchants learn which services drive interest and which discounts convert."
+               tabindex="0" role="button">
+            <div class="cs-flow-node-step">Step 04</div>
+            <div class="cs-flow-node-title">Demand Analytics</div>
+            <div class="cs-flow-node-desc">Booking patterns reveal service demand and offer performance.</div>
+            <span class="cs-flow-node-hint">Hover for detail</span> </div>
+          <div class="cs-flow-arrow" aria-hidden="true">→</div>
+          <div class="cs-flow-node cs-flow-node--green"
+               data-desc="AI suggests operating model improvements and coupon usage strategies."
+               tabindex="0" role="button">
+            <div class="cs-flow-node-step">Step 05</div>
+            <div class="cs-flow-node-title">AI Recommendations</div>
+            <div class="cs-flow-node-desc">Bounded insights surface where data can support a recommendation.</div>
+            <span class="cs-flow-node-hint">Hover for detail</span> </div>
+        </div>
+      </div>
+      
+      <!-- ── C) PLATFORM ROLE — MIGHTY COUPONS ENGINE ── -->
+      <div class="cs-h3">Platform Role — Mighty Coupons Engine</div>
+      <p class="cs-p" style="margin-bottom:0;">Hover each cell to understand the platform function and why it is structurally necessary.</p>
+      <div class="cs-engine-grid" aria-label="Platform engine diagram">
+        <div class="cs-engine-cell cs-engine-cell--blue"
+             data-desc="Search intent + proximity signals."
+             tabindex="0" role="button">
+          <div class="cs-engine-cell-layer">Input</div>
+          <div class="cs-engine-cell-title">Consumer Demand</div>
+          <div class="cs-engine-cell-desc">Location-aware intent from consumers searching nearby services and promotions.</div>
+          <span class="cs-engine-cell-hint">Hover for detail</span> </div>
+        <div class="cs-engine-cell cs-engine-cell--blue"
+             data-desc="Ranks comparable offers using standardized schema."
+             tabindex="0" role="button">
+          <div class="cs-engine-cell-layer">Discovery Layer</div>
+          <div class="cs-engine-cell-title">Deal Discovery Engine</div>
+          <div class="cs-engine-cell-desc">Surfaces verified, standardized offers ordered by proximity and relevance.</div>
+          <span class="cs-engine-cell-hint">Hover for detail</span> </div>
+        <div class="cs-engine-cell cs-engine-cell--slate"
+             data-desc="Captures intent and prevents lost conversion."
+             tabindex="0" role="button">
+          <div class="cs-engine-cell-layer">Shared Infrastructure</div>
+          <div class="cs-engine-cell-title">Booking Infrastructure</div>
+          <div class="cs-engine-cell-desc">Converts discovery intent into confirmed appointments; closes the consumer loop.</div>
+          <span class="cs-engine-cell-hint">Hover for detail</span> </div>
+        <div class="cs-engine-cell cs-engine-cell--green"
+             data-desc="Identity gate: only legitimate businesses surface to consumers."
+             tabindex="0" role="button">
+          <div class="cs-engine-cell-layer">Trust Gate</div>
+          <div class="cs-engine-cell-title">Verified Merchant Layer</div>
+          <div class="cs-engine-cell-desc">Architectural prerequisite — unverified merchants are structurally absent from discovery.</div>
+          <span class="cs-engine-cell-hint">Hover for detail</span> </div>
+        <div class="cs-engine-cell cs-engine-cell--amber"
+             data-desc="Turns bookings + offer performance into decision-ready signals."
+             tabindex="0" role="button">
+          <div class="cs-engine-cell-layer">Merchant Intelligence</div>
+          <div class="cs-engine-cell-title">Merchant Analytics</div>
+          <div class="cs-engine-cell-desc">Aggregates booking and offer data into actionable demand and performance signals.</div>
+          <span class="cs-engine-cell-hint">Hover for detail</span> </div>
+        <div class="cs-engine-cell cs-engine-cell--teal"
+             data-desc="Produces bounded recommendations grounded in observable data."
+             tabindex="0" role="button">
+          <div class="cs-engine-cell-layer">AI Layer</div>
+          <div class="cs-engine-cell-title">AI Insights Engine</div>
+          <div class="cs-engine-cell-desc">Scoped to merchant-side decisions — strategy, demand timing, operating model improvements.</div>
+          <span class="cs-engine-cell-hint">Hover for detail</span> </div>
+      </div>
+    </section>
+    
+    <!-- ══════════════════════════════════════
+         05 / MVP FOCUS: SALON VERTICAL
+         ══════════════════════════════════════ -->
+    <section class="cs-section" id="mvp-salon"> <span class="cs-section-index">05 / 08</span>
+      <h2 class="cs-h2">MVP Focus: Salon as the Initial Wedge Market</h2>
+      <p class="cs-p"> The MVP is scoped to a single service vertical — the Salon category — before expanding to
+        additional business types. This is a deliberate product strategy decision, not a resource
+        constraint. Two-sided marketplaces carry an inherent cold-start risk: without sufficient
+        merchant supply, consumer demand does not materialize; without consumer demand, merchants
+        see no reason to participate. Launching across multiple categories simultaneously amplifies
+        this risk and produces a thin, low-trust experience on both sides. Focusing on one category
+        allows the platform to validate its core mechanics in a controlled environment — building
+        sufficient depth in a single vertical before the expansion model is activated. </p>
+      <div class="cs-h3">Business Reasoning for the Salon Wedge</div>
+      <ul class="cs-wedge-list">
+        <li class="cs-wedge-item"> <span class="cs-wedge-num">1</span>
+          <div> <strong>Single-category launch reduces cold-start risk.</strong> Marketplace cold-start is a structural problem: supply without demand and demand without supply
+            are both inert. Concentrating the initial merchant acquisition effort and consumer discovery surface
+            on one vertical builds liquidity in a focused area rather than spreading thin across many categories.
+            A dense, trusted Salon supply is more valuable to early consumers than a sparse multi-category listing. </div>
+        </li>
+        <li class="cs-wedge-item"> <span class="cs-wedge-num">2</span>
+          <div> <strong>Appointment-based and promotion-sensitive by category default.</strong> Salon services run on scheduled appointments, which maps directly to the platform's
+            booking system. Consumers in this category already expect and actively search for
+            promotional offers — first-visit discounts, seasonal deals, and service bundles
+            are category norms. The coupon-driven discovery model fits without requiring
+            a change in consumer behavior. </div>
+        </li>
+        <li class="cs-wedge-item"> <span class="cs-wedge-num">3</span>
+          <div> <strong>High consumer search frequency for nearby salon deals.</strong> Salon services are among the most actively searched categories in local deal
+            and coupon contexts. Consumers regularly search for nearby salon promotions —
+            particularly for first-time visits to an unfamiliar provider. Consumer intent
+            is structurally present; the platform intercepts it with verified, comparable
+            offers and a seamless booking path. </div>
+        </li>
+        <li class="cs-wedge-item"> <span class="cs-wedge-num">4</span>
+          <div> <strong>High repeat-visit frequency creates compounding platform value.</strong> Salon services are not one-time transactions. Consumers return on a predictable cycle —
+            haircuts, coloring, nail care, skincare treatments. Repeat behavior generates
+            longitudinal data on coupon effectiveness and consumer preference patterns,
+            which feeds AI intelligence quality as the platform scales. </div>
+        </li>
+        <li class="cs-wedge-item"> <span class="cs-wedge-num">5</span>
+          <div> <strong>Validates the full platform loop in one category before expansion.</strong> Constraining the MVP to Salons means coupon-driven discovery, verified merchant listings,
+            appointment booking, and AI insight delivery can all be verified as a working integrated
+            system — before adding the structural complexity of additional verticals with different
+            offer schemas, booking cadences, and consumer intent patterns. A single-category MVP
+            produces a clean, unconfounded validation signal. </div>
+        </li>
+      </ul>
+      <div class="cs-h3">Merchant Testing Stage</div>
+      <p class="cs-p"> The platform is currently in merchant testing with early salon businesses.
+        This phase validates the offer creation flow, verification onboarding,
+        and booking system under real merchant operating conditions — before consumer-side scaling begins.
+        The objective at this stage is structural validation: confirming that the systems work as
+        designed in the hands of actual users, establishing that the core mechanics are sound,
+        and identifying friction points before the consumer surface is opened at scale. </p>
+      <div class="cs-h3">Marketplace Growth Loop</div>
+      <p class="cs-p"> The Salon vertical is designed to activate a self-reinforcing loop: as more verified salon merchants join the platform, the deal inventory grows richer, which improves consumer discovery quality, which attracts more consumers, which generates more bookings, which increases merchant revenue and confidence in the platform. This loop — once validated in a single category — becomes the replicable engine for expansion into adjacent verticals. Each new service category inherits the same structural mechanics, with category-specific offer schemas and booking cadences layered on top. </p>
+      <div class="cs-growth-loop" aria-label="Marketplace growth loop"> <span class="cs-loop-node">More Merchants</span> <span class="cs-loop-arrow">→</span> <span class="cs-loop-node">More Deals</span> <span class="cs-loop-arrow">→</span> <span class="cs-loop-node">Better Discovery</span> <span class="cs-loop-arrow">→</span> <span class="cs-loop-node">More Consumers</span> <span class="cs-loop-arrow">→</span> <span class="cs-loop-node">More Bookings</span> <span class="cs-loop-arrow">→</span> <span class="cs-loop-node">Merchant Revenue</span> <span class="cs-loop-arrow">→</span> <span class="cs-loop-node">More Merchants</span> </div>
+      <div class="cs-callout cs-callout--amber">
+        <p> <strong>Expansion model:</strong> The Salon vertical is the proving ground for the
+          platform's core mechanics. Successful validation of the discovery → verification → booking
+          loop in one category creates the replicable template for expansion into adjacent service
+          verticals — each with its own offer schema, booking pattern, and consumer intent profile. </p>
+      </div>
+    </section>
+    
+    <!-- ══════════════════════════════════════
+         06 / TRUST & VERIFICATION SYSTEM
+         ══════════════════════════════════════ -->
+    <section class="cs-section" id="trust-verification"> <span class="cs-section-index">06 / 08</span>
+      <h2 class="cs-h2">Trust &amp; Verification System</h2>
+      <p class="cs-p"> A local marketplace built on promotional offers carries a specific trust risk:
+        consumers cannot distinguish real businesses from illegitimate listings without structural
+        intervention. Verification resolves this at the architecture level — before any offer
+        surfaces in the consumer-facing interface. </p>
+      <div class="cs-decisions">
+        <div class="cs-decision-cell">
+          <div class="cs-decision-q">System Design</div>
+          <div class="cs-decision-title">Verification as Architectural Gate, Not Policy Filter</div>
+          <div class="cs-decision-desc"> Unverified merchants are structurally absent from consumer discovery — not filtered
+            or ranked lower. This is enforced at the data layer. A policy filter can be applied
+            inconsistently or overridden; an architectural gate cannot. </div>
+        </div>
+        <div class="cs-decision-cell">
+          <div class="cs-decision-q">Scope Boundary</div>
+          <div class="cs-decision-title">Verification Confirms Identity, Not Service Quality</div>
+          <div class="cs-decision-desc"> The verification system answers one question: is this a legitimate, operating business?
+            It does not rate service quality or predict customer satisfaction. Conflating these
+            two functions would undermine both — a common failure mode in marketplace trust design. </div>
+        </div>
+        <div class="cs-decision-cell">
+          <div class="cs-decision-q">Consumer Signal</div>
+          <div class="cs-decision-title">Verified Status as Persistent Trust Signal</div>
+          <div class="cs-decision-desc"> Verified merchant status appears on consumer-facing listing cards as a persistent
+            ambient signal — not a certification badge requiring consumer interpretation. The
+            signal communicates platform responsibility for the businesses it surfaces. </div>
+        </div>
+        <div class="cs-decision-cell">
+          <div class="cs-decision-q">AI Onboarding Entry</div>
+          <div class="cs-decision-title">Verification Entry via AI-Assisted Merchant Onboarding</div>
+          <div class="cs-decision-desc"> The verification flow is accessed through the AI-assisted merchant onboarding system
+            at <a href="https://onboarding.mighty.coupons/run?lang=en" target="_blank"
+            rel="noopener noreferrer" style="color:#7c3aed;text-decoration:underline;">onboarding.mighty.coupons</a>.
+            The AI guides merchants through qualification and identity confirmation
+            before platform publishing access is granted. </div>
+        </div>
+      </div>
+      <div class="cs-pullquote">
+        <p>"A local marketplace that surfaces unverified listings is not building consumer trust. It is distributing liability to consumers who have no way to perform their own verification."</p>
+      </div>
+    </section>
+    
+    <!-- ══════════════════════════════════════
+         07 / MY ROLE
+         ══════════════════════════════════════ -->
+    <section class="cs-section" id="my-role"> <span class="cs-section-index">07 / 08</span>
+      <h2 class="cs-h2">My Role</h2>
+      <p class="cs-p"> As <strong>Head of Design &amp; Product Innovation</strong>, this role functions as the platform's primary
+        product intelligence layer — holding full design scope from marketplace system architecture
+        through interaction design, while coordinating across engineering, marketing, and the founder.
+        No dedicated product management layer exists on this team. Product strategy, platform architecture,
+        and cross-functional alignment all run through this function. The scope is structural, not positional —
+        every decision at the product level is owned and operationalized here. I designed the platform mechanics
+        that coordinate value exchange between consumer decision flows and merchant operating workflows — ensuring
+        discovery, booking, verification, analytics, and AI recommendations function as one coherent system. </p>
+      <ul class="cs-contrib-list">
+        <li class="cs-contrib-item"> <span class="cs-contrib-index">01</span>
+          <div>
+            <div class="cs-contrib-title">Marketplace System Design</div>
+            <div class="cs-contrib-desc"> Defined the structural logic of the two-sided exchange — what merchants offer
+              (verified promotions, standardized schema), what consumers receive (trusted deals, frictionless booking),
+              and the infrastructure that keeps both sides in equilibrium. <strong>This modeling determined verification requirements, offer schema design, and
+              the "control variables" standardization approach that enables cross-merchant comparability.</strong> </div>
+          </div>
+        </li>
+        <li class="cs-contrib-item"> <span class="cs-contrib-index">02</span>
+          <div>
+            <div class="cs-contrib-title">Consumer Decision Architecture</div>
+            <div class="cs-contrib-desc"> Designed the mobile-first consumer system as a structured decision flow — not a listing directory.
+              The interaction model is built around how consumers make local service choices:
+              proximity, offer comparison, and direct booking as a sequential, low-friction path. <strong>Intent-matching drives discovery rather than keyword search or passive browsing.</strong> </div>
+          </div>
+        </li>
+        <li class="cs-contrib-item"> <span class="cs-contrib-index">03</span>
+          <div>
+            <div class="cs-contrib-title">Merchant Dashboard Experience</div>
+            <div class="cs-contrib-desc"> Designed the desktop-first merchant system — coupon campaign creation, promotion performance evaluation,
+              demand trend tracking, and booking schedule management with conflict prevention. <strong>The dashboard is designed to reduce merchant operational overhead
+              while generating the structured data that feeds AI intelligence quality over time.</strong> </div>
+          </div>
+        </li>
+        <li class="cs-contrib-item"> <span class="cs-contrib-index">04</span>
+          <div>
+            <div class="cs-contrib-title">Coupon Promotion Mechanics</div>
+            <div class="cs-contrib-desc"> Designed the offer creation system and standardized promotion schema — the "control variables"
+              approach that structures coupon offers into comparable, measurable units across all merchants. <strong>Offer standardization is not a UX constraint; it is the data foundation
+              that makes platform-level AI analysis and consumer-side comparison both possible.</strong> </div>
+          </div>
+        </li>
+        <li class="cs-contrib-item"> <span class="cs-contrib-index">05</span>
+          <div>
+            <div class="cs-contrib-title">AI-Assisted Insights &amp; Onboarding Logic</div>
+            <div class="cs-contrib-desc"> Defined the scope and output structure of the AI intelligence layer — coupon performance analysis,
+              demand pattern signals, and operating model recommendations scoped to decisions the data can support.
+              Also designed the AI-assisted merchant onboarding flow at <a href="https://onboarding.mighty.coupons/run?lang=en" target="_blank"
+              rel="noopener noreferrer" style="color:#7c3aed;text-decoration:underline;">onboarding.mighty.coupons</a>,
+              which guides merchants through qualification and identity verification before platform access is granted. <strong>Boundary design is architectural — incorrect scope produces advice the underlying
+              data cannot support and erodes merchant trust in the system.</strong> </div>
+          </div>
+        </li>
+        <li class="cs-contrib-item"> <span class="cs-contrib-index">06</span>
+          <div>
+            <div class="cs-contrib-title">Product Innovation Brainstorming with the Founder</div>
+            <div class="cs-contrib-desc"> Work directly with the founder to pressure-test platform assumptions, stress-test
+              category expansion logic, identify structural gaps before engineering handoff, and
+              align product direction with the long-term marketplace model. <strong>This collaboration is where MVP scope decisions — including the Salon wedge strategy —
+              are stress-tested against both product integrity and market feasibility.</strong> </div>
+          </div>
+        </li>
+        <li class="cs-contrib-item"> <span class="cs-contrib-index">07</span>
+          <div>
+            <div class="cs-contrib-title">Collaboration with Engineering &amp; Marketing</div>
+            <div class="cs-contrib-desc"> Coordinate with engineers on component specifications, data model constraints, and
+              implementation feasibility — translating architecture decisions into buildable requirements.
+              Coordinate with marketing on merchant acquisition messaging, onboarding entry points,
+              and how verification and promotional mechanics are communicated to prospective merchants. <strong>Cross-functional alignment is not a separate workstream — it is built into
+              how every product decision is formulated and handed off.</strong> </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+    
+    <!-- ══════════════════════════════════════
+         08 / STRATEGIC CONTRIBUTION
+         ══════════════════════════════════════ -->
+    <section class="cs-section" id="strategic-contribution"> <span class="cs-section-index">08 / 08</span>
+      <h2 class="cs-h2">Strategic Contribution</h2>
+      <p class="cs-p"> The following reflects the architectural and organizational contribution of this engagement,
+        scoped to what is structurally observable at the current stage of the platform. </p>
+      <div class="cs-impact-grid">
+        <div class="cs-impact-card cs-impact-card--purple">
+          <div class="cs-impact-dimension">Platform Architecture</div>
+          <div class="cs-impact-title">Two-Sided Marketplace Designed as One Coherent System</div>
+          <div class="cs-impact-desc"> Consumer and merchant layers share infrastructure constraints by design —
+            verification state, booking logic, and AI data flow across both sides architecturally,
+            not through integration bolted on after the fact. </div>
+        </div>
+        <div class="cs-impact-card cs-impact-card--amber">
+          <div class="cs-impact-dimension">Trust Infrastructure</div>
+          <div class="cs-impact-title">Verification as Structural Prerequisite, Not Moderation</div>
+          <div class="cs-impact-desc"> Positioning verification as an architectural gate — not a moderation feature —
+            defines the quality floor of merchant supply without requiring consumer-side
+            enforcement or behavioral change. The design is invisible to consumers and structural to the platform. </div>
+        </div>
+        <div class="cs-impact-card cs-impact-card--blue">
+          <div class="cs-impact-dimension">MVP Strategy</div>
+          <div class="cs-impact-title">Single-Category MVP Produces Clean Validation Signal</div>
+          <div class="cs-impact-desc"> Scoping the MVP to the Salon vertical allows the full platform loop —
+            discovery, verification, booking, AI insights — to be validated as an integrated
+            system before category expansion introduces structural complexity and confounding variables. </div>
+        </div>
+        <div class="cs-impact-card cs-impact-card--green">
+          <div class="cs-impact-dimension">AI Design</div>
+          <div class="cs-impact-title">AI Positioned at Maximum Leverage Point in the System</div>
+          <div class="cs-impact-desc"> AI is scoped to merchant-side decisions — where platform data asymmetry is greatest.
+            Explicit scope boundary design prevents the system from generating
+            recommendations it cannot reliably support, preserving long-term trust in the AI layer. </div>
+        </div>
+        <div class="cs-impact-card cs-impact-card--slate">
+          <div class="cs-impact-dimension">Role Scope</div>
+          <div class="cs-impact-title">Principal-Level Product Function in a Technical Founding Team</div>
+          <div class="cs-impact-desc"> Designed and held the full product function — marketplace architecture, consumer flows,
+            merchant tooling, and AI boundary design — inside a six-person engineering-led team
+            with no dedicated product management layer. The operating mode is the contribution. </div>
+        </div>
+      </div>
+      <div class="cs-pullquote">
+        <p>"Platform integrity is not a feature set. It is an architecture — trust enforced at the data layer, a booking system that closes the discovery loop, and AI that operates only within the scope the data can support."</p>
+      </div>
+      <div class="cs-h3">Project Summary</div>
+      <p class="cs-p"> The work on Mighty Coupons focuses on structuring value exchange between merchants and consumers —
+        designing the offer schema, verification system, booking infrastructure, and AI intelligence layer
+        as a coherent platform rather than a collection of features. The project's central challenge is
+        marketplace dynamics: how to create sufficient trust and supply-demand equilibrium at launch,
+        and how to validate the platform's core mechanics before introducing the complexity of additional
+        service categories. By executing a controlled category launch in the Salon vertical — a category
+        naturally aligned to appointment scheduling, promotional discovery, and repeat consumer behavior —
+        the platform builds the architectural foundation and operational evidence needed to expand into
+        additional service verticals with confidence and without confounding the learning signal. </p>
+    </section>
+  </div>
+  <!-- /.container --> 
+</main>
+
+<!-- STRUCTURED FOOTER -->
+<footer class="footer--structured" role="contentinfo">
+  <div class="container">
+    <nav class="footer__nav" aria-label="Site navigation">
+      <div> <span class="footer__col-label">Decision Architecture</span>
+        <ul class="footer__col-links">
+          <li><a href="../../index.html#decision-architecture"                                        class="footer__col-link">Overview</a></li>
+          <li><a href="../../decision-architecture/product-subcontracting.html"                       class="footer__col-link">Product Layer</a></li>
+          <li><a href="../../decision-architecture/organization-governance-architecture.html"          class="footer__col-link">Organizational Layer</a></li>
+          <li><a href="../../decision-architecture/ai-decision-architecture.html"                     class="footer__col-link">AI Layer</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Founder</span>
+        <ul class="footer__col-links">
+          <li><a href="../../index.html#founder"          class="footer__col-link">Overview</a></li>
+          <li><a href="../syncopro/index.html"             class="footer__col-link">SyncoPro</a></li>
+          <li><a href="#"                                  class="footer__col-link" aria-current="page">Mighty Coupons</a></li>
+          <li><a href="../refermejob/index.html"           class="footer__col-link">ReferMeJob</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Applied Systems</span>
+        <ul class="footer__col-links">
+          <li><a href="../../index.html#applied-systems"                                                                            class="footer__col-link">Overview</a></li>
+          <li><a href="../../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html"                                              class="footer__col-link">Discovery 2.1</a></li>
+          <li><a href="../../applied-systems/case-studies/sap/sap-bn-design-system.html"                                           class="footer__col-link">Design System</a></li>
+          <li><a href="../../applied-systems/case-studies/sap/sap-discovery-analytics-2024.html"                                   class="footer__col-link">Analytics Work</a></li>
+          <li><a href="../../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">General</span>
+        <ul class="footer__col-links">
+          <li><a href="../../index.html#about"            class="footer__col-link">About</a></li>
+          <li><a href="../../applied-systems/index.html"  class="footer__col-link" target="_blank">Archive</a></li>
+          <li><a href="../../sitemap.html"                class="footer__col-link">Sitemap</a></li>
+          <li><a href="../../kateyu-resume.html"          class="footer__col-link">Resume</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="footer__bottom">
+      <p class="footer__bottom-copy"> &copy; 2016 &ndash;
+        <script>document.write((new Date()).getFullYear())</script>
+        Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture </p>
+      <div class="footer__bottom-links"> <a href="../../applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a> <a href="../../sitemap.html"               class="footer__bottom-link">Sitemap</a> <a href="../../kateyu-resume.html"         class="footer__bottom-link">Resume</a> </div>
+    </div>
+  </div>
+</footer>
+<script src="../../js/staff-portfolio.js"></script> 
+
+<!-- Tooltip element at body level — outside any stacking context -->
+<div class="cs-tooltip" id="cs-tooltip" role="tooltip"></div>
+<script>
+/* ── CS TOOLTIP
+   Fixes applied vs. previous version:
+   - tooltip <div> moved to body level (no stacking-context interference)
+   - clientX/Y used instead of pageX/Y (tooltip is position:fixed, not absolute)
+   - removed window.scrollY addition in focus handler (same reason)
+   - mouseout replaced with mouseleave on document for flicker-free hide
+   - innerText replaced with textContent (no layout reflow)
+   - aria-live removed from tooltip element (was causing disruptive SR announcements)
+   - dead inline <script> targeting .cs-diagram-node removed (zero matches, ran early)
+   - duplicate .cs-tooltip CSS definition removed (was overriding z-index and colors)
+   - dead .cs-diagram-* CSS with undefined --cs-* vars removed
+   - cursor:default on interactive nodes changed to cursor:pointer
+   - orphaned comment fragment between §04 and §05 removed
+   - full dark-mode @media block added for all hardcoded light surfaces
+   ── */
+(function () {
+  'use strict';
+
+  var tip = document.getElementById('cs-tooltip');
+  if (!tip) return;
+
+  var OFFSET_X = 14, OFFSET_Y = 18;
+  var currentTarget = null;
+
+  function show(el, x, y) {
+    var desc = el.getAttribute('data-desc');
+    if (!desc) return;
+    tip.textContent = desc;           /* textContent: no reflow, no XSS */
+    positionTip(x, y);
+    tip.classList.add('is-visible');
+  }
+
+  function hide() {
+    tip.classList.remove('is-visible');
+    currentTarget = null;
+  }
+
+  /* x, y must be viewport coords (clientX/Y) because tooltip is position:fixed */
+  function positionTip(x, y) {
+    var tw = tip.offsetWidth  || 260;
+    var th = tip.offsetHeight || 60;
+    var left = x + OFFSET_X;
+    var top  = y + OFFSET_Y;
+    /* Flip if it would overflow viewport edges */
+    if (left + tw > window.innerWidth  - 12) left = x - tw - OFFSET_X;
+    if (top  + th > window.innerHeight - 12) top  = y - th - OFFSET_Y;
+    tip.style.left = left + 'px';
+    tip.style.top  = top  + 'px';
+  }
+
+  /* ── Mouse: delegate to any [data-desc] element ── */
+  document.addEventListener('mousemove', function (e) {
+    var el = e.target.closest('[data-desc]');
+    if (!el) {
+      /* Moved off all nodes — hide immediately */
+      if (currentTarget) hide();
+      return;
+    }
+    if (el !== currentTarget) {
+      currentTarget = el;
+      show(el, e.clientX, e.clientY);   /* clientX/Y — correct for fixed positioning */
+    } else {
+      positionTip(e.clientX, e.clientY);
+    }
+  });
+
+  /* Hide when cursor leaves the document window entirely */
+  document.documentElement.addEventListener('mouseleave', hide);
+
+  /* ── Keyboard: show on focus, hide on blur ── */
+  document.addEventListener('focusin', function (e) {
+    var el = e.target.closest('[data-desc]');
+    if (!el) return;
+    var r = el.getBoundingClientRect();
+    currentTarget = el;
+    /* r.bottom is already a viewport coord — no scrollY needed for fixed tooltip */
+    show(el, r.left, r.bottom + 6);
+  });
+
+  document.addEventListener('focusout', function (e) {
+    /* Hide only when focus leaves all [data-desc] elements */
+    if (!e.relatedTarget || !e.relatedTarget.closest('[data-desc]')) hide();
+  });
+
+  /* ── Escape key dismissal ── */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && currentTarget) hide();
+  });
+}());
+</script>
+</body>
+</html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>Vibe Coding as UX Infrastructure · Kate Jie Yu</title>
+  <meta name="description" content="How I used AI-assisted vibe coding to close the gap between PM, Designer, and Engineer — building live demos, custom skills, and a shared local environment workflow that scaled across the team.">
+  <link rel="shortcut icon" type="image/x-icon" href="../../img/KJY_logo_bar.jpg">
+  <link rel="apple-touch-icon" href="../../img/KJY_logo_bar.jpg">
+  <link rel="stylesheet" href="../../style/theme.css">
+  <link rel="stylesheet" href="../../style/base.css">
+  <link rel="stylesheet" href="../../style/components.css">
+  <link rel="stylesheet" href="../../style/case-study.css">
+  <style>
+    /* PAGE-SPECIFIC: extra pill colors */
+    .cs-pill--green  { background-color: rgba(16,185,129,0.1); color: #059669; }
+    .cs-pill--purple { background-color: rgba(124,58,237,0.1); color: #7c3aed; }
+
+    /* PAGE-SPECIFIC: diag-cell color variants */
+    .cs-diag-cell--gap     { border-top: 3px solid #dc2626; }
+    .cs-diag-cell--speed   { border-top: 3px solid #ea580c; }
+    .cs-diag-cell--context { border-top: 3px solid #f59e0b; }
+
+    /* PAGE-SPECIFIC: arch-layer purple variant */
+    .cs-arch-layer--purple { background: rgba(124,58,237,0.06); border: 1.5px solid rgba(124,58,237,0.3); }
+    .cs-arch-layer--purple .cs-arch-badge { background: rgba(124,58,237,.15); color: #6d28d9; }
+
+    /* PAGE-SPECIFIC: callout color variants */
+    .cs-callout--green { background: rgba(16,185,129,0.05); border-left-color: #10b981; }
+    .cs-callout--amber { background: rgba(245,158,11,0.05);  border-left-color: #f59e0b; }
+
+    /* PAGE-SPECIFIC: skill card grid */
+    .cs-skill-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: #e5e7eb; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin: 24px 0; }
+    .cs-skill-grid--3 { grid-template-columns: repeat(3, 1fr); }
+    .cs-skill-card { background: #fff; padding: 24px; }
+    .cs-skill-tag  { font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; margin-bottom: 6px; }
+    .cs-skill-name { font-size: 0.9375rem; font-weight: 700; color: #111827; margin-bottom: 8px; line-height: 1.3; }
+    .cs-skill-desc { font-size: 0.8125rem; color: #6b7280; line-height: 1.6; }
+    .cs-skill-card--blue   { border-top: 3px solid #2563eb; }
+    .cs-skill-card--green  { border-top: 3px solid #10b981; }
+    .cs-skill-card--purple { border-top: 3px solid #7c3aed; }
+    .cs-skill-card--amber  { border-top: 3px solid #f59e0b; }
+    .cs-skill-card--indigo { border-top: 3px solid #6366f1; }
+    .cs-skill-card--red    { border-top: 3px solid #ef4444; }
+
+    /* PAGE-SPECIFIC: code block inside step */
+    .cs-step-code { margin-top: 10px; background: #1e1e2e; color: #a6e3a1; font-family: 'SF Mono','Fira Code','Consolas',monospace; font-size: 0.8125rem; line-height: 1.6; padding: 14px 18px; border-radius: 8px; overflow-x: auto; }
+
+    /* PAGE-SPECIFIC: demo tag */
+    .cs-demo-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 3px 9px; border-radius: 4px; background: rgba(16,185,129,0.1); color: #059669; margin-bottom: 8px; }
+
+    /* PAGE-SPECIFIC: responsive */
+    @media (max-width: 768px) {
+      .cs-skill-grid, .cs-skill-grid--3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- NAV -->
+  <header class="header" role="banner">
+    <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+      <div class="nav__container">
+        <a href="../../index.html" class="nav__logo">
+          <img src="../../img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48">
+        </a>
+        <ul class="nav__menu" id="nav-menu">
+          <li><a href="../../index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+          <li><a href="../../index.html#founder" class="nav__link">Founder</a></li>
+          <li><a href="../../index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+          <li><a href="../../index.html#about" class="nav__link">About</a></li>
+          <li><a href="../../kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+        </ul>
+        <button
+          class="nav__toggle"
+          id="nav-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu">
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" role="main">
+    <div class="container">
+
+      <nav aria-label="Breadcrumb">
+        <ol class="cs-breadcrumb">
+          <li>
+            <a href="../organization-governance-architecture.html">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 12L6 8l4-4"/></svg>
+              Organizational Governance
+            </a>
+          </li>
+          <li><span class="cs-breadcrumb-sep">/</span></li>
+          <li><span class="cs-breadcrumb-current">Vibe Coding</span></li>
+        </ol>
+      </nav>
+
+      <!-- ══ PAGE HEADER ══ -->
+      <header class="cs-header">
+        <div class="cs-eyebrow">
+          <span class="cs-pill">Vibe Coding</span>
+          <span class="cs-pill cs-pill--grey">AI-Assisted Development</span>
+          <span class="cs-pill cs-pill--green">UX × Engineering Bridge</span>
+          <span class="cs-pill cs-pill--purple">Custom Skills &amp; Live Demos</span>
+        </div>
+
+        <h1 class="cs-h1">
+          Vibe Coding as<br>
+          <span>UX Infrastructure</span>
+        </h1>
+
+        <p class="cs-lead">
+          PM, Designer, and Engineer speak three different languages. Vibe coding — using AI-assisted local development with Claude Code and Figma MCP — became the operating layer that translated between them in real time. I set up the environment, built live AI demos, engineered custom skills tuned to the company design system, and shared the entire workflow with the team.
+        </p>
+
+        <div class="cs-meta-grid">
+          <div>
+            <span class="cs-meta-label">My Role</span>
+            <span class="cs-meta-value">UX Engineer · AI Workflow Architect</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Scope</span>
+            <span class="cs-meta-value">UX · Product · Engineering · AI Demo</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Tools</span>
+            <span class="cs-meta-value">Claude Code · Figma MCP · VS Code · SAP Fiori</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Published</span>
+            <span class="cs-meta-value">March 2026</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ══ EXECUTIVE THESIS ══ -->
+      <div class="cs-tldr">
+        <div class="cs-tldr-label">Executive Thesis</div>
+        <ul>
+          <li><strong>The structural gap:</strong> Figma designs, PM requirements, and engineering implementation existed in three separate contexts with no shared runtime. Designers couldn't validate live behavior, PMs couldn't see working prototypes early, and engineers had to interpret rather than receive ready-to-run UI code.</li>
+          <li><strong>What I built:</strong> A local vibe coding environment using Claude Code + Figma MCP that let me go from design intent to running SAPUI5 code in a single session. I then built live AI assistant demos (OC Joule, ASN Joule) that product stakeholders could experience — not just view in Figma.</li>
+          <li><strong>The team leverage play:</strong> I engineered custom Claude Code skills matched to SAP Fiori Horizon design tokens, component rules, floorplan patterns, and the company's AI assistant design language — then shared them with the UX team so every designer could reproduce the same workflow without starting from scratch.</li>
+          <li><strong>The self-learning loop:</strong> Each working session generated feedback through my command interactions. I tuned the skills based on that feedback, creating a compounding improvement cycle across every demo and design handoff I produced.</li>
+        </ul>
+      </div>
+
+      <!-- ACCESS BAR -->
+      <div class="cs-access-bar">
+        <span class="cs-access-label">Work Samples</span>
+        <a href="https://katejieyu.github.io/AI-demo/" target="_blank" rel="noopener noreferrer" class="cs-access-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 2H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9"/>
+            <path d="M10 2h4v4"/>
+            <line x1="14" y1="2" x2="7" y2="9"/>
+          </svg>
+          AI Live Demo
+        </a>
+      </div>
+
+      <!-- ══ 01 THE GAP VIBE CODING CLOSES ══ -->
+      <section class="cs-section" id="gap">
+        <span class="cs-section-index">01 / 06</span>
+        <h2 class="cs-h2">The Gap Vibe Coding Closes</h2>
+
+        <p class="cs-p">The handoff between design and engineering is where intent dies. A Figma frame is a still image. A PM brief is a narrative. Neither is a running product. By the time a component reaches a browser, it has passed through four people, three tools, and two interpretive translations. Every translation is a fidelity loss.</p>
+
+        <p class="cs-p">Vibe coding — iterating live in a local environment with an AI pair that understands both design tokens and code — compresses that chain. The designer becomes the first engineer. The Figma frame becomes a testable artifact in the same session it was created. The PM sees a live interaction rather than a click-through prototype. The gap doesn't get patched: it gets structurally removed.</p>
+
+        <div class="cs-diag-grid">
+          <div class="cs-diag-cell cs-diag-cell--gap">
+            <div class="cs-diag-layer">Gap 01</div>
+            <div class="cs-diag-title">Design–Engineering Translation Loss</div>
+            <div class="cs-diag-desc">Figma specs are not runnable. Engineers interpret intent under time pressure. Interaction nuance, spacing precision, and component behavior get approximated — not replicated. Every sprint, fidelity degrades at the handoff.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--speed">
+            <div class="cs-diag-layer">Gap 02</div>
+            <div class="cs-diag-title">PM Cannot Evaluate Live Behavior Early</div>
+            <div class="cs-diag-desc">Clickable Figma prototypes simulate navigation but not real data, state transitions, or edge cases. PMs approve a concept but discover scope gaps only after engineering has built a working version — too late to reshape it cheaply.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--context">
+            <div class="cs-diag-layer">Gap 03</div>
+            <div class="cs-diag-title">AI Feature Communication Without Live Context</div>
+            <div class="cs-diag-desc">AI assistant features are especially hard to evaluate from static mocks. Stakeholders need to see the conversation, the response latency, and the interaction flow running in a real UI — not rendered in Figma — to give useful feedback or make investment decisions.</div>
+          </div>
+        </div>
+
+        <div class="cs-callout">
+          <p><strong>Root condition:</strong> None of these gaps are people problems. They are workflow infrastructure problems. Vibe coding doesn't ask people to communicate better — it changes the artifact type they communicate through. A running prototype changes the conversation at the planning layer before the engineering layer ever begins.</p>
+        </div>
+      </section>
+
+      <!-- ══ 02 LOCAL ENVIRONMENT SETUP ══ -->
+      <section class="cs-section" id="setup">
+        <span class="cs-section-index">02 / 06</span>
+        <h2 class="cs-h2">Local Environment Setup</h2>
+
+        <p class="cs-p">Vibe coding requires a specific local stack. I documented and tested this setup for the UX team — the goal was zero ambiguity for designers with no prior terminal experience and minimal friction for those who had it.</p>
+
+        <h3 class="cs-h3">The Core Stack</h3>
+        <div class="cs-visual">
+          <div class="cs-visual-canvas" style="padding: 40px 32px;">
+            <div class="cs-arch">
+              <div class="cs-arch-layer cs-arch-layer--intent">
+                <span class="cs-arch-badge">Layer 1 — Design Source</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Figma + Figma MCP Server</div>
+                  <div class="cs-arch-desc">Design intent enters the coding session directly. MCP bridges Figma component context into Claude's conversation window.</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Figma desktop app</span>
+                    <span class="cs-arch-item">MCP server config</span>
+                    <span class="cs-arch-item">Design token access</span>
+                    <span class="cs-arch-item">Node inspection</span>
+                  </div>
+                </div>
+              </div>
+              <div class="cs-arch-layer cs-arch-layer--purple">
+                <span class="cs-arch-badge">Layer 2 — AI Code Pair</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Claude Code CLI + Custom Skills</div>
+                  <div class="cs-arch-desc">The AI pair that understands design systems, SAP Fiori patterns, and SAPUI5 component APIs. Skills encode team-specific knowledge so Claude produces company-standard output.</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Claude Code CLI</span>
+                    <span class="cs-arch-item">design-guide skill</span>
+                    <span class="cs-arch-item">SAP-Joule skill</span>
+                    <span class="cs-arch-item">joule-demo skill</span>
+                    <span class="cs-arch-item">code-to-figma skill</span>
+                  </div>
+                </div>
+              </div>
+              <div class="cs-arch-layer cs-arch-layer--execution">
+                <span class="cs-arch-badge">Layer 3 — Runtime</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Node.js + SAPUI5 Local Server</div>
+                  <div class="cs-arch-desc">The generated code runs in a local browser. Changes appear live. PM, designer, and engineer can all see the same running artifact.</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Node.js 18+</span>
+                    <span class="cs-arch-item">npm / ui5 tooling</span>
+                    <span class="cs-arch-item">localhost preview</span>
+                    <span class="cs-arch-item">live reload</span>
+                  </div>
+                </div>
+              </div>
+              <div class="cs-arch-layer cs-arch-layer--guardrail">
+                <span class="cs-arch-badge">Layer 4 — Self-Learning Loop</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Feedback → Skill Refinement → Better Output</div>
+                  <div class="cs-arch-desc">Each session produces feedback. Skills are updated to encode what worked. The next session starts from a higher baseline.</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Session feedback</span>
+                    <span class="cs-arch-item">Skill file updates</span>
+                    <span class="cs-arch-item">Team skill sharing</span>
+                    <span class="cs-arch-item">Compound improvement</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 01</span>
+            <span class="cs-fig-text">Four-layer vibe coding stack. Figma provides design intent, Claude Code provides AI-assisted generation with company-standard skills, a local SAPUI5 server provides a live runtime, and the feedback loop refines skills across sessions.</span>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">Setup Steps for UX Team</h3>
+        <ol class="cs-steps">
+          <li class="cs-step">
+            <div class="cs-step-num">1</div>
+            <div>
+              <div class="cs-step-title">Install prerequisite tools</div>
+              <div class="cs-step-desc">Install Node.js (v18 or higher), VS Code, and the Claude Code CLI via npm. Verify the Claude CLI is authenticated with your Anthropic API key.</div>
+              <div class="cs-step-code">npm install -g @anthropic-ai/claude-code</div>
+            </div>
+          </li>
+          <li class="cs-step">
+            <div class="cs-step-num">2</div>
+            <div>
+              <div class="cs-step-title">Configure Figma MCP in Claude Code</div>
+              <div class="cs-step-desc">Add the Figma MCP server to your Claude Code settings file. This lets Claude read design context directly from your open Figma file during a coding session.</div>
+              <div class="cs-step-code"># In .claude/settings.json → mcpServers section<br>
+"figma": {<br>
+&nbsp;&nbsp;"command": "npx",<br>
+&nbsp;&nbsp;"args": ["-y", "@figma/mcp"]<br>
+}</div>
+            </div>
+          </li>
+          <li class="cs-step">
+            <div class="cs-step-num">3</div>
+            <div>
+              <div class="cs-step-title">Install custom UX team skills</div>
+              <div class="cs-step-desc">Copy the shared skill files into your Claude Code skills directory. Skills encode SAP Fiori design tokens, component rules, Joule AI panel patterns, and demo architecture — so Claude produces company-standard output from the first message.</div>
+              <div class="cs-step-code">~/.claude/skills/<br>
+├── design-guide.md<br>
+├── SAP-Joule.md<br>
+├── joule-demo.md<br>
+└── code-to-figma.md</div>
+            </div>
+          </li>
+          <li class="cs-step">
+            <div class="cs-step-num">4</div>
+            <div>
+              <div class="cs-step-title">Start a project and launch Claude Code</div>
+              <div class="cs-step-desc">Create or open a SAPUI5 project folder, then launch the Claude Code session from your terminal in that directory. Open Figma on the design you want to implement.</div>
+              <div class="cs-step-code">cd my-project<br>
+claude</div>
+            </div>
+          </li>
+          <li class="cs-step">
+            <div class="cs-step-num">5</div>
+            <div>
+              <div class="cs-step-title">Invoke a skill and start building</div>
+              <div class="cs-step-desc">Use a slash command to load the relevant skill, then describe what you want to build. Claude reads the Figma frame, applies the design system rules from the skill, and generates running SAPUI5 code.</div>
+              <div class="cs-step-code">/design-guide<br>
+Build this Joule AI panel from the Figma frame I have open. Use SAP Horizon Light tokens.</div>
+            </div>
+          </li>
+        </ol>
+
+        <div class="cs-callout cs-callout--green">
+          <p><strong>For non-technical designers:</strong> The setup requires about 30 minutes once. After that, the workflow is conversational — describe what you want in plain language, Claude generates the code, and a local server shows the result live in the browser. No prior coding experience required to run and evaluate; some familiarity with terminal helps for the initial setup.</p>
+        </div>
+      </section>
+
+      <!-- ══ 03 CUSTOM SKILLS ENGINEERING ══ -->
+      <section class="cs-section" id="skills">
+        <span class="cs-section-index">03 / 06</span>
+        <h2 class="cs-h2">Custom Skills Engineering</h2>
+
+        <p class="cs-p">Claude Code skills are markdown files that encode domain knowledge — component rules, design token names, layout patterns, interaction conventions — so the AI doesn't need to infer them from first principles on every session. I engineered a skill library matched to SAP's design system and shared it with the team as a reusable knowledge asset.</p>
+
+        <div class="cs-pullquote">
+          <p>A skill is institutional knowledge made executable. Instead of repeating the same design system context in every prompt, you encode it once — and every team member inherits it.</p>
+        </div>
+
+        <h3 class="cs-h3">Skills I Built for the UX Team</h3>
+        <div class="cs-skill-grid cs-skill-grid--3">
+          <div class="cs-skill-card cs-skill-card--blue">
+            <div class="cs-skill-tag">Design System</div>
+            <div class="cs-skill-name">design-guide</div>
+            <div class="cs-skill-desc">SAP Fiori Horizon design system — all themes, colors, typography, spacing, ShellBar, Button, Field, Icon tokens. Includes a self-update protocol so the skill improves from feedback across sessions.</div>
+          </div>
+          <div class="cs-skill-card cs-skill-card--purple">
+            <div class="cs-skill-tag">AI Assistant</div>
+            <div class="cs-skill-name">SAP-Joule</div>
+            <div class="cs-skill-desc">SAP Joule Studio CLI skill. Covers the Joule AI assistant panel architecture, conversation engine patterns, state management, and interaction design conventions for the SAP platform.</div>
+          </div>
+          <div class="cs-skill-card cs-skill-card--green">
+            <div class="cs-skill-tag">Demo Architecture</div>
+            <div class="cs-skill-name">joule-demo</div>
+            <div class="cs-skill-desc">Scripted Joule AI demo prototypes for SAP Business Network. Single-file SAPUI5 architecture, Joule panel tokens, conversation engine primitives, auto-type input, state mutation patterns, and test banner.</div>
+          </div>
+          <div class="cs-skill-card cs-skill-card--indigo">
+            <div class="cs-skill-tag">Figma Bridge</div>
+            <div class="cs-skill-name">code-to-figma</div>
+            <div class="cs-skill-desc">Generates a Figma plugin (code.js + manifest.json) that recreates a live SAPUI5 app layout as native Figma frames. Covers SAP Fiori Horizon Light design tokens, font loading, layout rules, and component specs.</div>
+          </div>
+          <div class="cs-skill-card cs-skill-card--amber">
+            <div class="cs-skill-tag">Automation</div>
+            <div class="cs-skill-name">update-config</div>
+            <div class="cs-skill-desc">Configures the Claude Code harness via settings.json. Enables automated behaviors and hooks — "from now on when X, do Y" — that persist across sessions.</div>
+          </div>
+          <div class="cs-skill-card cs-skill-card--red">
+            <div class="cs-skill-tag">Demo Loop</div>
+            <div class="cs-skill-name">loop / claude-api</div>
+            <div class="cs-skill-desc">Loop runs prompts or slash commands on recurring intervals. claude-api handles builds that import Anthropic SDK directly — useful for live AI demos that call the Claude API at runtime.</div>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">The Self-Learning Mechanism</h3>
+        <p class="cs-p">The <code>design-guide</code> skill includes a self-update protocol. When I give corrective feedback during a session — "that spacing is wrong," "use the Horizon token not the hex value," "the ShellBar needs the SAP brand color" — the skill captures those corrections and I commit them back into the skill file. The next session starts with those corrections baked in.</p>
+        <p class="cs-p">This is not just a personal productivity improvement. Because the skills are shared files, every correction I make becomes available to every UX team member who uses the skill. The team's collective feedback compounds into a progressively more accurate design system encoding. <strong>The skill improves with use, not despite it.</strong></p>
+
+        <div class="cs-callout cs-callout--amber">
+          <p><strong>Why this matters for governance:</strong> Skills function as a knowledge governance layer. Instead of each designer carrying personal tribal knowledge about SAP Fiori conventions, that knowledge lives in a versioned, shared file. Onboarding a new designer to the vibe coding workflow also onboards them to the team's accumulated design system expertise — instantly.</p>
+        </div>
+      </section>
+
+      <!-- ══ 04 LIVE DEMOS: OC AND ASN JOULE ══ -->
+      <section class="cs-section" id="demos">
+        <span class="cs-section-index">04 / 06</span>
+        <h2 class="cs-h2">Live Demos: OC Joule &amp; ASN Joule</h2>
+
+        <p class="cs-p">The strongest argument for an AI feature is letting stakeholders experience it. Static designs of conversational AI are nearly useless for earning organizational alignment — a product leader who can't feel the latency, follow the conversation, or test an edge case cannot give useful feedback or make a confident investment decision.</p>
+
+        <p class="cs-p">I built two fully functional live demos using the vibe coding stack — both within single working sessions, both shared as running artifacts that stakeholders could interact with directly.</p>
+
+        <h3 class="cs-h3">OC Joule — Order Collaboration AI Assistant</h3>
+        <div class="cs-callout cs-callout--green">
+          <p><strong>What it demonstrated:</strong> A scripted Joule AI assistant for the Order Collaboration module on SAP Business Network. Stakeholders could follow a live conversation between a supplier and the Joule assistant resolving a purchase order discrepancy — complete with auto-type simulation, context-aware responses, and the full SAP Horizon Light visual treatment.</p>
+        </div>
+        <div class="cs-visual">
+          <div class="cs-visual-canvas">
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; width:100%; background:#e5e7eb; border-radius:8px; overflow:hidden;">
+              <div style="background:#fff; padding:20px 24px;">
+                <div class="cs-demo-tag">Demo Artifact</div>
+                <div style="font-size:0.9375rem; font-weight:700; color:#111827; margin-bottom:6px;">Single-File SAPUI5 App</div>
+                <div style="font-size:0.8125rem; color:#6b7280; line-height:1.55;">All JS, CSS, and conversation data in one HTML file — zero build step, instantly shareable.</div>
+              </div>
+              <div style="background:#fff; padding:20px 24px;">
+                <div class="cs-demo-tag">Interaction</div>
+                <div style="font-size:0.9375rem; font-weight:700; color:#111827; margin-bottom:6px;">Auto-Type Conversation Engine</div>
+                <div style="font-size:0.8125rem; color:#6b7280; line-height:1.55;">Scripted message sequence with realistic typing delays and state transitions.</div>
+              </div>
+              <div style="background:#fff; padding:20px 24px;">
+                <div class="cs-demo-tag">Design Fidelity</div>
+                <div style="font-size:0.9375rem; font-weight:700; color:#111827; margin-bottom:6px;">Horizon Light Token Accuracy</div>
+                <div style="font-size:0.8125rem; color:#6b7280; line-height:1.55;">Every color, spacing, and component matched to SAP Fiori Horizon Light via the design-guide skill.</div>
+              </div>
+            </div>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 02</span>
+            <span class="cs-fig-text">OC Joule demo architecture. Single-file deployment enabled instant sharing with product stakeholders — no server required, opens directly in a browser.</span>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">ASN Joule — Advanced Shipping Notification AI Assistant</h3>
+        <div class="cs-callout cs-callout--green">
+          <p><strong>What it demonstrated:</strong> A Joule AI assistant embedded in the ASN (Advanced Shipping Notification) workflow. The demo showed AI-assisted data validation, exception surfacing, and resolution guidance — framed in the full Joule panel UI with SAP Business Network context and real-looking shipping data.</p>
+        </div>
+        <p class="cs-p">Both demos were built using the <code>joule-demo</code> skill as the architectural scaffold. The skill encoded the conversation engine primitives, Joule panel layout rules, state mutation patterns, and a test banner to clearly mark the artifact as a demo in stakeholder review sessions. This meant each demo started from a validated structure rather than a blank file — reducing session time and ensuring design consistency across both artifacts.</p>
+
+        <h3 class="cs-h3">What Live Demos Changed in Stakeholder Conversations</h3>
+        <div class="cs-table-scroll">
+          <table class="cs-table">
+            <thead>
+              <tr>
+                <th>Conversation Type</th>
+                <th>Before (Static Figma)</th>
+                <th>After (Live Demo)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Feature Scope</td>
+                <td>Negotiated from a static screen; scope gaps discovered in engineering sprint</td>
+                <td>Stakeholders find edge cases in the running demo before engineering begins</td>
+              </tr>
+              <tr>
+                <td>AI Interaction Quality</td>
+                <td>Evaluated from a static conversation screenshot; response quality unverifiable</td>
+                <td>Stakeholders experience latency, flow, and response character directly</td>
+              </tr>
+              <tr>
+                <td>Investment Decision</td>
+                <td>Decision made on concept confidence; real behavior unknown</td>
+                <td>Decision made on observed behavior; confidence grounded in working artifact</td>
+              </tr>
+              <tr>
+                <td>Design Feedback</td>
+                <td>Feedback on visual spec; interaction behavior must be imagined</td>
+                <td>Feedback on running interaction; visual and behavior reviewed simultaneously</td>
+              </tr>
+              <tr>
+                <td>Engineering Handoff</td>
+                <td>Annotated Figma frames; engineer interprets and approximates</td>
+                <td>Running reference implementation; engineer understands exact target behavior</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cs-visual-caption" style="margin-top:-20px; padding: 12px 0 0;">
+          <span class="cs-fig-label">Fig. 03</span>
+          <span class="cs-fig-text">Stakeholder conversation shifts driven by live demo artifacts vs. static Figma prototypes.</span>
+        </div>
+      </section>
+
+      <!-- ══ 05 THE FEEDBACK LOOP AND SKILL EVOLUTION ══ -->
+      <section class="cs-section" id="feedback">
+        <span class="cs-section-index">05 / 06</span>
+        <h2 class="cs-h2">The Feedback Loop &amp; Skill Evolution</h2>
+
+        <p class="cs-p">Each working session is a calibration event. The vibe coding workflow generates a specific kind of feedback that most design tools don't produce: the gap between what I described and what Claude generated, visible immediately in a running browser. That gap is design system knowledge — it tells you exactly what the AI doesn't yet know about your company's conventions.</p>
+
+        <h3 class="cs-h3">How the Learning Loop Works</h3>
+        <div class="cs-visual">
+          <div class="cs-visual-canvas" style="padding: 32px;">
+            <div class="cs-arch" style="max-width: 640px;">
+              <div class="cs-arch-layer cs-arch-layer--intent">
+                <span class="cs-arch-badge">Step 1 — Session</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Build with Claude Code + current skill</div>
+                  <div class="cs-arch-desc">Generate UI, review output in browser, iterate with conversational prompts.</div>
+                </div>
+              </div>
+              <div style="text-align:center; padding:6px 0; font-size:0.875rem; color:#9ca3af;">↓</div>
+              <div class="cs-arch-layer" style="background:rgba(245,158,11,0.06); border:1.5px solid rgba(245,158,11,0.3); border-radius:8px;">
+                <span class="cs-arch-badge" style="background:rgba(245,158,11,.15); color:#92400e;">Step 2 — Gap Detection</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Identify what Claude got wrong</div>
+                  <div class="cs-arch-desc">Wrong token name, wrong spacing rule, missing component variant, incorrect interaction pattern. Each correction is a knowledge data point.</div>
+                </div>
+              </div>
+              <div style="text-align:center; padding:6px 0; font-size:0.875rem; color:#9ca3af;">↓</div>
+              <div class="cs-arch-layer cs-arch-layer--purple">
+                <span class="cs-arch-badge">Step 3 — Skill Update</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Encode the correction into the skill file</div>
+                  <div class="cs-arch-desc">Add the correct rule, token, or pattern to the relevant skill. Version the change. The correction is now permanent.</div>
+                </div>
+              </div>
+              <div style="text-align:center; padding:6px 0; font-size:0.875rem; color:#9ca3af;">↓</div>
+              <div class="cs-arch-layer cs-arch-layer--execution">
+                <span class="cs-arch-badge">Step 4 — Team Share</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Push updated skill to team</div>
+                  <div class="cs-arch-desc">Every team member who pulls the updated skill starts their next session from a higher baseline. One correction benefits the entire team.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 04</span>
+            <span class="cs-fig-text">Four-step feedback loop. Session output generates gap data, gap data updates the skill, updated skill ships to the team. The loop compounds across every session and every team member.</span>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">What the Loop Produced Over Time</h3>
+        <div class="cs-outcomes">
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Token Accuracy</div>
+            <div class="cs-outcome-stat">Improved</div>
+            <div class="cs-outcome-desc">SAP Fiori Horizon token names encoded correctly — no more hex fallbacks in generated code.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Component Fidelity</div>
+            <div class="cs-outcome-stat">Increased</div>
+            <div class="cs-outcome-desc">ShellBar, Button variants, and Joule panel components generated to spec from first prompt.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Session Speed</div>
+            <div class="cs-outcome-stat">Faster</div>
+            <div class="cs-outcome-desc">Each session requires fewer corrective iterations. First-pass quality compounds with skill maturity.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Team Leverage</div>
+            <div class="cs-outcome-stat">Multiplied</div>
+            <div class="cs-outcome-desc">Skills shared across UX team. My calibration sessions produce quality gains for every team member's next session.</div>
+          </div>
+        </div>
+
+        <div class="cs-pullquote">
+          <p>Every session I ran made the next designer's session better. The feedback loop doesn't just improve my output — it compounds across the team.</p>
+        </div>
+      </section>
+
+      <!-- ══ 06 WHAT THIS DEMONSTRATES ══ -->
+      <section class="cs-section" id="systems">
+        <span class="cs-section-index">06 / 06</span>
+        <h2 class="cs-h2">What This Demonstrates</h2>
+
+        <p class="cs-p">Vibe coding is not a productivity hack. At organizational scale, it is a governance instrument. It changes which artifacts move between functions, at what stage of development, and with what fidelity. Those are infrastructure decisions — the same class of decisions as the planning fields and workflow separations in the governance architecture this work sits alongside.</p>
+
+        <h3 class="cs-h3">Design as the first engineering step</h3>
+        <p class="cs-p">When a designer can generate running UI code in a single session, the traditional handoff boundary dissolves. The designer is no longer handing off intent — they are handing off a working reference. Engineering receives a tested interaction pattern, not an annotated Figma frame. The scope of ambiguity in the handoff drops to near zero. This is not a collaboration improvement. It is a structural change in what "design done" means.</p>
+
+        <h3 class="cs-h3">Skills as institutional knowledge infrastructure</h3>
+        <p class="cs-p">The skill library I built is organizational knowledge made executable. Every SAP Fiori convention, every Joule panel rule, every design token correction I've made across dozens of sessions is now encoded in files that any team member can load in a single command. This is the same class of problem as the planning fields in the governance architecture — making implicit knowledge explicit, making invisible structure visible, making it impossible for individuals to carry critical context alone.</p>
+
+        <h3 class="cs-h3">Closing the gap between PM, Designer, and Engineer</h3>
+        <p class="cs-p">The three-function gap at the center of most product quality problems is not a communication problem. It is an artifact problem. PM works from narratives, designers from static frames, engineers from both plus code. None of these artifact types is natively legible to the other two functions. A running demo is the only artifact type that is legible to all three simultaneously — and vibe coding is the only workflow that makes running demos achievable within a single design session rather than a multi-week engineering sprint.</p>
+
+        <div class="cs-callout">
+          <p><strong>Connection to governance architecture:</strong> The UX planning infrastructure this report sits alongside solves the visibility problem at the roadmap layer. Vibe coding solves the fidelity problem at the delivery layer. Together they form a complete picture: UX is structurally present in planning decisions, and UX output is structurally legible to all functions during execution. The gap closes at both ends.</p>
+        </div>
+
+        <div class="cs-pullquote">
+          <p>Vibe coding doesn't just speed up design. It changes the artifact type that moves between PM, designer, and engineer — and artifact type determines organizational alignment.</p>
+        </div>
+
+        <div class="cs-pullquote">
+          <p>A skill file is a governance document. It encodes what the team knows, makes it shareable, and ensures the next person starts from the team's highest watermark — not their own blank slate.</p>
+        </div>
+      </section>
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- STRUCTURED FOOTER -->
+  <footer class="footer--structured" role="contentinfo">
+    <div class="container">
+      <nav class="footer__nav" aria-label="Site navigation">
+        <div>
+          <span class="footer__col-label">Decision Architecture</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+            <li><a href="../../decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+            <li><a href="../../decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+            <li><a href="../../decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">Founder</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#founder" class="footer__col-link">Overview</a></li>
+            <li><a href="../../founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+            <li><a href="../../founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+            <li><a href="../../founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">Applied Systems</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#applied-systems" class="footer__col-link">Overview</a></li>
+            <li><a href="../../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+            <li><a href="../../applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+            <li><a href="../../applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+            <li><a href="../../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">General</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#about" class="footer__col-link">About</a></li>
+            <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+            <li><a href="../../applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+            <li><a href="../../sitemap.html" class="footer__col-link">Sitemap</a></li>
+            <li><a href="../../kateyu-resume.html" class="footer__col-link">Resume</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="footer__bottom">
+        <p class="footer__bottom-copy">&copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture</p>
+        <div class="footer__bottom-links">
+          <a href="../../applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a>
+          <a href="../../sitemap.html" class="footer__bottom-link">Sitemap</a>
+          <a href="../../kateyu-resume.html" class="footer__bottom-link">Resume</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/staff-portfolio.js"></script>
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>Organizational Decision Infrastructure · Kate Jie Yu</title>
+  <meta name="description" content="How governance architecture separated planning intent from execution tracking — scaling UX as a structured planning partner across enterprise product lines.">
+  <link rel="shortcut icon" type="image/x-icon" href="../img/KJY_logo_bar.jpg">
+  <link rel="apple-touch-icon" href="../img/KJY_logo_bar.jpg">
+<link rel="stylesheet" href="../style/theme.css">
+<link rel="stylesheet" href="../style/base.css">
+<link rel="stylesheet" href="../style/components.css">
+<link rel="stylesheet" href="../style/case-study.css">
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- NAV — verbatim from index-refactored.html; all classes from staff-portfolio.css -->
+<header class="header" role="banner">
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__container"> <a href="../index.html" class="nav__logo"> <img src="../img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48"> <!--<span class="nav__logo-text">Kate Jie Yu</span>--> </a>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="../index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+        <li><a href="../index.html#founder" class="nav__link">Founder</a></li>
+        <li><a href="../index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+        <li><a href="../index.html#about" class="nav__link">About</a></li>
+        <li><a href="../kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+      </ul>
+      <button
+          class="nav__toggle"
+          id="nav-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> </button>
+    </div>
+  </nav>
+</header>
+
+  <main id="main" role="main">
+    <div class="container">
+
+      <nav aria-label="Breadcrumb">
+        <ol class="cs-breadcrumb">
+          <li>
+            <a href="../index.html#decision-architecture">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 12L6 8l4-4"/></svg>
+              Decision Architecture
+            </a>
+          </li>
+          <li><span class="cs-breadcrumb-sep">/</span></li>
+          <li><span class="cs-breadcrumb-current">Organizational Governance</span></li>
+        </ol>
+      </nav>
+
+      <!-- ══ PAGE HEADER ══ -->
+      <header class="cs-header">
+        <div class="cs-eyebrow">
+          <span class="cs-pill">Governance Architecture</span>
+          <span class="cs-pill cs-pill--grey">Organizational Systems Design</span>
+          <span class="cs-pill cs-pill--grey">Cross-Functional Planning Infrastructure</span>
+        </div>
+
+        <h1 class="cs-h1">
+          Re-Architecting UX Governance<br>
+          <span>Across Product Planning</span>
+        </h1>
+
+        <p class="cs-lead">
+          UX was structurally excluded from the systems that govern product investment decisions. This is the operating model I designed to change that — separating planning intent from execution reality, and giving leadership a reliable view of design capacity for the first time.
+        </p>
+
+        <div class="cs-meta-grid">
+          <div>
+            <span class="cs-meta-label">My Role</span>
+            <span class="cs-meta-value">UX Governance Architect · Cross-Functional Strategist</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Intervention Type</span>
+            <span class="cs-meta-value">Systemic organizational redesign — not a tool improvement</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Systems Redesigned</span>
+            <span class="cs-meta-value">Aha (Planning Intent) · Jira (Execution Tracking)</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Organizational Span</span>
+            <span class="cs-meta-value">UX · PM · Engineering · Leadership</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ══ EXECUTIVE THESIS ══ -->
+      <div class="cs-tldr">
+        <div class="cs-tldr-label">Executive Thesis</div>
+        <ul>
+          <li><strong>What was structurally broken:</strong> Both planning systems — Aha and Jira — were built entirely around PM and Engineering. UX had no structured presence in either: no demand fields, no capacity model, no ownership layer. Design work existed as an untracked assumption until it became a sprint-level crisis.</li>
+          <li><strong>What risk that created:</strong> Leadership could not assess UX readiness against roadmap commitments. PM could not plan around design capacity. Scope conflicts surfaced under sprint pressure — when options were already exhausted. The organization was making roadmap decisions without modeling roughly 30–40% of the work required to execute them.</li>
+          <li><strong>The leadership gap I stepped into:</strong> No one had claimed authority over this structural problem. I partnered with PM to redesign the planning architecture, defined governance boundaries, established required fields and ownership rules, and built the reporting infrastructure leadership needed — without a mandate, through cross-functional influence alone.</li>
+        </ul>
+      </div>
+
+      <!-- ACCESS BAR -->
+      <div class="cs-access-bar">
+        <span class="cs-access-label">Access</span>
+        <a href="ai-organization/UX_Planning_Infrastructure.html" class="cs-access-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 2h6l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+            <polyline points="10 2 10 6 14 6"/>
+          </svg>
+          UX Planning Infrastructure Report
+        </a>
+        <a href="ai-organization/Vibe_Coding_Report.html" class="cs-access-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 2h6l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+            <polyline points="10 2 10 6 14 6"/>
+          </svg>
+          Vibe Coding as UX Infrastructure
+        </a>
+      </div>
+
+      <!-- ══ 01 SYSTEMIC FAILURE DIAGNOSIS ══ -->
+      <section class="cs-section" id="diagnosis">
+        <span class="cs-section-index">01 / 06</span>
+        <h2 class="cs-h2">Systemic Failure Diagnosis</h2>
+
+        <p class="cs-p">The failure was not a process gap. It was a structural one. Product planning systems had been configured to model PM and Engineering work with precision — roadmap features, engineering stories, sprint velocity. UX effort was simply not in the model. It didn't appear as a field. It didn't have an owner. It had no planning weight. The result was an organization running product planning with a significant category of work invisible at the decision layer.</p>
+
+        <p class="cs-p">When a function has no structural representation in planning systems, it cannot exert planning authority — regardless of the talent, judgment, or effort of the people in that function. UX was operating reactively not by choice, but by infrastructure design. The planning tools made it structurally impossible to operate any other way.</p>
+
+        <div class="cs-diag-grid">
+          <div class="cs-diag-cell cs-diag-cell--visibility">
+            <div class="cs-diag-layer">Failure 01</div>
+            <div class="cs-diag-title">UX Invisible at Roadmap Level</div>
+            <div class="cs-diag-desc">Aha contained no UX demand fields. PM was committing features to roadmaps — and implicitly to design investment — without any structured signal of what those commitments required from the design org. UX workload was invisible to the people responsible for planning it.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--capacity">
+            <div class="cs-diag-layer">Failure 02</div>
+            <div class="cs-diag-title">Capacity Blind Spots at Leadership Level</div>
+            <div class="cs-diag-desc">Leadership had no mechanism to assess aggregate UX demand against roadmap commitments. Reporting was informal and reactive — surfaced when a delivery was at risk, not before capacity was overcommitted. There was no forecast, only a post-hoc accounting of what went wrong.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--process">
+            <div class="cs-diag-layer">Failure 03</div>
+            <div class="cs-diag-title">PM–Engineering Alignment Excluding UX</div>
+            <div class="cs-diag-desc">Planning conversations between PM and Engineering happened inside Jira — at the sprint level. UX entered those conversations as a late, reactive input. By the time design scope was negotiated, engineering commitments had already been made. UX was consistently operating downstream of decisions it should have shaped.</div>
+          </div>
+        </div>
+
+        <div class="cs-callout">
+          <p><strong>If nothing changed:</strong> The pattern would compound. As the product roadmap scaled, UX demand would grow without becoming more visible. Sprint escalations would increase in frequency. PM would continue committing to features without design investment data. Leadership would continue flying blind on design capacity. And the org would continue treating a structural problem as a personnel or process one — blaming coordination instead of fixing the infrastructure.</p>
+        </div>
+      </section>
+
+      <!-- ══ 02 GOVERNANCE ARCHITECTURE ══ -->
+      <section class="cs-section" id="architecture">
+        <span class="cs-section-index">02 / 06</span>
+        <h2 class="cs-h2">Governance Architecture</h2>
+
+        <p class="cs-p">Governance separates intent from execution to protect planning integrity. The architecture I designed does not describe how UX work gets done — it defines the organizational conditions under which good planning decisions can be made in the first place. It operates across five distinct layers, each answering a different question at a different altitude.</p>
+
+        <div class="cs-visual">
+          <div class="cs-visual-canvas" style="padding: 40px 32px;">
+            <div class="cs-arch">
+
+              <div class="cs-arch-layer cs-arch-layer--intent">
+                <span class="cs-arch-badge">Layer 1 — Product Intent</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">PM · Aha · Strategic Roadmap</div>
+                  <div class="cs-arch-desc">What are we building, and what organizational investment does it require across all functions?</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Feature prioritization</span>
+                    <span class="cs-arch-item">Cross-functional investment signals</span>
+                    <span class="cs-arch-item">Roadmap sequencing</span>
+                    <span class="cs-arch-item">Quarterly planning horizon</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cs-arch-layer" style="background: rgba(37,99,235,0.05); border: 1.5px solid rgba(37,99,235,0.2); border-radius: 8px;">
+                <span class="cs-arch-badge" style="background: rgba(37,99,235,.1); color: #1d4ed8;">Layer 2 — UX Demand Definition</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">UX Lead · Structured Planning Fields</div>
+                  <div class="cs-arch-desc">What design investment does each feature require, at what phase, owned by whom?</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">UX involvement flag</span>
+                    <span class="cs-arch-item">Effort sizing by phase (T-shirt)</span>
+                    <span class="cs-arch-item">Named design owner</span>
+                    <span class="cs-arch-item">Phase classification</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cs-arch-layer" style="background: rgba(99,102,241,0.05); border: 1.5px solid rgba(99,102,241,0.2); border-radius: 8px;">
+                <span class="cs-arch-badge" style="background: rgba(99,102,241,.1); color: #4338ca;">Layer 3 — Capacity Review &amp; Ownership</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">UX Lead + PM · Quarterly Planning Gate</div>
+                  <div class="cs-arch-desc">Does the roadmap's implied UX demand fit within current design capacity? Where are the conflicts?</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Aggregate demand review</span>
+                    <span class="cs-arch-item">Conflict surfacing</span>
+                    <span class="cs-arch-item">Scope sequencing</span>
+                    <span class="cs-arch-item">Ownership confirmation</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cs-arch-layer cs-arch-layer--boundary">
+                <span class="cs-arch-boundary-label">Governance Boundary — Planning Authority does not transfer to Execution without complete UX fields</span>
+              </div>
+
+              <div class="cs-arch-layer cs-arch-layer--execution">
+                <span class="cs-arch-badge">Layer 4 — Execution Tracking</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">Engineering + Designer · Jira · Sprint Level</div>
+                  <div class="cs-arch-desc">What is being built this sprint? How is it progressing? Where are the blockers?</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Story decomposition</span>
+                    <span class="cs-arch-item">Sprint assignment</span>
+                    <span class="cs-arch-item">Daily progress tracking</span>
+                    <span class="cs-arch-item">Velocity measurement</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cs-arch-layer cs-arch-layer--guardrail" style="margin-top: 4px;">
+                <span class="cs-arch-badge">Layer 5 — Forecast Correction</span>
+                <div class="cs-arch-body">
+                  <div class="cs-arch-title">UX Lead · Post-Delivery Calibration</div>
+                  <div class="cs-arch-desc">How did actual effort compare to planning estimates? What do those variances tell us about our sizing model?</div>
+                  <div class="cs-arch-items">
+                    <span class="cs-arch-item">Actual vs. estimated comparison</span>
+                    <span class="cs-arch-item">Pattern identification</span>
+                    <span class="cs-arch-item">Benchmark calibration</span>
+                    <span class="cs-arch-item">Leadership forecast update</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 01</span>
+            <span class="cs-fig-text">Five-layer governance architecture. Each layer answers a distinct organizational question at the appropriate planning altitude. The governance boundary between Layers 3 and 4 is the critical structural separation — it ensures that planning authority is exercised before execution begins.</span>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">Why the Aha–Jira separation is the critical design decision</h3>
+        <p class="cs-p">Most product organizations let planning and execution blur into each other. When that happens, the sprint becomes the de facto planning environment — which means planning happens under time pressure, with limited options, and inside a system (Jira) that was never designed to hold intent. The result is reactive capacity management: discovering what was missing after it was already too late to change it.</p>
+        <p class="cs-p">The separation between Aha and Jira is not a process preference. It is a structural assertion that <strong>planning questions require planning infrastructure, and execution questions require execution infrastructure</strong> — and that answering planning questions inside execution tools guarantees that planning will consistently lose. The governance boundary between these two systems is the mechanism that keeps that separation real under organizational pressure.</p>
+
+        <div class="cs-pullquote">
+          <p>Governance separates intent from execution to protect planning integrity. Without that separation, execution urgency always displaces planning discipline.</p>
+        </div>
+      </section>
+
+      <!-- ══ 03 GOVERNANCE GUARDRAILS ══ -->
+      <section class="cs-section" id="guardrails">
+        <span class="cs-section-index">03 / 06</span>
+        <h2 class="cs-h2">Governance Guardrails</h2>
+
+        <p class="cs-p">Guardrails are not tool settings. They are organizational disciplines — codified responses to specific failure modes that the organization has already experienced. Each guardrail below names the dysfunction it prevents, the cultural habit it interrupts, and the structural discipline it introduces in its place.</p>
+
+        <div class="cs-visual">
+          <div class="cs-table-scroll">
+            <table class="cs-table">
+              <thead>
+                <tr>
+                  <th>Guardrail</th>
+                  <th>Dysfunction It Prevents</th>
+                  <th>Cultural Habit It Interrupts</th>
+                  <th>Discipline It Introduces</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>UX fields required before Aha feature advances</td>
+                  <td>Features entering execution without design investment declared</td>
+                  <td>Treating UX scope as discoverable at sprint, not plannable at roadmap</td>
+                  <td>UX demand is a planning prerequisite, not an execution variable</td>
+                </tr>
+                <tr>
+                  <td>Jira stories require upstream Aha record</td>
+                  <td>Execution outrunning planning; scope defined inside the sprint tool</td>
+                  <td>Starting engineering work before design intent is declared</td>
+                  <td>Planning authority precedes execution authority — always</td>
+                </tr>
+                <tr>
+                  <td>T-shirt sizing reviewed at planning cadence, not sprint grooming</td>
+                  <td>Effort estimates revised under sprint pressure, losing planning signal</td>
+                  <td>Re-opening sizing decisions in grooming as a negotiation mechanism</td>
+                  <td>Sizing is a planning decision; decomposition is an execution decision — these are different conversations</td>
+                </tr>
+                <tr>
+                  <td>Scope changes re-enter at Aha before Jira is updated</td>
+                  <td>Silent scope inflation accumulating sprint over sprint without leadership visibility</td>
+                  <td>Patching scope changes in Jira without updating the planning record</td>
+                  <td>Every scope change is a planning event; it must be recorded at the planning layer to preserve forecast integrity</td>
+                </tr>
+                <tr>
+                  <td>Designer ownership assigned at planning, inherited by execution</td>
+                  <td>Ownership ambiguity at sprint start; last-minute assignment under delivery pressure</td>
+                  <td>Treating ownership as a grooming output rather than a planning input</td>
+                  <td>Accountability is established before commitment — not negotiated after it</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 02</span>
+            <span class="cs-fig-text">Governance guardrails framed as organizational disciplines. Each rule targets a specific failure mode and cultural habit — not a tool configuration. The guardrails are the mechanism by which architectural decisions persist through organizational entropy.</span>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">Decision-layer authority map</h3>
+        <p class="cs-p">Governance confusion is ownership confusion. The authority map below defines which function holds decision authority at each layer — not as a RACI, but as a record of what each function is responsible for protecting.</p>
+
+        <div class="cs-visual">
+          <div class="cs-table-scroll">
+            <table class="cs-table">
+              <thead>
+                <tr>
+                  <th>Decision Domain</th>
+                  <th>Layer</th>
+                  <th>Authority</th>
+                  <th>Cadence</th>
+                  <th>What This Protects</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>UX demand field completeness</td>
+                  <td><span class="cs-badge cs-badge--intent">Planning</span></td>
+                  <td>UX Lead</td>
+                  <td>Pre-planning review</td>
+                  <td>Roadmap cannot advance without design investment declared</td>
+                </tr>
+                <tr>
+                  <td>Effort sizing by UX phase</td>
+                  <td><span class="cs-badge cs-badge--intent">Planning</span></td>
+                  <td>UX Lead + PM</td>
+                  <td>Quarterly planning</td>
+                  <td>Sizing reflects planning judgment, not sprint negotiation</td>
+                </tr>
+                <tr>
+                  <td>Designer ownership assignment</td>
+                  <td><span class="cs-badge cs-badge--intent">Planning</span></td>
+                  <td>UX Lead</td>
+                  <td>Feature intake</td>
+                  <td>Accountability established before engineering commitment</td>
+                </tr>
+                <tr>
+                  <td>Sprint story creation and sequencing</td>
+                  <td><span class="cs-badge cs-badge--execution">Execution</span></td>
+                  <td>Engineering + PM</td>
+                  <td>Sprint planning</td>
+                  <td>Execution decisions are downstream of, not independent from, planning</td>
+                </tr>
+                <tr>
+                  <td>Design task decomposition</td>
+                  <td><span class="cs-badge cs-badge--execution">Execution</span></td>
+                  <td>Designer</td>
+                  <td>Sprint grooming</td>
+                  <td>Decomposition does not re-open effort sizing</td>
+                </tr>
+                <tr>
+                  <td>Scope change processing</td>
+                  <td><span class="cs-badge cs-badge--shared">Shared</span></td>
+                  <td>PM + UX Lead</td>
+                  <td>As triggered</td>
+                  <td>Scope changes surface at planning layer before execution updates</td>
+                </tr>
+                <tr>
+                  <td>Estimation accuracy review</td>
+                  <td><span class="cs-badge cs-badge--guardrail">Feedback</span></td>
+                  <td>UX Lead</td>
+                  <td>Post-delivery</td>
+                  <td>Planning model improves with each cycle — it doesn't calcify</td>
+                </tr>
+                <tr>
+                  <td>UX capacity forecasting</td>
+                  <td><span class="cs-badge cs-badge--intent">Planning</span></td>
+                  <td>UX Lead + EM</td>
+                  <td>Monthly / Quarterly</td>
+                  <td>Leadership forecast derived from planning data, not sprint velocity</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 03</span>
+            <span class="cs-fig-text">Decision-layer authority map. Each row names a governance decision, the function that owns it, and what organizational integrity that ownership protects. This is not a coordination matrix — it is a record of structural accountability.</span>
+          </div>
+        </div>
+
+        <div class="cs-pullquote">
+          <p>When ownership is ambiguous, urgency decides. Governance makes ownership explicit before urgency arrives.</p>
+        </div>
+      </section>
+
+      <!-- ══ 04 LEADING ADOPTION & ALIGNMENT ══ -->
+      <section class="cs-section" id="adoption">
+        <span class="cs-section-index">04 / 06</span>
+        <h2 class="cs-h2">Leading Adoption &amp; Alignment</h2>
+
+        <p class="cs-p">Designing the governance architecture was the analytical challenge. Earning adoption across PM, Engineering, and leadership — without positional authority, on the strength of cross-functional argument alone — was the leadership one. The two challenges require different skills, and the second is harder.</p>
+
+        <h3 class="cs-h3">Starting with PM — reframing the value proposition</h3>
+        <p class="cs-p">I started with PM because they held the most leverage and felt the problem most acutely. My approach was not to present a UX need. It was to name a PM problem: PMs were making roadmap commitments they couldn't fully evaluate, because design investment wasn't in the planning data. The governance architecture gave PM something they didn't have — the ability to see UX capacity requirements before locking sprint scope.</p>
+        <p class="cs-p">That reframe was the difference between adoption and resistance. PM became co-owners of the model because it addressed their planning confidence problem — not because they were asked to accommodate UX. We negotiated field definitions together, stress-tested the sizing model against the existing roadmap, and jointly defined the governance boundary between Aha and Jira. By the time the model was finalized, PM was already advocating for it internally.</p>
+
+        <h3 class="cs-h3">Aligning Engineering — connecting governance to sprint reliability</h3>
+        <p class="cs-p">Engineering's concern was predictability, not process. The guardrail requiring complete Aha UX fields before Jira story creation initially read as friction — an additional gate before work could start. I reframed it as the opposite: design scope ambiguity at sprint start is what creates friction. When UX ownership and effort are unclear entering a sprint, engineering delivery absorbs the cost. The governance model didn't add overhead — it moved a conversation that was already happening from sprint pressure to planning cadence, where it could be resolved with options intact.</p>
+
+        <h3 class="cs-h3">Defining the minimum viable field set</h3>
+        <p class="cs-p">One of the highest-stakes design decisions in governance work is knowing how much structure to impose. Too little, and the model has no teeth. Too much, and adoption collapses under administrative weight. My criterion for required fields was precise: a field earns a mandatory status only if its absence would change a planning decision. That test eliminated everything decorative and retained only what carried planning weight — UX involvement flag, effort sizing by phase, phase classification, and named designer. Four fields. Enough to make UX demand plannable. Not enough to create compliance fatigue.</p>
+
+        <h3 class="cs-h3">Building reporting leadership could actually use</h3>
+        <p class="cs-p">Leadership visibility was the final adoption challenge — and the most consequential one. The structured Aha fields enabled reporting that derived UX capacity forecasts directly from roadmap data, not from sprint velocity or informal updates. For the first time, leadership could ask structural questions and receive data-backed answers: Which product lines carry the highest design investment this quarter? Where does capacity break if we accelerate two additional features? Does current headcount sustain the roadmap as planned?</p>
+        <p class="cs-p">Framing those reporting outputs in leadership terms — as resource and risk questions, not UX status updates — was what made them relevant to the conversations leadership was already having. The governance model didn't create new reporting overhead. It made the planning data that now existed visible at the right organizational altitude.</p>
+      </section>
+
+      <!-- ══ 05 ORGANIZATIONAL IMPACT ══ -->
+      <section class="cs-section" id="impact">
+        <span class="cs-section-index">05 / 06</span>
+        <h2 class="cs-h2">Organizational Impact</h2>
+
+        <p class="cs-p">Impact in governance work is measured in structural shifts, not project outcomes. The question is not whether a deliverable shipped — it is whether the organization now makes different decisions, with better information, at the right time. These are the structural shifts this architecture produced.</p>
+
+        <div class="cs-outcomes">
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Roadmap Predictability</div>
+            <div class="cs-outcome-stat">Improved</div>
+            <div class="cs-outcome-desc">PM could commit features with full visibility into UX investment. Undiscovered design scope stopped entering sprint.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Reactive Escalation</div>
+            <div class="cs-outcome-stat">Replaced</div>
+            <div class="cs-outcome-desc">Mid-sprint renegotiation replaced by early scope alignment. Capacity conflicts moved from execution to planning cadence.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">UX Capacity Forecast</div>
+            <div class="cs-outcome-stat">Established</div>
+            <div class="cs-outcome-desc">Aggregate design demand visible in Aha for the first time — forecastable by quarter, product line, and phase type.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Leadership Reporting</div>
+            <div class="cs-outcome-stat">Structured</div>
+            <div class="cs-outcome-desc">Moved from anecdotal updates to structured forecasting derived directly from roadmap planning data.</div>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">Team level</h3>
+        <p class="cs-p">Designers entered sprints with declared scope and confirmed ownership. UX leads had a shared vocabulary with PM for communicating effort — T-shirt sizing gave design work the same planning legibility that engineering story points had always provided. The team stopped spending sprint time relitigating decisions that should have been made at planning.</p>
+
+        <h3 class="cs-h3">Program level</h3>
+        <p class="cs-p">PM gained a reliable signal of design investment at the roadmap stage — before engineering commitments were made. The governance boundary between Aha and Jira meant that scope, sizing, and ownership were established before execution began, not discovered during it. Cross-functional planning conversations shifted from reactive scope negotiation to proactive capacity management. <strong>The org gained the ability to see UX demand coming, rather than absorbing it as it arrived.</strong></p>
+
+        <h3 class="cs-h3">Leadership visibility level</h3>
+        <p class="cs-p">Leadership moved from informal, risk-triggered updates to structured capacity forecasting against the roadmap. The questions they could now ask — and receive data-backed answers to — were fundamentally different in character: not "what happened to the design schedule" but "what does this roadmap require from UX, and do we have the organizational capacity to deliver it." That is a strategic resource question. It requires infrastructure to ask consistently, and that infrastructure now exists.</p>
+      </section>
+
+      <!-- ══ 06 WHAT THIS DEMONSTRATES ══ -->
+      <section class="cs-section" id="systems">
+        <span class="cs-section-index">06 / 06</span>
+        <h2 class="cs-h2">What This Demonstrates</h2>
+
+        <p class="cs-p">A Principal-level designer is not defined by what they design. They are defined by the organizational problems they can see, name, and resolve — including problems that have no obvious owner and no clear brief. This case demonstrates three capabilities that operate above the craft layer.</p>
+
+        <h3 class="cs-h3">Operating model thinking</h3>
+        <p class="cs-p">I diagnosed the problem as a structural one — a planning infrastructure that excluded UX — and designed a solution at the structural level. Not a better process. Not a new meeting. An operating model: a defined set of layers, boundaries, ownership rules, and cadences that changes how the organization makes planning decisions as a system. That kind of intervention requires the ability to see organizational dysfunction in architectural terms, not behavioral ones.</p>
+
+        <h3 class="cs-h3">System-level intervention</h3>
+        <p class="cs-p">The governance architecture did not solve a UX problem. It solved a planning problem that happened to have UX invisibility as a primary symptom. The system I designed gives PM better data, gives Engineering clearer scope, gives leadership a reliable forecast, and gives UX structural planning authority. A system-level intervention produces value for every function it touches — not just the function that initiated it.</p>
+
+        <h3 class="cs-h3">Cross-functional governance without authority</h3>
+        <p class="cs-p">Nothing here was mandated. Every governance boundary, every required field, every reporting structure was adopted through cross-functional alignment — by demonstrating to each function what the model offered them specifically. That required understanding PM's planning confidence problem, Engineering's sprint predictability concern, and leadership's forecasting gap well enough to solve all three simultaneously. Governance built through alignment is durable. Governance imposed through authority is fragile. The architecture I designed was built to outlast the conversation that created it.</p>
+
+        <div class="cs-pullquote">
+          <p>The measure of a governance architecture is not whether it looks right on a diagram. It is whether, six months later, the organization is making better decisions — at the right altitude — without requiring the original architect in the room.</p>
+        </div>
+
+        <div class="cs-pullquote">
+          <p>UX invisibility in planning systems is not a communication problem. It is an infrastructure problem. You cannot solve it by asking more loudly — only by building the structures that make it architecturally impossible to ignore.</p>
+        </div>
+      </section>
+
+      <!-- ══ VIBE CODING ADDENDUM ══ -->
+      <section class="cs-section" id="vibe-coding">
+        <span class="cs-section-index">Addendum</span>
+        <h2 class="cs-h2">Vibe Coding: The Delivery-Layer Complement</h2>
+
+        <p class="cs-p">The governance architecture described in this case study solves a planning-layer problem: UX capacity is invisible in the systems that govern investment decisions. There is a parallel problem at the delivery layer — design intent loses fidelity as it moves from designer to engineer, and PM, designer, and engineer have no shared artifact type that all three can evaluate simultaneously.</p>
+
+        <p class="cs-p">Vibe coding — AI-assisted local development using Claude Code and Figma MCP — is the structural answer to that delivery-layer problem. Rather than passing a static Figma frame to engineering and absorbing interpretation loss at the handoff, a designer working in the vibe coding environment can generate running SAPUI5 code in the same session the Figma frame is open. The design becomes a testable artifact before engineering begins.</p>
+
+        <h3 class="cs-h3">What I Built</h3>
+        <div class="cs-callout">
+          <p><strong>Live AI demos:</strong> I built two fully functional AI assistant demos — OC Joule (Order Collaboration) and ASN Joule (Advanced Shipping Notification) — as running SAPUI5 applications. Stakeholders experienced the actual conversation flow, interaction latency, and visual treatment in a browser rather than evaluating a static Figma mockup. Each demo was built within a single working session using a custom skill library matched to SAP Fiori Horizon design tokens.</p>
+        </div>
+        <div class="cs-callout">
+          <p><strong>Custom skill library for the UX team:</strong> I engineered a set of Claude Code skills encoding SAP Fiori design conventions, Joule panel architecture, demo scaffolding patterns, and a Figma-to-code bridge. These skills are shared with the UX team — every designer can reproduce the same workflow without rebuilding the company design system context from scratch in each session. The skills improve through use: each feedback correction I make during a session gets encoded back into the skill file, compounding quality across the team over time.</p>
+        </div>
+        <div class="cs-callout">
+          <p><strong>UX team local environment setup:</strong> I documented and tested the full setup workflow for designers with no prior terminal experience — Node.js, Claude Code CLI, Figma MCP configuration, and skill installation — so the team could begin vibe coding sessions independently.</p>
+        </div>
+
+        <h3 class="cs-h3">Connection to Governance Architecture</h3>
+        <p class="cs-p">The governance infrastructure in this case study makes UX work structurally visible at the planning layer. Vibe coding makes UX output structurally legible to all functions at the delivery layer. The two interventions are complementary: governance ensures UX capacity is modeled before commitments are made; vibe coding ensures the artifact that crosses the design–engineering boundary carries enough fidelity to eliminate interpretive ambiguity at handoff.</p>
+        <p class="cs-p">Together, they close the gap at both ends of the product development chain — from roadmap intent to running implementation — without requiring new organizational process or additional overhead. The infrastructure changes the default behavior of the system.</p>
+
+      </section>
+
+    </div><!-- /container -->
+  </main>
+
+ <!-- STRUCTURED FOOTER -->
+<footer class="footer--structured" role="contentinfo">
+  <div class="container">
+    <nav class="footer__nav" aria-label="Site navigation">
+      <div> <span class="footer__col-label">Decision Architecture</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+          <li><a href="../decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+          <li><a href="#" class="footer__col-link">Organizational Layer</a></li>
+          <li><a href="../decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Founder</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#founder" class="footer__col-link">Overview</a></li>
+          <li><a href="../founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+          <li><a href="../founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+          <li><a href="../founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Applied Systems</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#applied-systems" class="footer__col-link">Overview</a></li>
+          <li><a href="../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+          <li><a href="../applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+          <li><a href="../applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+          <li><a href="../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">General</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#about" class="footer__col-link">About</a></li>
+          <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+          <li><a href="../applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+          <li><a href="../sitemap.html" class="footer__col-link">Sitemap</a></li>
+          <li><a href="../kateyu-resume.html" class="footer__col-link">Resume</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="footer__bottom">
+      <p class="footer__bottom-copy"> &copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture </p>
+      <div class="footer__bottom-links"> <a href="../applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a> <a href="../sitemap.html" class="footer__bottom-link">Sitemap</a> <a href="../kateyu-resume.html" class="footer__bottom-link">Resume</a> </div>
+    </div>
+  </div>
+</footer>
+  <script src="../js/staff-portfolio.js"></script>
+</body>
+</html>

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>NextGen SCC Subcontracting Research Workshop Report · Kate Jie Yu</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../img/KJY_logo_bar.jpg">
+    <link rel="mask-icon" type="Kate Logo" href="../../img/KJY_logo_bar.jpg" color="#111">
+    <link rel="apple-touch-icon" href="../../img/KJY_logo_bar.jpg">
+    <link rel="stylesheet" href="../../style/theme.css">
+    <link rel="stylesheet" href="../../style/base.css">
+    <link rel="stylesheet" href="../../style/components.css">
+    <link rel="stylesheet" href="../../style/case-study.css">
+    <style>
+        /* ── STAT STRIP ── */
+        .stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #e5e7eb; border-bottom: 1px solid #e5e7eb; }
+        .stat-cell { background: #fff; padding: 28px 32px; text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: 700; color: #2563eb; line-height: 1; margin-bottom: 6px; }
+        .stat-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; }
+
+        /* ── STATUS BADGES (pill-shaped, different from cs-badge) ── */
+        .badge { display: inline-block; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 20px; }
+        .badge--blue   { background: #dbeafe; color: #1d4ed8; }
+        .badge--yellow { background: #fef3c7; color: #92400e; }
+        .badge--gray   { background: #f3f4f6; color: #6b7280; }
+        .badge--green  { background: #d1fae5; color: #065f46; }
+
+        /* ── CARD GRID ── */
+        .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: #e5e7eb; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+        .card-grid--3 { grid-template-columns: repeat(3, 1fr); }
+        .card { background: #fff; padding: 24px; }
+        .card-tag { font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; margin-bottom: 6px; }
+        .card-title { font-size: 0.9375rem; font-weight: 700; color: #111827; margin-bottom: 8px; line-height: 1.3; }
+        .card-body { font-size: 0.8125rem; color: #6b7280; line-height: 1.6; }
+        .card--red    { border-top: 3px solid #ef4444; }
+        .card--amber  { border-top: 3px solid #f59e0b; }
+        .card--blue   { border-top: 3px solid #2563eb; }
+        .card--green  { border-top: 3px solid #10b981; }
+        .card--yellow { border-top: 3px solid #eab308; }
+
+        /* ── TIMELINE (numbered circle variant) ── */
+        .timeline { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+        .timeline-item { display: flex; gap: 16px; padding: 20px 24px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; }
+        .timeline-num { width: 32px; height: 32px; border-radius: 50%; background: #2563eb; color: #fff; font-size: 0.8125rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+        .timeline-title { font-size: 0.9375rem; font-weight: 700; color: #111827; margin-bottom: 6px; }
+        .timeline-body { font-size: 0.8125rem; color: #6b7280; line-height: 1.65; }
+
+        /* ── PRIORITY MATRIX ── */
+        .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #e5e7eb; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+        .matrix-cell { background: #fff; padding: 24px; min-height: 180px; }
+        .matrix-cell-label { font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 4px; }
+        .matrix-cell-title { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 12px; }
+        .matrix-cell ul { list-style: none; padding: 0; }
+        .matrix-cell li { font-size: 0.8125rem; color: #6b7280; padding-left: 12px; position: relative; margin-bottom: 4px; line-height: 1.55; }
+        .matrix-cell li::before { content: '▪'; position: absolute; left: 0; color: #d1d5db; }
+        .matrix-cell--green { border-top: 3px solid #10b981; }
+        .matrix-cell--green .matrix-cell-label { color: #10b981; }
+        .matrix-cell--blue  { border-top: 3px solid #2563eb; }
+        .matrix-cell--blue  .matrix-cell-label { color: #2563eb; }
+        .matrix-cell--amber { border-top: 3px solid #f59e0b; }
+        .matrix-cell--amber .matrix-cell-label { color: #f59e0b; }
+        .matrix-cell--red   { border-top: 3px solid #ef4444; }
+        .matrix-cell--red   .matrix-cell-label { color: #ef4444; }
+        .matrix-axis { display: flex; justify-content: space-between; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #9ca3af; margin-top: 8px; padding: 0 2px; }
+
+        /* ── PULL QUOTE ── */
+        .pullquote { border-left: 3px solid #111827; padding: 4px 0 4px 24px; margin: 28px 0; }
+        .pullquote p { font-size: 1.0625rem; font-weight: 600; font-style: italic; color: #111827; line-height: 1.5; }
+
+        /* ── doc-h3 special rule ── */
+        .doc-h3:first-of-type { margin-top: 0; }
+
+        /* ── CALLOUT extra rule ── */
+        .callout p + p { margin-top: 8px; }
+
+        /* ── TABLE (bare element selectors — this page uses <table> not .cs-table) ── */
+        .table-wrap { overflow-x: auto; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        thead th { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #9ca3af; padding: 10px 14px; text-align: left; border-bottom: 2px solid #e5e7eb; background: #f9fafb; white-space: nowrap; }
+        tbody td { padding: 12px 14px; border-bottom: 1px solid #f3f4f6; color: #6b7280; vertical-align: top; line-height: 1.55; }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody td:first-child { font-weight: 600; color: #111827; }
+        tbody tr:hover { background: #f9fafb; }
+
+        /* ── RESPONSIVE (page-specific) ── */
+        @media (max-width: 768px) {
+            .stat-strip { grid-template-columns: 1fr; }
+            .card-grid, .card-grid--3, .matrix { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .doc-header { padding: 48px 0; }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- NAV -->
+    <header class="header" role="banner">
+        <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+            <div class="nav__container">
+                <a href="../../index.html" class="nav__logo">
+                    <img src="../../img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48">
+                </a>
+                <ul class="nav__menu" id="nav-menu">
+                    <li><a href="../../index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+                    <li><a href="../../index.html#founder" class="nav__link">Founder</a></li>
+                    <li><a href="../../index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+                    <li><a href="../../index.html#about" class="nav__link">About</a></li>
+                    <li><a href="../../kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+                </ul>
+                <button
+                    class="nav__toggle"
+                    id="nav-toggle"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded="false"
+                    aria-controls="nav-menu">
+                    <span class="nav__toggle-line"></span>
+                    <span class="nav__toggle-line"></span>
+                    <span class="nav__toggle-line"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main" role="main">
+        <div class="container">
+
+            <nav aria-label="Breadcrumb">
+                <ol class="cs-breadcrumb">
+                    <li>
+                        <a href="../product-subcontracting.html">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 12L6 8l4-4"/></svg>
+                            Product Subcontracting
+                        </a>
+                    </li>
+                    <li><span class="cs-breadcrumb-sep">/</span></li>
+                    <li><span class="cs-breadcrumb-current">SCC Workshop Report</span></li>
+                </ol>
+            </nav>
+
+            <!-- HEADER -->
+            <div class="doc-header">
+                <div class="doc-eyebrow">
+                    <span class="doc-pill">Research Report</span>
+                    <span class="doc-pill doc-pill--grey">SCC Subcontracting</span>
+                    <span class="doc-pill doc-pill--grey">Buyer &amp; Supplier Validation</span>
+                </div>
+                <h1 class="doc-h1">NextGen SCC Subcontracting<br>Research Workshop</h1>
+                <p class="doc-lead">Findings from a multi-stakeholder validation workshop examining the subcontracting lifecycle from both buyer and supplier perspectives — identifying key pain points, infrastructure gaps, and a prioritized path forward.</p>
+                <div class="doc-meta">
+                    <div class="doc-meta-item">
+                        <span class="doc-meta-label">Type</span>
+                        <span class="doc-meta-value">Research Workshop Report</span>
+                    </div>
+                    <div class="doc-meta-item">
+                        <span class="doc-meta-label">Lead Designer</span>
+                        <span class="doc-meta-value">Kate Jie Yu</span>
+                    </div>
+                    <div class="doc-meta-item">
+                        <span class="doc-meta-label">Participants</span>
+                        <span class="doc-meta-value">20+ Buyers &amp; Suppliers</span>
+                    </div>
+                    <div class="doc-meta-item">
+                        <span class="doc-meta-label">Published</span>
+                        <span class="doc-meta-value">December 2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAT STRIP -->
+            <div class="stat-strip">
+                <div class="stat-cell">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Issues Validated</div>
+                </div>
+                <div class="stat-cell">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Severity Tiers</div>
+                </div>
+                <div class="stat-cell">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Persona Groups</div>
+                </div>
+            </div>
+
+            <!-- 01 BACKGROUND -->
+            <section class="doc-section" id="background">
+                <span class="doc-section-index">01 / 08</span>
+                <h2 class="doc-h2">Workshop Background</h2>
+                <p class="doc-p">The NextGen SCC Subcontracting Research Workshop was a collaborative, multi-stakeholder session designed to capture comprehensive insights from both buyer and supplier perspectives. The session used a structured approach to identify, categorize, and prioritize issues affecting the current subcontracting process.</p>
+
+                <div class="callout">
+                    <p><strong>Role:</strong> As Lead Designer, I worked closely with UX Researchers and Product Managers to design the workshop structure, facilitate cross-persona discussions, synthesize findings, and create a prioritized action framework. Insights from 20+ participants were synthesized in real-time using collaborative tools (Figma/Miro).</p>
+                </div>
+
+                <div class="doc-h3">Participants &amp; Format</div>
+                <div class="card-grid">
+                    <div class="card card--blue">
+                        <div class="card-tag">Who Participated</div>
+                        <div class="card-title">Cross-Functional Stakeholders</div>
+                        <div class="card-body">Buyer representatives (procurement, contracts, compliance), supplier representatives (operations, finance, delivery), UX researchers, and subcontracting subject matter experts.</div>
+                    </div>
+                    <div class="card card--blue">
+                        <div class="card-tag">Session Format</div>
+                        <div class="card-title">Full-Day Hybrid Workshop</div>
+                        <div class="card-body">In-person and virtual participants. Interactive breakout sessions by persona, followed by collaborative synthesis and prioritization activities.</div>
+                    </div>
+                </div>
+
+                <div class="doc-h3">Workshop Process</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-num">1</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Issue Identification &amp; Collection</div>
+                            <div class="timeline-body">Participants shared pain points from their respective roles using sticky notes and collaborative boards. All issues were captured without filtering to ensure comprehensive coverage.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-num">2</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Cross-Persona Validation</div>
+                            <div class="timeline-body">Issues were reviewed across buyer and supplier groups to identify common themes, persona-specific challenges, and areas of misalignment between the two sides.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-num">3</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Severity Mapping &amp; Categorization</div>
+                            <div class="timeline-body">Issues were categorized by severity (Severe, High Impact/Regulated, Moderate, Irritating) based on business impact, compliance risk, and user frustration levels.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-num">4</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Impact vs. Effort Prioritization</div>
+                            <div class="timeline-body">Issues were plotted on a 2×2 matrix (Quick Wins / Major Projects / Fill-Ins / Thankless Tasks) to guide sequencing and resource allocation.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-num">5</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Solution Ideation &amp; Ownership</div>
+                            <div class="timeline-body">For high-priority items, the group brainstormed potential solutions, assigned team ownership, and established preliminary timelines for next steps.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 02 WHAT'S WORKING -->
+            <section class="doc-section" id="working">
+                <span class="doc-section-index">02 / 08</span>
+                <h2 class="doc-h2">What's Working Well</h2>
+                <p class="doc-p">Before addressing gaps, the workshop identified foundational strengths the new design should preserve and build on.</p>
+                <div class="card-grid card-grid--3">
+                    <div class="card card--green">
+                        <div class="card-tag">Strength</div>
+                        <div class="card-title">Communication Channels</div>
+                        <div class="card-body">Established pathways between buyers and suppliers are functioning effectively and provide a working foundation.</div>
+                    </div>
+                    <div class="card card--green">
+                        <div class="card-tag">Strength</div>
+                        <div class="card-title">Contract Framework</div>
+                        <div class="card-body">The basic contract structure provides a solid, recognized foundation for agreements across both sides.</div>
+                    </div>
+                    <div class="card card--green">
+                        <div class="card-tag">Strength</div>
+                        <div class="card-title">Compliance Tracking</div>
+                        <div class="card-body">Core compliance requirements are being monitored and documented, even if the tooling is fragmented.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 03 KEY GAPS -->
+            <section class="doc-section" id="gaps">
+                <span class="doc-section-index">03 / 08</span>
+                <h2 class="doc-h2">Key Gaps Identified</h2>
+                <p class="doc-p">Four critical gaps consistently surfaced across buyer, supplier, and shared perspectives during the workshop.</p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Gap</th>
+                                <th>Impact</th>
+                                <th>Affects</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td style="font-weight:400; color:#6b7280;">No real-time visibility into subcontractor performance and deliverables</td>
+                                <td><span class="badge" style="background:#fee2e2;color:#991b1b;">High</span></td>
+                                <td>Both</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td style="font-weight:400; color:#6b7280;">Manual data entry and duplicate documentation requirements</td>
+                                <td><span class="badge" style="background:#fee2e2;color:#991b1b;">High</span></td>
+                                <td>Both</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td style="font-weight:400; color:#6b7280;">Limited system integration between buyer and supplier tools</td>
+                                <td><span class="badge" style="background:#fee2e2;color:#991b1b;">High</span></td>
+                                <td>Both</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td style="font-weight:400; color:#6b7280;">Inconsistent onboarding processes across different subcontractors</td>
+                                <td><span class="badge badge--yellow">Moderate</span></td>
+                                <td>Buyers</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 04 CROSS-PERSONA ANALYSIS -->
+            <section class="doc-section" id="personas">
+                <span class="doc-section-index">04 / 08</span>
+                <h2 class="doc-h2">Cross-Persona Analysis</h2>
+                <p class="doc-p">The workshop revealed that buyer and supplier pain points differ in nature, but converge on a shared root cause: lack of a centralized collaboration platform.</p>
+
+                <div class="card-grid card-grid--3">
+                    <div class="card card--blue">
+                        <div class="card-tag">Buyer Perspective</div>
+                        <div class="card-title">Visibility &amp; Control Gaps</div>
+                        <div class="card-body">
+                            <ul class="doc-list" style="margin:0;">
+                                <li>Need better visibility into supplier capacity and capabilities</li>
+                                <li>Struggle managing multiple supplier relationships simultaneously</li>
+                                <li>Require more efficient approval workflows</li>
+                                <li>Want automated compliance monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card card--amber">
+                        <div class="card-tag">Supplier Perspective</div>
+                        <div class="card-title">Clarity &amp; Burden Issues</div>
+                        <div class="card-body">
+                            <ul class="doc-list" style="margin:0;">
+                                <li>Unclear expectations and requirements from buyers</li>
+                                <li>Excessive documentation and reporting burden</li>
+                                <li>Delayed payment processing</li>
+                                <li>Limited communication on project status</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card card--green">
+                        <div class="card-tag">Shared Concerns</div>
+                        <div class="card-title">Platform &amp; Process Gaps</div>
+                        <div class="card-body">
+                            <ul class="doc-list" style="margin:0;">
+                                <li>No centralized platform for collaboration</li>
+                                <li>Version control issues with shared documents</li>
+                                <li>Inefficient change request processes</li>
+                                <li>Limited access to historical data</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 05 ISSUE INVENTORY -->
+            <section class="doc-section" id="inventory">
+                <span class="doc-section-index">05 / 08</span>
+                <h2 class="doc-h2">Issue Inventory by Severity</h2>
+                <p class="doc-p">Issues were classified into four severity tiers based on business impact, compliance risk, and user frustration level.</p>
+
+                <div class="doc-h3">Severe — Must Fix</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Issue</th><th>Impact</th><th>Affects</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:400;color:#6b7280;">No real-time project status updates</td>
+                                <td><span class="badge" style="background:#fee2e2;color:#991b1b;">High</span></td>
+                                <td>Both</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:400;color:#6b7280;">Manual contract tracking and renewals</td>
+                                <td><span class="badge" style="background:#fee2e2;color:#991b1b;">High</span></td>
+                                <td>Buyers</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:400;color:#6b7280;">Payment processing delays</td>
+                                <td><span class="badge" style="background:#fee2e2;color:#991b1b;">High</span></td>
+                                <td>Suppliers</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="doc-h3">High Impact, Regulated</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Issue</th><th>Impact</th><th>Affects</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:400;color:#6b7280;">Compliance documentation scattered across systems</td>
+                                <td><span class="badge" style="background:#fee2e2;color:#991b1b;">High</span></td>
+                                <td>Both</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:400;color:#6b7280;">Audit trail gaps in approval workflows</td>
+                                <td><span class="badge" style="background:#fee2e2;color:#991b1b;">High</span></td>
+                                <td>Buyers</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="doc-h3">Moderate — Structural &amp; Model Issues</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Issue</th><th>Impact</th><th>Affects</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:400;color:#6b7280;">Inconsistent data formats between systems</td>
+                                <td><span class="badge badge--yellow">Moderate</span></td>
+                                <td>Both</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:400;color:#6b7280;">Limited search and filtering capabilities</td>
+                                <td><span class="badge badge--yellow">Moderate</span></td>
+                                <td>Buyers</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="doc-h3">Irritating — UX Friction</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Issue</th><th>Impact</th><th>Affects</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:400;color:#6b7280;">Repetitive form filling</td>
+                                <td><span class="badge badge--gray">Low</span></td>
+                                <td>Suppliers</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:400;color:#6b7280;">Unclear navigation in current tools</td>
+                                <td><span class="badge badge--gray">Low</span></td>
+                                <td>Both</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 06 PRIORITY MATRIX -->
+            <section class="doc-section" id="matrix">
+                <span class="doc-section-index">06 / 08</span>
+                <h2 class="doc-h2">Impact vs. Effort Prioritization</h2>
+                <p class="doc-p">Issues were plotted on a 2×2 matrix to determine sequencing. High-impact, low-effort items are candidates for immediate action; high-impact, high-effort items require planned investment.</p>
+
+                <div class="matrix">
+                    <div class="matrix-cell matrix-cell--green">
+                        <div class="matrix-cell-label">High Impact · Low Effort</div>
+                        <div class="matrix-cell-title">Quick Wins</div>
+                        <ul>
+                            <li>Automated email notifications</li>
+                            <li>Status tracking dashboard</li>
+                            <li>Template library for common documents</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell matrix-cell--blue">
+                        <div class="matrix-cell-label">High Impact · High Effort</div>
+                        <div class="matrix-cell-title">Major Projects</div>
+                        <ul>
+                            <li>Integrated platform development</li>
+                            <li>AI-powered compliance monitoring</li>
+                            <li>End-to-end workflow automation</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell matrix-cell--amber">
+                        <div class="matrix-cell-label">Low Impact · Low Effort</div>
+                        <div class="matrix-cell-title">Fill-Ins</div>
+                        <ul>
+                            <li>UI improvements</li>
+                            <li>Help documentation</li>
+                            <li>Training videos</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell matrix-cell--red">
+                        <div class="matrix-cell-label">Low Impact · High Effort</div>
+                        <div class="matrix-cell-title">Thankless Tasks</div>
+                        <ul>
+                            <li>Legacy system migration</li>
+                            <li>Custom reporting for edge cases</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="matrix-axis">
+                    <span>← Low Impact</span>
+                    <span>High Effort →</span>
+                </div>
+            </section>
+
+            <!-- 07 OWNERSHIP & NEXT ACTIONS -->
+            <section class="doc-section" id="actions">
+                <span class="doc-section-index">07 / 08</span>
+                <h2 class="doc-h2">Ownership &amp; Next Actions</h2>
+                <p class="doc-p">Each high-priority item was assigned a team owner and timeline during the workshop. Status reflects the state at time of report generation.</p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Action Item</th>
+                                <th>Owner</th>
+                                <th>Timeline</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Develop unified platform requirements</td>
+                                <td style="font-weight:400;color:#6b7280;">Product Team</td>
+                                <td style="font-weight:400;color:#6b7280;">Q2 2026</td>
+                                <td><span class="badge badge--blue">In Progress</span></td>
+                            </tr>
+                            <tr>
+                                <td>Implement automated notifications</td>
+                                <td style="font-weight:400;color:#6b7280;">Engineering</td>
+                                <td style="font-weight:400;color:#6b7280;">Q2 2026</td>
+                                <td><span class="badge badge--yellow">Planned</span></td>
+                            </tr>
+                            <tr>
+                                <td>Create supplier onboarding templates</td>
+                                <td style="font-weight:400;color:#6b7280;">Operations</td>
+                                <td style="font-weight:400;color:#6b7280;">Q2 2026</td>
+                                <td><span class="badge badge--yellow">Planned</span></td>
+                            </tr>
+                            <tr>
+                                <td>Design compliance dashboard</td>
+                                <td style="font-weight:400;color:#6b7280;">Product Team</td>
+                                <td style="font-weight:400;color:#6b7280;">Q3 2026</td>
+                                <td><span class="badge badge--gray">Not Started</span></td>
+                            </tr>
+                            <tr>
+                                <td>Conduct solution validation sessions</td>
+                                <td style="font-weight:400;color:#6b7280;">UX Research</td>
+                                <td style="font-weight:400;color:#6b7280;">Q3 2026</td>
+                                <td><span class="badge badge--gray">Not Started</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 08 PATH FORWARD -->
+            <section class="doc-section" id="forward">
+                <span class="doc-section-index">08 / 08</span>
+                <h2 class="doc-h2">Path Forward</h2>
+
+                <div class="pullquote">
+                    <p>The primary recommendation is a unified platform that addresses visibility gaps, automates manual processes, and provides real-time collaboration for both buyers and suppliers.</p>
+                </div>
+
+                <div class="doc-h3">Phased Delivery Plan</div>
+                <div class="card-grid card-grid--3">
+                    <div class="card card--blue">
+                        <div class="card-tag">Short-term · Q2 2026</div>
+                        <div class="card-title">Immediate Relief</div>
+                        <div class="card-body">
+                            <ul class="doc-list" style="margin:0;">
+                                <li>Deploy quick wins: notifications, status dashboard, templates</li>
+                                <li>Begin unified platform requirements gathering</li>
+                                <li>Establish clear team ownership for each work stream</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card card--blue">
+                        <div class="card-tag">Medium-term · Q3–Q4 2026</div>
+                        <div class="card-title">Core Platform</div>
+                        <div class="card-body">
+                            <ul class="doc-list" style="margin:0;">
+                                <li>Launch core platform features with iterative testing</li>
+                                <li>Address all high-impact regulated issues</li>
+                                <li>Validate solutions with real buyer and supplier users</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card card--blue">
+                        <div class="card-tag">Long-term · 2027+</div>
+                        <div class="card-title">Full Integration</div>
+                        <div class="card-body">
+                            <ul class="doc-list" style="margin:0;">
+                                <li>Full platform integration across all systems</li>
+                                <li>Advanced automation and AI-powered compliance</li>
+                                <li>Continuous improvement loop from user feedback</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-h3">Priority Considerations</div>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-tag">Priority 1</div>
+                        <div class="card-title">Regulatory Compliance</div>
+                        <div class="card-body">Address all severe compliance-related issues first. These carry audit and legal risk that cannot be deferred regardless of implementation effort.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag">Priority 2</div>
+                        <div class="card-title">User Impact Breadth</div>
+                        <div class="card-body">Focus next on issues affecting the largest number of users or creating the most significant day-to-day operational friction.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag">Priority 3</div>
+                        <div class="card-title">Technical Feasibility</div>
+                        <div class="card-body">Balance quick wins against foundational infrastructure work. Quick wins build trust; foundational work enables everything that follows.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-tag">Priority 4</div>
+                        <div class="card-title">Business Value</div>
+                        <div class="card-body">Prioritize improvements that directly support revenue growth, cost reduction, or measurable reduction in administrative overhead.</div>
+                    </div>
+                </div>
+
+                <div class="callout callout--success">
+                    <p><strong>After Next Steps:</strong> Schedule follow-up sessions with individual stakeholder groups to validate proposed solutions and refine requirements before platform development begins. Agreement was made and ownership assigned for each issue. PO, OC, and ASN team PM, Designer, and Engineer are all aligned on the timeline and have set priorities to begin iteration.</p>
+                </div>
+            </section>
+
+        </div><!-- /container -->
+    </main>
+
+    <!-- STRUCTURED FOOTER -->
+    <footer class="footer--structured" role="contentinfo">
+        <div class="container">
+            <nav class="footer__nav" aria-label="Site navigation">
+                <div>
+                    <span class="footer__col-label">Decision Architecture</span>
+                    <ul class="footer__col-links">
+                        <li><a href="../../index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+                        <li><a href="../../decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+                        <li><a href="../../decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+                        <li><a href="../../decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="footer__col-label">Founder</span>
+                    <ul class="footer__col-links">
+                        <li><a href="../../index.html#founder" class="footer__col-link">Overview</a></li>
+                        <li><a href="../../founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+                        <li><a href="../../founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+                        <li><a href="../../founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="footer__col-label">Applied Systems</span>
+                    <ul class="footer__col-links">
+                        <li><a href="../../index.html#applied-systems" class="footer__col-link">Overview</a></li>
+                        <li><a href="../../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+                        <li><a href="../../applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+                        <li><a href="../../applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+                        <li><a href="../../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="footer__col-label">General</span>
+                    <ul class="footer__col-links">
+                        <li><a href="../../index.html#about" class="footer__col-link">About</a></li>
+                        <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+                        <li><a href="../../applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+                        <li><a href="../../sitemap.html" class="footer__col-link">Sitemap</a></li>
+                        <li><a href="../../kateyu-resume.html" class="footer__col-link">Resume</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="footer__bottom">
+                <p class="footer__bottom-copy">&copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture</p>
+                <div class="footer__bottom-links">
+                    <a href="../../applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a>
+                    <a href="../../sitemap.html" class="footer__bottom-link">Sitemap</a>
+                    <a href="../../kateyu-resume.html" class="footer__bottom-link">Resume</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/staff-portfolio.js"></script>
+</body>
+</html>

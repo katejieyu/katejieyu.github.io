@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<title>Enterprise Product Decision Architecture · Kate Jie Yu</title>
+<meta name="description" content="How a structured decision framework resolved cross-functional misalignment across a multi-tier subcontracting workflow — PO, OC, ASN.">
+<link rel="shortcut icon" type="image/x-icon" href="../img/KJY_logo_bar.jpg">
+<link rel="apple-touch-icon" href="../img/KJY_logo_bar.jpg">
+<link rel="stylesheet" href="../style/theme.css">
+<link rel="stylesheet" href="../style/base.css">
+<link rel="stylesheet" href="../style/components.css">
+<link rel="stylesheet" href="../style/case-study.css">
+
+<style>
+/* ── PAGE-SPECIFIC: lifecycle flow diagram ── */
+.lf-flow { display: flex; align-items: flex-start; flex-wrap: wrap; justify-content: center; row-gap: 16px; width: 100%; }
+.lf-stage { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.lf-node { background: #fff; border: 1.5px solid #e5e7eb; border-radius: 6px; padding: 8px 14px; font-size: 0.8125rem; font-weight: 500; color: #111827; white-space: nowrap; }
+.lf-node--blue  { border-color: #2563eb; background: rgba(37,99,235,.06); color: #2563eb; }
+.lf-node--amber { border-color: #f59e0b; background: rgba(245,158,11,.06); color: #92400e; }
+.lf-sublabel { font-size: 0.6875rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; }
+.lf-arrow { font-size: 1rem; color: #d1d5db; padding: 0 4px; margin-top: 10px; line-height: 1; }
+.lf-legend { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
+.lf-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #6b7280; }
+.lf-swatch { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+/* ── PAGE-SPECIFIC: severity taxonomy cards ── */
+.cs-tax-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 20px 0; }
+.cs-tax-card { background: #fff; border: 1px solid #e5e7eb; border-left: 3px solid transparent; border-radius: 8px; padding: 20px; transition: box-shadow 250ms ease-out; }
+.cs-tax-card:hover { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+.cs-tax-card--severe   { border-left-color: #dc2626; }
+.cs-tax-card--major    { border-left-color: #ea580c; }
+.cs-tax-card--moderate { border-left-color: #f59e0b; }
+.cs-tax-card--irritating { border-left-color: #10b981; }
+.cs-tax-level { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+.cs-tax-card--severe   .cs-tax-level { color: #dc2626; }
+.cs-tax-card--major    .cs-tax-level { color: #ea580c; }
+.cs-tax-card--moderate .cs-tax-level { color: #92400e; }
+.cs-tax-card--irritating .cs-tax-level { color: #10b981; }
+.cs-tax-def { font-size: 0.8125rem; color: #6b7280; line-height: 1.6; }
+
+/* ── PAGE-SPECIFIC: impact × effort matrix ── */
+.cs-matrix-wrap { display: flex; flex-direction: column; align-items: center; }
+.cs-matrix-top-label { font-size: 0.6875rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+.cs-matrix-row { display: flex; align-items: stretch; }
+.cs-matrix-y-label { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 0.6875rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.07em; text-align: center; margin-right: 12px; }
+.cs-matrix-grid { position: relative; width: 400px; height: 300px; border-left: 2px solid #111827; border-bottom: 2px solid #111827; }
+.cs-quad { position: absolute; width: 50%; height: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #9ca3af; border: 1px dashed #e5e7eb; }
+.cs-quad--tl { top: 0; left: 0; background: rgba(245,158,11,.04); }
+.cs-quad--tr { top: 0; right: 0; background: rgba(220,38,38,.05); }
+.cs-quad--bl { bottom: 0; left: 0; background: rgba(249,250,251,.9); }
+.cs-quad--br { bottom: 0; right: 0; background: rgba(37,99,235,.04); }
+.cs-dot { position: absolute; width: 13px; height: 13px; border-radius: 50%; border: 2px solid #fff; transform: translate(-50%, 50%); box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.2); cursor: default; transition: transform 150ms ease-out; }
+.cs-dot:hover { transform: translate(-50%, 50%) scale(1.6); z-index: 5; }
+.cs-dot-tip { display: none; position: absolute; bottom: 17px; left: 50%; transform: translateX(-50%); font-size: 0.6875rem; white-space: nowrap; color: #111827; background: #fff; border: 1px solid #e5e7eb; padding: 2px 8px; border-radius: 4px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); pointer-events: none; }
+.cs-dot:hover .cs-dot-tip { display: block; }
+.cs-matrix-x-labels { display: flex; justify-content: space-between; width: 400px; margin-top: 8px; font-size: 0.6875rem; color: #9ca3af; letter-spacing: 0.05em; }
+.cs-matrix-legend { display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+.cs-matrix-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #6b7280; }
+.cs-dot-swatch { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── PAGE-SPECIFIC: severity & role badges ── */
+.cs-sev { display: inline-block; font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.cs-sev--severe    { background: #fef2f2; color: #dc2626; }
+.cs-sev--major     { background: #fff7ed; color: #ea580c; }
+.cs-sev--moderate  { background: #fffbeb; color: #92400e; }
+.cs-sev--irritating { background: #f0fdf4; color: #16a34a; }
+.cs-role { display: inline-block; font-size: 0.6875rem; font-weight: 500; padding: 1px 7px; border-radius: 6px; margin: 2px 2px 2px 0; text-transform: uppercase; letter-spacing: 0.04em; }
+.cs-role--buyer    { background: rgba(37,99,235,.1);  color: #2563eb; }
+.cs-role--supplier { background: rgba(234,88,12,.08); color: #ea580c; }
+.cs-role--ops      { background: rgba(16,185,129,.1); color: #059669; }
+.cs-role--pm       { background: rgba(245,158,11,.1); color: #92400e; }
+.cs-role--eng      { background: rgba(107,33,168,.08); color: #7c3aed; }
+
+/* ── PAGE-SPECIFIC: outcomes uses 3-col here vs shared 4-col ── */
+.cs-outcomes { grid-template-columns: repeat(3, 1fr); }
+.cs-outcome-cell { padding: 28px 24px; }
+.cs-outcome-stat { font-size: 1.5rem; }
+
+@media (max-width: 768px) {
+  .cs-tax-grid { grid-template-columns: 1fr; }
+  .cs-matrix-grid { width: 280px; height: 220px; }
+  .cs-matrix-x-labels { width: 280px; }
+  .cs-outcomes { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .cs-outcomes { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+	
+<!-- NAV — verbatim from index-refactored.html; all classes from staff-portfolio.css -->
+<header class="header" role="banner">
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__container"> <a href="../index.html" class="nav__logo"> <img src="../img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48"> <!--<span class="nav__logo-text">Kate Jie Yu</span>--> </a>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="../index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+        <li><a href="../index.html#founder" class="nav__link">Founder</a></li>
+        <li><a href="../index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+        <li><a href="../index.html#about" class="nav__link">About</a></li>
+        <li><a href="../kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+      </ul>
+      <button
+          class="nav__toggle"
+          id="nav-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> </button>
+    </div>
+  </nav>
+</header>
+<main id="main" role="main">
+  <div class="container"> <a href="../index.html#decision-architecture" class="cs-back">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M10 12L6 8l4-4"/>
+    </svg>
+    Decision Architecture Work</a> 
+    
+    <!-- PAGE HEADER -->
+    <header class="cs-header">
+      <div class="cs-eyebrow"> <span class="cs-pill">Decision Architecture</span> <span class="cs-pill cs-pill--grey">Enterprise · Supply Chain</span> <span class="cs-pill cs-pill--grey">PO · OC · ASN</span> </div>
+      <h1 class="cs-h1"> When the problem isn't the product —<br>
+        <span>it's how decisions get made about it</span> </h1>
+      <p class="cs-lead"> A multi-tier subcontracting workflow, three lifecycle stages, four stakeholder roles, and no shared model for resolving cross-functional trade-offs. This is the architecture I built to fix that. </p>
+      <div class="cs-meta-grid">
+        <div> <span class="cs-meta-label">My Role</span> <span class="cs-meta-value">Strategic Lead · Decision Architect</span> </div>
+        <div> <span class="cs-meta-label">Scope</span> <span class="cs-meta-value">Research → Workshop → Execution Lock</span> </div>
+        <div> <span class="cs-meta-label">Stakeholders</span> <span class="cs-meta-value">Buyer · Supplier · Ops · PM · Engineering</span> </div>
+        <div> <span class="cs-meta-label">Domain</span> <span class="cs-meta-value">Enterprise Procurement Platform</span> </div>
+      </div>
+    </header>
+    
+    <!-- TL;DR -->
+    <div class="cs-tldr">
+      <div class="cs-tldr-label">Strategic Summary</div>
+      <ul>
+        <li>Three lifecycle stages had accumulated usability friction with no shared prioritization model — issues were tracked but never triaged against business or technical cost.</li>
+        <li>I built a decision framework — severity taxonomy, impact × effort matrix, dependency map, ownership model — and ran a cross-functional workshop that produced a ratified execution plan.</li>
+        <li>The deliverable was not a redesign. It was decision infrastructure: a repeatable model for how this organization resolves product trade-offs at the system level.</li>
+      </ul>
+    </div>
+
+    <!-- ACCESS BAR -->
+    <div class="cs-access-bar">
+      <span class="cs-access-label">Access</span>
+      <a href="ai-product/SCC-Subcontracting-Workshop-Report.html" class="cs-access-btn">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 2h6l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+          <polyline points="10 2 10 6 14 6"/>
+        </svg>
+        SCC Subcontracting Workshop Report
+      </a>
+    </div>
+
+    <!-- 01 CONTEXT -->
+    <section class="cs-section" id="context"> <span class="cs-section-index">01 / 07</span>
+      <h2 class="cs-h2">Context & System Complexity</h2>
+      <p class="cs-p">The subcontracting workflow spans three document stages — <strong>Purchase Order (PO)</strong>, <strong>Order Confirmation (OC)</strong>, and <strong>Advance Shipping Notification (ASN)</strong> — each a discrete handoff between buyer and supplier organizations. Four roles operate across these stages with divergent authority scopes and tolerance thresholds: Buyer, Supplier, Operations, and PM.</p>
+      <p class="cs-p">This is a distributed system with shared state. An action at PO propagates into OC. Errors at ASN frequently trace back upstream. <strong>In this context, delayed prioritization is itself an experience defect</strong> — users whose work stops when the system is ambiguous bear the cost of every unresolved decision.</p>
+      <div class="cs-visual">
+        <div class="cs-visual-canvas">
+          <div class="lf-flow">
+            <div class="lf-stage">
+              <div class="lf-node lf-node--blue">PO Creation</div>
+              <div class="lf-sublabel">Buyer initiates</div>
+            </div>
+            <div class="lf-arrow">→</div>
+            <div class="lf-stage">
+              <div class="lf-node lf-node--amber">PO Transmission</div>
+              <div class="lf-sublabel">Network handoff</div>
+            </div>
+            <div class="lf-arrow">→</div>
+            <div class="lf-stage">
+              <div class="lf-node lf-node--amber">OC Receipt</div>
+              <div class="lf-sublabel">Supplier confirms</div>
+            </div>
+            <div class="lf-arrow">→</div>
+            <div class="lf-stage">
+              <div class="lf-node lf-node--amber">OC Review</div>
+              <div class="lf-sublabel">Ops validates</div>
+            </div>
+            <div class="lf-arrow">→</div>
+            <div class="lf-stage">
+              <div class="lf-node">ASN Generation</div>
+              <div class="lf-sublabel">Supplier submits</div>
+            </div>
+            <div class="lf-arrow">→</div>
+            <div class="lf-stage">
+              <div class="lf-node">ASN Match</div>
+              <div class="lf-sublabel">Buyer closes</div>
+            </div>
+          </div>
+          <div class="lf-legend">
+            <div class="lf-legend-item">
+              <div class="lf-swatch" style="background:rgba(37,99,235,.08);border:1.5px solid #2563eb;"></div>
+              <span>Buyer-owned</span> </div>
+            <div class="lf-legend-item">
+              <div class="lf-swatch" style="background:rgba(245,158,11,.08);border:1.5px solid #f59e0b;"></div>
+              <span>High-friction zone</span> </div>
+            <div class="lf-legend-item">
+              <div class="lf-swatch" style="background:#f3f4f6;border:1.5px solid #e5e7eb;"></div>
+              <span>Supplier-owned</span> </div>
+          </div>
+        </div>
+        <div class="cs-visual-caption"> <span class="cs-fig-label">Fig. 01</span> <span class="cs-fig-text">PO → ASN lifecycle with friction-zone mapping. Highlighted stages showed the highest cross-role misalignment identified during structured issue synthesis.</span> </div>
+      </div>
+    </section>
+    
+    <!-- 02 STRATEGIC DIAGNOSIS -->
+    <section class="cs-section" id="diagnosis"> <span class="cs-section-index">02 / 07</span>
+      <h2 class="cs-h2">Strategic Diagnosis</h2>
+      <p class="cs-p">Before defining any solution direction, the work required understanding <em>why</em> issues had persisted — not simply cataloguing them. An organization that accumulates usability problems without resolving them has a structural failure upstream of the backlog.</p>
+      <h3 class="cs-h3">Three root conditions</h3>
+      <p class="cs-p"><strong>Issue accumulation without classification.</strong> Problems were logged across research, support escalations, and stakeholder submissions. No severity taxonomy existed. No business-impact linkage. No differentiation between issues that blocked task completion and those that created friction without causing failure.</p>
+      <p class="cs-p"><strong>Cross-functional accountability gaps.</strong> Each team could identify problems in their own domain but had no mandate — and no venue — to resolve issues requiring joint commitment. Design, Engineering, Ops, and PM each held partial ownership over different lifecycle stages. Decisions that needed more than one team simply didn't get made.</p>
+      <p class="cs-p"><strong>Prioritization by proximity, not impact.</strong> Without a shared framework, decisions defaulted to recency bias and whoever held the most immediate stakeholder pressure. High-impact, high-dependency items sat unresolved while lower-stakes work shipped first.</p>
+      <div class="cs-pullquote">
+        <p>The absence of a decision model is itself a decision — one that defaults to inertia and whoever is in the room when the conversation happens.</p>
+      </div>
+    </section>
+    
+    <!-- 03 DECISION ARCHITECTURE -->
+    <section class="cs-section" id="framework"> <span class="cs-section-index">03 / 07</span>
+      <h2 class="cs-h2">Decision Architecture Framework</h2>
+      <p class="cs-p">The framework had one objective: <strong>convert a heterogeneous issue inventory into a structured set of decisions</strong> with defined inputs, clear criteria, and a locked output. Not backlog grooming — a governance intervention at the product strategy level.</p>
+      <h3 class="cs-h3">Severity taxonomy</h3>
+      <p class="cs-p">Every issue was classified on four levels before any prioritization discussion. Classification used system-behavior criteria, not user sentiment.</p>
+      <div class="cs-tax-grid">
+        <div class="cs-tax-card cs-tax-card--severe">
+          <div class="cs-tax-level">Severe</div>
+          <div class="cs-tax-def">Blocks task completion or causes data integrity failure. No viable workaround within the system. Resolution is a prerequisite for adjacent work.</div>
+        </div>
+        <div class="cs-tax-card cs-tax-card--major">
+          <div class="cs-tax-level">Major</div>
+          <div class="cs-tax-def">Does not block completion but consistently triggers error recovery, re-entry, or cross-role escalation. Workarounds exist but impose measurable workflow cost.</div>
+        </div>
+        <div class="cs-tax-card cs-tax-card--moderate">
+          <div class="cs-tax-level">Moderate</div>
+          <div class="cs-tax-def">Creates friction or cognitive overhead without triggering failure loops. Compounds in high-volume scenarios and for less experienced users.</div>
+        </div>
+        <div class="cs-tax-card cs-tax-card--irritating">
+          <div class="cs-tax-level">Irritating</div>
+          <div class="cs-tax-def">Suboptimal but tolerably functional. Contributes to perceived quality degradation. Addressable within normal sprint cadence without cross-team coordination.</div>
+        </div>
+      </div>
+      <h3 class="cs-h3">Impact × Effort Matrix — core strategic artifact</h3>
+      <div class="cs-callout">
+        <p>Severity answers <strong>what type of problem this is</strong>. The matrix answers <strong>where to act first</strong> given real constraints on team capacity and technical dependency chains. Dot placement was done collaboratively during the workshop — positioning was itself a structured negotiation across team perspectives.</p>
+      </div>
+      <div class="cs-visual">
+        <div class="cs-visual-canvas" style="padding: 40px 32px 52px;">
+          <div class="cs-matrix-wrap">
+            <div class="cs-matrix-top-label">← Low Effort &nbsp;·&nbsp; High Effort →</div>
+            <div class="cs-matrix-row">
+              <div class="cs-matrix-y-label">↑ High Impact &nbsp;·&nbsp; Low Impact ↓</div>
+              <div>
+                <div class="cs-matrix-grid">
+                  <div class="cs-quad cs-quad--tl">Quick Wins</div>
+                  <div class="cs-quad cs-quad--tr">Strategic Bets</div>
+                  <div class="cs-quad cs-quad--bl">Fill-In</div>
+                  <div class="cs-quad cs-quad--br">Defer / Cut</div>
+                  <!-- Severe -->
+                  <div class="cs-dot" style="left:20%;bottom:76%;background:#dc2626;"><span class="cs-dot-tip">PO Transmission Error</span></div>
+                  <div class="cs-dot" style="left:37%;bottom:68%;background:#dc2626;"><span class="cs-dot-tip">OC Status Ambiguity</span></div>
+                  <!-- Major -->
+                  <div class="cs-dot" style="left:16%;bottom:54%;background:#ea580c;"><span class="cs-dot-tip">Field Validation</span></div>
+                  <div class="cs-dot" style="left:74%;bottom:72%;background:#ea580c;"><span class="cs-dot-tip">ASN Match Logic</span></div>
+                  <!-- Moderate -->
+                  <div class="cs-dot" style="left:63%;bottom:47%;background:#f59e0b;"><span class="cs-dot-tip">Supplier Notifications</span></div>
+                  <div class="cs-dot" style="left:80%;bottom:26%;background:#f59e0b;"><span class="cs-dot-tip">Search Filters</span></div>
+                  <!-- Irritating -->
+                  <div class="cs-dot" style="left:24%;bottom:22%;background:#10b981;"><span class="cs-dot-tip">Label Copy</span></div>
+                </div>
+                <div class="cs-matrix-x-labels"> <span>Low Effort</span> <span>High Effort</span> </div>
+              </div>
+            </div>
+            <div class="cs-matrix-legend">
+              <div class="cs-matrix-legend-item">
+                <div class="cs-dot-swatch" style="background:#dc2626;"></div>
+                Severe</div>
+              <div class="cs-matrix-legend-item">
+                <div class="cs-dot-swatch" style="background:#ea580c;"></div>
+                Major</div>
+              <div class="cs-matrix-legend-item">
+                <div class="cs-dot-swatch" style="background:#f59e0b;"></div>
+                Moderate</div>
+              <div class="cs-matrix-legend-item">
+                <div class="cs-dot-swatch" style="background:#10b981;"></div>
+                Irritating</div>
+              <div class="cs-matrix-legend-item" style="color:#9ca3af;font-style:italic;">Hover dots to identify items</div>
+            </div>
+          </div>
+        </div>
+        <div class="cs-visual-caption"> <span class="cs-fig-label">Fig. 02</span> <span class="cs-fig-text">Impact × Effort matrix — severity-coded issue placement from workshop consensus. Strategic Bets sequenced after dependency blockers cleared. Items anonymized; positions representative.</span> </div>
+      </div>
+      <h3 class="cs-h3">Dependency & Blocker Mapping</h3>
+      <p class="cs-p">Several high-priority issues couldn't execute independently — they required upstream architectural decisions before design changes could be meaningful. I mapped each item explicitly as <strong>blocker</strong> (sequential prerequisite), <strong>dependency</strong> (requires coordination, not sequencing), or <strong>independent</strong>. This prevented the most common sequencing failure: a plan that looks rational on paper but breaks when a team hits an unresolved constraint mid-sprint.</p>
+    </section>
+    
+    <!-- 04 GOVERNANCE -->
+    <section class="cs-section" id="governance"> <span class="cs-section-index">04 / 07</span>
+      <h2 class="cs-h2">Governance & Ownership Model</h2>
+      <p class="cs-p">A prioritized issue list without assigned ownership is a document, not an agreement. The model enforced two rules: <strong>one primary owner per item</strong>, and <strong>explicit declaration of cross-team involvement</strong>. Every item required a named decision owner — not a team, a role.</p>
+      <div class="cs-visual">
+        <div class="cs-table-scroll">
+          <table class="cs-table">
+            <thead>
+              <tr>
+                <th>Issue Cluster</th>
+                <th>Stage</th>
+                <th>Severity</th>
+                <th>Primary Owner</th>
+                <th>Involved Roles</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PO Transmission Failure States</td>
+                <td>PO → Network</td>
+                <td><span class="cs-sev cs-sev--severe">Severe</span></td>
+                <td>Engineering</td>
+                <td><span class="cs-role cs-role--pm">PM</span><span class="cs-role cs-role--ops">Ops</span></td>
+              </tr>
+              <tr>
+                <td>OC Status Messaging & Buyer Visibility</td>
+                <td>OC</td>
+                <td><span class="cs-sev cs-sev--severe">Severe</span></td>
+                <td>Product Design</td>
+                <td><span class="cs-role cs-role--buyer">Buyer</span><span class="cs-role cs-role--eng">Eng</span><span class="cs-role cs-role--pm">PM</span></td>
+              </tr>
+              <tr>
+                <td>Supplier OC Confirmation Flow</td>
+                <td>OC</td>
+                <td><span class="cs-sev cs-sev--major">Major</span></td>
+                <td>Product Design</td>
+                <td><span class="cs-role cs-role--supplier">Supplier</span><span class="cs-role cs-role--ops">Ops</span></td>
+              </tr>
+              <tr>
+                <td>ASN Line-Item Match Logic</td>
+                <td>ASN</td>
+                <td><span class="cs-sev cs-sev--major">Major</span></td>
+                <td>Engineering</td>
+                <td><span class="cs-role cs-role--buyer">Buyer</span><span class="cs-role cs-role--pm">PM</span></td>
+              </tr>
+              <tr>
+                <td>Field Validation & Error Recovery</td>
+                <td>PO · OC · ASN</td>
+                <td><span class="cs-sev cs-sev--major">Major</span></td>
+                <td>Product Design</td>
+                <td><span class="cs-role cs-role--supplier">Supplier</span><span class="cs-role cs-role--eng">Eng</span></td>
+              </tr>
+              <tr>
+                <td>Notification & Status Transparency</td>
+                <td>OC · ASN</td>
+                <td><span class="cs-sev cs-sev--moderate">Moderate</span></td>
+                <td>PM</td>
+                <td><span class="cs-role cs-role--buyer">Buyer</span><span class="cs-role cs-role--supplier">Supplier</span><span class="cs-role cs-role--eng">Eng</span></td>
+              </tr>
+              <tr>
+                <td>Search, Filter & Navigation</td>
+                <td>Cross-stage</td>
+                <td><span class="cs-sev cs-sev--moderate">Moderate</span></td>
+                <td>Product Design</td>
+                <td><span class="cs-role cs-role--ops">Ops</span></td>
+              </tr>
+              <tr>
+                <td>Label Copy & Terminology Consistency</td>
+                <td>Cross-stage</td>
+                <td><span class="cs-sev cs-sev--irritating">Irritating</span></td>
+                <td>Product Design</td>
+                <td><span class="cs-role cs-role--pm">PM</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cs-visual-caption"> <span class="cs-fig-label">Fig. 03</span> <span class="cs-fig-text">Cross-functional ownership model — one primary owner per cluster, explicit cross-team involvement. Ownership agreed in the workshop, not designated post-hoc. Items generalized.</span> </div>
+      </div>
+      <p class="cs-p">The model also defined escalation behavior: if an item crossed ownership boundaries mid-execution — due to scope expansion, technical constraint, or new stakeholder input — the escalation path was documented, not left to informal resolution.</p>
+    </section>
+    
+    <!-- 05 AGREEMENT LOCK -->
+    <section class="cs-section" id="agreement"> <span class="cs-section-index">05 / 07</span>
+      <h2 class="cs-h2">Agreement Lock & Direction Reset</h2>
+      <p class="cs-p">The workshop's output was a <strong>cross-functionally ratified execution plan</strong>: what gets addressed, in what order, owned by whom, and what is explicitly deferred. "Locked" is the right word — the purpose was to end the re-litigation cycle that occurs when decisions are treated as provisional.</p>
+      <h3 class="cs-h3">Workshop structure</h3>
+      <ul class="cs-steps">
+        <li class="cs-step"> <span class="cs-step-num">1</span>
+          <div>
+            <div class="cs-step-title">Issue Review & Severity Alignment</div>
+            <p class="cs-step-desc">Participants reviewed the classified inventory and challenged severity assignments. Disagreements were resolved against defined criteria — not consensus or seniority.</p>
+          </div>
+        </li>
+        <li class="cs-step"> <span class="cs-step-num">2</span>
+          <div>
+            <div class="cs-step-title">Impact × Effort Placement</div>
+            <p class="cs-step-desc">Teams collaboratively positioned issues on the matrix. Engineering provided effort estimates; Design and PM framed impact. Placement was debated, not assigned.</p>
+          </div>
+        </li>
+        <li class="cs-step"> <span class="cs-step-num">3</span>
+          <div>
+            <div class="cs-step-title">Dependency & Blocker Declaration</div>
+            <p class="cs-step-desc">Each high-priority item was tested for dependencies. Teams declared blockers explicitly. Items that couldn't proceed without unresolved prerequisites were flagged and sequenced accordingly.</p>
+          </div>
+        </li>
+        <li class="cs-step"> <span class="cs-step-num">4</span>
+          <div>
+            <div class="cs-step-title">Ownership Commitment & Sequencing Lock</div>
+            <p class="cs-step-desc">Each item received a named owner and a sequencing position. Deferred items were acknowledged as deferred — not dropped. The plan was read back and ratified before the session closed.</p>
+          </div>
+        </li>
+      </ul>
+      <div class="cs-pullquote">
+        <p>A direction reset requires more than a new plan — it requires a moment where the previous approach is explicitly retired. The workshop was designed to produce that moment.</p>
+      </div>
+    </section>
+    
+    <!-- 06 IMPACT -->
+    <section class="cs-section" id="impact"> <span class="cs-section-index">06 / 07</span>
+      <h2 class="cs-h2">Organizational Impact</h2>
+      <p class="cs-p">The direct output was a resolved decision backlog with clear execution sequencing. The more durable output was the framework itself — the taxonomy, the matrix, and the workshop model are now reusable governance artifacts for this team.</p>
+      <div class="cs-outcomes">
+        <div class="cs-outcome-cell">
+          <div class="cs-outcome-label">Issue Inventory</div>
+          <div class="cs-outcome-stat">Classified</div>
+          <div class="cs-outcome-desc">Unstructured accumulation converted into severity-tiered, impact-weighted inventory across all three lifecycle stages.</div>
+        </div>
+        <div class="cs-outcome-cell">
+          <div class="cs-outcome-label">Cross-Team Alignment</div>
+          <div class="cs-outcome-stat">Locked</div>
+          <div class="cs-outcome-desc">Four functional teams aligned on one sequenced plan with committed ownership — ratified in session, not delegated post-hoc.</div>
+        </div>
+        <div class="cs-outcome-cell">
+          <div class="cs-outcome-label">Governance Model</div>
+          <div class="cs-outcome-stat">Established</div>
+          <div class="cs-outcome-desc">Severity taxonomy and workshop model documented as repeatable artifacts for future cross-functional prioritization cycles.</div>
+        </div>
+      </div>
+      <p class="cs-p">Beyond the immediate plan, this engagement produced a documented account of <strong>how decisions get made on this product</strong> — who holds authority at each decision point, what criteria govern trade-offs, and how contested items resolve. That decision transparency is unusual in enterprise product teams and reduces onboarding cost for new stakeholders entering complex systems.</p>
+    </section>
+    
+    <!-- 07 REFLECTION -->
+    <section class="cs-section" id="reflection"> <span class="cs-section-index">07 / 07</span>
+      <h2 class="cs-h2">What Changed Systemically</h2>
+      <p class="cs-p">The surface change was a resolved issue backlog. The systemic change was the introduction of a decision-making model where none previously existed. That distinction matters for how this work should be evaluated.</p>
+      <h3 class="cs-h3">What this was not</h3>
+      <p class="cs-p">This was not a redesign. No screens were produced. The work didn't improve an interface — it established the conditions under which interface improvements could be made reliably, in the right order, by the right teams.</p>
+      <h3 class="cs-h3">What it demonstrates at scale</h3>
+      <p class="cs-p">In enterprise platforms with long lifecycles and multi-team dependencies, <strong>decision quality is a product quality metric</strong>. Teams that can't resolve cross-functional trade-offs efficiently ship the wrong things in the wrong order — not for lack of good ideas, but for lack of structures that convert good ideas into committed action.</p>
+      <p class="cs-p">The framework here — severity taxonomy, impact × effort placement, dependency mapping, ownership assignment, sequencing lock — is not specific to subcontracting. It's a decision architecture that adapts to any multi-team context where the primary problem is not <em>what to build</em> but <em>how to decide what to build first, and ensure the decision holds.</em></p>
+      <h3 class="cs-h3">What I would do differently</h3>
+      <p class="cs-p">An async pre-workshop phase would compress live decision time and surface genuine disagreements earlier — spending session time on contested items rather than cases with clear consensus. I'd also formalize the escalation protocol before the session rather than inside it, reducing ambiguity for teams executing independently post-workshop.</p>
+    </section>
+  </div>
+  <!-- /container --> 
+</main>
+
+<!-- STRUCTURED FOOTER -->
+<footer class="footer--structured" role="contentinfo">
+  <div class="container">
+    <nav class="footer__nav" aria-label="Site navigation">
+      <div> <span class="footer__col-label">Decision Architecture</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+          <li><a href="#" class="footer__col-link">Product Layer</a></li>
+          <li><a href="../decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+          <li><a href="../decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Founder</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#founder" class="footer__col-link">Overview</a></li>
+          <li><a href="../founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+          <li><a href="../founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+          <li><a href="../founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Applied Systems</span>
+        <ul class="footer__col-links">
+          <li><a href="../inde.html/#applied-systems" class="footer__col-link">Overview</a></li>
+          <li><a href="../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+          <li><a href="../applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+          <li><a href="../applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+          <li><a href="../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">General</span>
+        <ul class="footer__col-links">
+          <li><a href="../index.html#about" class="footer__col-link">About</a></li>
+          <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+          <li><a href="../applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+          <li><a href="../sitemap.html" class="footer__col-link">Sitemap</a></li>
+          <li><a href="../kateyu-resume.html" class="footer__col-link">Resume</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="footer__bottom">
+      <p class="footer__bottom-copy"> &copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture </p>
+      <div class="footer__bottom-links"> <a href="../applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a> <a href="../sitemap.html" class="footer__bottom-link">Sitemap</a> <a href="../kateyu-resume.html" class="footer__bottom-link">Resume</a> </div>
+    </div>
+  </div>
+</footer>
+  <script src="../js/staff-portfolio.js"></script>
+</body>
+</html>

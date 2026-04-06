@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<title>Kate Jie Yu · Staff Product Designer · AI Systems &amp; Decision Architecture</title>
+<meta name="description" content="Staff Product Designer specializing in AI systems and decision architecture. 10+ years of experience. Founder of SyncoPro. Designing governance infrastructure for enterprise AI at scale.">
+<meta property="og:title" content="Kate Jie Yu · Staff Product Designer · AI Systems &amp; Decision Architecture">
+<meta property="og:description" content="10+ years designing governance infrastructure for enterprise AI — authority boundaries, escalation models, and decision readiness systems. Founder of SyncoPro.">
+<meta property="og:image" content="img/kate-studio.jpg">
+<meta property="og:type" content="website">
+<link rel="shortcut icon" type="image/x-icon" href="img/KJY_logo_bar.jpg">
+<link rel="apple-touch-icon" href="img/KJY_logo_bar.jpg">
+	<link rel="stylesheet" href="style/theme.css">
+<link rel="stylesheet" href="style/base.css">
+<link rel="stylesheet" href="style/components.css">
+<style>
+.hero__label {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--color-primary);
+    background-color: rgba(37,99,235,.08);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: 100px;
+    margin-bottom: var(--space-xl)
+}
+.section__eyebrow {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-md)
+}
+.da {
+    padding: var(--space-5xl) 0;
+    background-color: var(--color-background-secondary)
+}
+.da__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-xl);
+    overflow: hidden;
+    margin-top: var(--space-4xl)
+}
+.da__card {
+    background-color: var(--color-background);
+    padding: var(--space-3xl) var(--space-2xl);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: background-color var(--transition-normal)
+}
+.da__card:hover {
+    background-color: var(--color-background-secondary)
+}
+.da__layer {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-sm)
+}
+.da__marker {
+    display: block;
+    width: 32px;
+    height: 3px;
+    border-radius: 2px;
+    margin-bottom: var(--space-lg);
+    flex-shrink: 0
+}
+.da__marker--product {
+    background-color: var(--color-primary)
+}
+.da__marker--org {
+    background-color: var(--color-warning)
+}
+.da__marker--ai {
+    background-color: var(--color-success)
+}
+.da__title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-md)
+}
+.da__desc {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-xl);
+    flex-grow: 1
+}
+.da__cta {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary)
+}
+.da__card:hover .da__cta {
+    text-decoration: underline
+}
+.applied {
+    padding: var(--space-5xl) 0;
+    background-color: var(--color-background)
+}
+.applied__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background-color: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-xl);
+    overflow: hidden;
+    margin-top: var(--space-4xl)
+}
+.applied__card {
+    background-color: var(--color-background);
+    padding: var(--space-2xl) var(--space-xl);
+    text-decoration: none;
+    display: block;
+    transition: background-color var(--transition-normal)
+}
+.applied__card:hover {
+    background-color: var(--color-background-secondary)
+}
+.applied__num {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-sm)
+}
+.applied__title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--space-sm);
+    line-height: var(--line-height-tight)
+}
+.applied__desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed)
+}
+.footer--structured {
+    padding: var(--space-5xl) 0 var(--space-3xl);
+    border-top: 1px solid var(--color-border-light);
+    background-color: var(--color-background)
+}
+.footer__nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4xl);
+    padding-bottom: var(--space-4xl);
+    border-bottom: 1px solid var(--color-border-light);
+    margin-bottom: var(--space-3xl)
+}
+.footer__col-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text);
+    margin-bottom: var(--space-lg);
+    display: block
+}
+.footer__col-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm)
+}
+.footer__col-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    line-height: var(--line-height-normal);
+    transition: color var(--transition-fast)
+}
+.footer__col-link:hover {
+    color: var(--color-text)
+}
+.footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-md)
+}
+.footer__bottom-copy {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary)
+}
+.footer__bottom-links {
+    display: flex;
+    gap: var(--space-lg)
+}
+.footer__bottom-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast)
+}
+.footer__bottom-link:hover {
+    color: var(--color-text-secondary)
+}
+
+@media(max-width:1024px) {
+.applied__grid {
+    grid-template-columns: repeat(2, 1fr)
+}
+}
+
+@media(max-width:900px) {
+.da__grid {
+    grid-template-columns: 1fr
+}
+.footer__nav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3xl)
+}
+}
+
+@media(max-width:768px) {
+.da__card {
+    padding: var(--space-2xl)
+}
+.applied__card {
+    padding: var(--space-xl)
+}
+.applied__grid {
+    grid-template-columns: repeat(2, 1fr)
+}
+}
+
+@media(max-width:480px) {
+.applied__grid {
+    grid-template-columns: 1fr
+}
+.footer__nav {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl)
+}
+.footer__bottom {
+    flex-direction: column;
+    align-items: flex-start
+}
+}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<header class="header" role="banner">
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__container"> <a href="#" class="nav__logo"> <img src="img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48"> <!--<span class="nav__logo-text">Kate Jie Yu</span>--> </a>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="#decision-architecture" class="nav__link">Decision Architecture</a></li>
+        <li><a href="#founder" class="nav__link">Founder</a></li>
+        <li><a href="#applied-systems" class="nav__link">Applied Systems</a></li>
+        <li><a href="#about" class="nav__link">About</a></li>
+        <li><a href="kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+      </ul>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu"> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> </button>
+    </div>
+  </nav>
+</header>
+<main id="main" role="main">
+
+  <!-- ═══════════════════════════════════════
+       1 · HERO
+       ═══════════════════════════════════════ -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero__content">
+        <span class="hero__label">Staff Product Designer · AI Systems &amp; Decision Architecture</span>
+        <h1 class="hero__title">
+          Designing the Decision Layer<br>
+          for <span class="hero__highlight">AI-Native Enterprise</span><br>
+          Systems
+        </h1>
+        <p class="hero__description">
+          From SAP supply chain platforms to 0→1 products, I build the systems that make decisions
+          reliable, accountable, and executable. Founder of SyncoPro.
+        </p>
+        <!-- Hero pillar strip -->
+        <div class="hero__pillar-strip">
+          <!-- Desktop: joined pill strip -->
+          <div class="hero__pillar-desktop">
+            <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-primary);background:rgba(37,99,235,0.08);padding:6px 16px;border-radius:6px 0 0 6px;border:1px solid rgba(37,99,235,0.2);letter-spacing:0.02em;white-space:nowrap;box-shadow:4px 4px 16px rgba(37,99,235,0.28);">Product Systems</span>
+            <span style="font-size:var(--font-size-xs);color:var(--color-text-tertiary);padding:6px 10px;background:var(--color-background-tertiary);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">·</span>
+            <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-warning);background:rgba(245,158,11,0.08);padding:6px 16px;border-top:1px solid rgba(245,158,11,0.2);border-bottom:1px solid rgba(245,158,11,0.2);letter-spacing:0.02em;white-space:nowrap;box-shadow:4px 4px 16px rgba(245,158,11,0.28);">Organizational Governance</span>
+            <span style="font-size:var(--font-size-xs);color:var(--color-text-tertiary);padding:6px 10px;background:var(--color-background-tertiary);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">·</span>
+            <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-success);background:rgba(16,185,129,0.08);padding:6px 16px;border-radius:0 6px 6px 0;border:1px solid rgba(16,185,129,0.2);letter-spacing:0.02em;white-space:nowrap;box-shadow:4px 4px 16px rgba(16,185,129,0.28);">AI Decision Systems</span>
+          </div>
+          <!-- Mobile: clean vertical list -->
+          <div class="hero__pillar-mobile">
+            <span class="hero__pillar-item hero__pillar-item--blue">Product Systems</span>
+            <span class="hero__pillar-item hero__pillar-item--yellow">Organizational Governance</span>
+            <span class="hero__pillar-item hero__pillar-item--green">AI Decision Systems</span>
+          </div>
+        </div>
+        <!-- Bridge sentence -->
+        <p style="font-size:var(--font-size-base);color:var(--color-text-tertiary);max-width:640px;margin:0 auto var(--space-3xl);line-height:var(--line-height-relaxed);">
+          SAP Business Network · SyncoPro · Three case studies across product, organization, and AI.
+        </p>
+        <div class="hero__actions">
+          <a href="#decision-architecture" class="button button--primary">View Case Studies</a>
+          <a href="#contact" class="button button--secondary">Get in touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       2 · DECISION ARCHITECTURE FRAMEWORK
+       ═══════════════════════════════════════ -->
+  <section class="da" id="da-framework" style="padding-top:var(--space-5xl);padding-bottom:var(--space-5xl);">
+    <div class="container">
+
+      <div class="section__header">
+        <span class="section__eyebrow">Framework</span>
+        <h2 class="section__title">Decision Architecture Framework</h2>
+        <p class="section__subtitle">
+          A structural model for how modern systems coordinate decisions.<br>From operational workflows → governance models → AI autonomy boundaries.<br>
+          The three case studies below each map to one layer.
+        </p>
+      </div>
+
+      <!-- Framework diagram -->
+      <div style="border:1px solid var(--color-border);border-radius:var(--border-radius-xl);overflow:hidden;background:var(--color-background);">
+
+        <!-- Diagram header bar -->
+        <div class="da3__header">
+          <span style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Decision Architecture · 3 Layers</span>
+          <span class="da3__header-rule"></span>
+          <span style="font-size:var(--font-size-xs);color:var(--color-text-tertiary);white-space:nowrap;">Product Systems → Governance → AI Autonomy</span>
+        </div>
+
+        <!-- ── DESKTOP: three columns, no arrows, just borders ── -->
+        <div class="da3__desktop">
+          <!-- Layer 01 · Product -->
+          <div style="padding:32px 28px;border-right:1px solid var(--color-border);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--product" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 01 · Product</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-lg);">Product Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(37,99,235,0.5);flex-shrink:0;"></span>Workflow structure
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(37,99,235,0.5);flex-shrink:0;"></span>Decision routing
+              </li>
+            </ul>
+          </div>
+          <!-- Layer 02 · Organization -->
+          <div style="padding:32px 28px;border-right:1px solid var(--color-border);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--org" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 02 · Organization</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-lg);">Organization Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(245,158,11,0.6);flex-shrink:0;"></span>Governance models
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(245,158,11,0.6);flex-shrink:0;"></span>Ownership structure
+              </li>
+            </ul>
+          </div>
+          <!-- Layer 03 · AI -->
+          <div style="padding:32px 28px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--ai" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 03 · AI</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-lg);">AI Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(16,185,129,0.6);flex-shrink:0;"></span>Autonomy thresholds
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(16,185,129,0.6);flex-shrink:0;"></span>Escalation boundaries
+              </li>
+            </ul>
+          </div>
+        </div><!-- /desktop -->
+
+        <!-- ── MOBILE: vertical stack with down arrows ── -->
+        <div class="da3__mobile">
+
+          <!-- Layer 01 -->
+          <div class="da3__mobile-layer">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--product" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 01 · Product</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-md);">Product Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(37,99,235,0.5);flex-shrink:0;"></span>Workflow structure
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(37,99,235,0.5);flex-shrink:0;"></span>Decision routing
+              </li>
+            </ul>
+          </div>
+
+          <!-- Down arrow -->
+          <!--<div class="da3__mobile-arrow">
+            <svg width="18" height="24" viewBox="0 0 18 24" fill="none" aria-hidden="true">
+              <line x1="9" y1="0" x2="9" y2="16" stroke="var(--color-border)" stroke-width="1.5"/>
+              <path d="M5 14l4 6 4-6" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>-->
+
+          <!-- Layer 02 -->
+          <div class="da3__mobile-layer">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--org" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 02 · Organization</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-md);">Organization Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(245,158,11,0.6);flex-shrink:0;"></span>Governance models
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(245,158,11,0.6);flex-shrink:0;"></span>Ownership structure
+              </li>
+            </ul>
+          </div>
+
+          <!-- Down arrow -->
+          <!--<div class="da3__mobile-arrow">
+            <svg width="18" height="24" viewBox="0 0 18 24" fill="none" aria-hidden="true">
+              <line x1="9" y1="0" x2="9" y2="16" stroke="var(--color-border)" stroke-width="1.5"/>
+              <path d="M5 14l4 6 4-6" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>-->
+
+          <!-- Layer 03 -->
+          <div class="da3__mobile-layer">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--ai" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 03 · AI</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-md);">AI Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(16,185,129,0.6);flex-shrink:0;"></span>Autonomy thresholds
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(16,185,129,0.6);flex-shrink:0;"></span>Escalation boundaries
+              </li>
+            </ul>
+          </div>
+
+        </div><!-- /mobile -->
+
+        <!-- Diagram footer caption -->
+        <div style="padding:12px 28px;border-top:1px solid var(--color-border);background:var(--color-background-secondary);display:flex;align-items:center;gap:8px;">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <circle cx="6" cy="6" r="5" stroke="var(--color-text-tertiary)" stroke-width="1.2"/>
+            <path d="M6 5v3.5M6 4v.5" stroke="var(--color-text-tertiary)" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <span style="font-size:var(--font-size-xs);color:var(--color-text-tertiary);">The framework above illustrates the structural layers through which complex systems make decisions — from operational workflows to governance models to AI autonomy boundaries. <br>Each layer is a distinct decision domain. The case studies below demonstrate how this framework applies in practice. </span>
+        </div>
+
+      </div><!-- /framework diagram -->
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       3 · DECISION ARCHITECTURE IN PRACTICE
+       ═══════════════════════════════════════ -->
+  <section class="da" id="decision-architecture" style="padding-top:var(--space-5xl);padding-bottom:var(--space-5xl);background-color:var(--color-background);">
+    <div class="container">
+
+      <div class="section__header">
+        <span class="section__eyebrow">Case Studies</span>
+        <h2 class="section__title">Decision Architecture in Practice</h2>
+        <p class="section__subtitle">
+          Three layers. One capability. Each case demonstrates the same underlying problem: how to make
+          decisions reliable, accountable, and scalable in complex systems.
+        </p>
+      </div>
+
+      <div class="da__grid">
+        <a class="da__card" href="decision-architecture/product-subcontracting.html">
+          <div class="da__layer">Layer 01 · Product</div>
+          <span class="da__marker da__marker--product"></span>
+          <div class="da__title">Product Decision Architecture</div>
+          <p class="da__desc">Designing decision infrastructure inside enterprise supply chain workflows. The deliverable was not a redesign — it was a system for making decisions visible, verifiable, and executable.</p>
+          <span class="da__cta">View case study →</span>
+        </a>
+        <a class="da__card" href="decision-architecture/organization-governance-architecture.html">
+          <div class="da__layer">Layer 02 · Organization</div>
+          <span class="da__marker da__marker--org"></span>
+          <div class="da__title">Organizational Governance Architecture</div>
+          <p class="da__desc">Defining how decisions operate at the organizational level. This work establishes the operating model: who decides, how decisions are made, and how accountability is enforced.</p>
+          <span class="da__cta">View case study →</span>
+        </a>
+        <a class="da__card" href="decision-architecture/ai-decision-architecture.html">
+          <div class="da__layer">Layer 03 · AI</div>
+          <span class="da__marker da__marker--ai"></span>
+          <div class="da__title">AI Decision Architecture</div>
+          <p class="da__desc">Structuring how AI participates in decision-making. From ambiguity to bounded systems — designing trust, authority, and control in AI-driven workflows.</p>
+          <span class="da__cta">View case study →</span>
+        </a>
+      </div>
+
+      <!-- Decision Intelligence System spotlight -->
+      <a class="da__card ee-spotlight-card" href="decision-architecture/ai-decision/syncopro-evolution-engine.html" style="position:relative;margin-top:var(--space-2xl);border-radius:var(--border-radius-xl);border:1px solid rgba(124,58,237,0.2);flex-direction:row;align-items:center;justify-content:space-between;gap:var(--space-xl);flex-wrap:wrap;padding:var(--space-xl) var(--space-2xl);background:rgba(124,58,237,0.06);box-shadow:4px 4px 24px rgba(124,58,237,0.12);">
+        <span style="position:absolute;top:14px;right:16px;font-size:0.625rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:20px;background:rgba(124,58,237,0.12);color:#7c3aed;border:1px solid rgba(124,58,237,0.25);white-space:nowrap;">Signature Work</span>
+        <div>
+          <div class="da__layer" style="color:#7c3aed;">Decision Intelligence System</div>
+          <span class="da__marker" style="background-color:#7c3aed;"></span>
+          <div class="da__title">Designing a Decision Intelligence System</div>
+          <p class="da__desc" style="margin-bottom:0;">Decision Engine · Evolution Engine · Language System — three components that work as one. From raw idea to structured, scored, multilingual, self-improving output.</p>
+        </div>
+        <span class="da__cta" style="flex-shrink:0;white-space:nowrap;color:#7c3aed;">View system case →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       4 · FOUNDER SYSTEMS
+       ═══════════════════════════════════════ -->
+  <section class="ventures" id="founder" style="padding-top:var(--space-5xl);padding-bottom:var(--space-5xl);">
+    <div class="container">
+
+      <div class="section__header">
+        <span class="section__eyebrow">Founder · SyncoPro</span>
+        <h2 class="section__title">Decision Architecture at 0→1</h2>
+        <p class="section__subtitle">
+          Building systems from first principles, applying the same decision architecture across different
+          platforms under real constraints. Not just products — but the structure that makes them work.
+        </p>
+      </div>
+
+      <!-- Founder Systems diagram: abstract → concrete -->
+      <div style="border:1px solid var(--color-border);border-radius:var(--border-radius-xl);overflow:hidden;margin-bottom:var(--space-4xl);">
+
+        <!-- Header bar -->
+        <div class="founder-diagram__header">
+          <span style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Founder Systems · One Thinking → Three Platform Types</span>
+          <span class="founder-diagram__header-rule"></span>
+          <span style="font-size:var(--font-size-xs);color:var(--color-text-tertiary);white-space:nowrap;">0→1 stage</span>
+        </div>
+
+        <!-- ── DESKTOP layout (hidden on mobile) ── -->
+        <div class="founder-diagram__desktop">
+
+          <!-- Root node -->
+          <div style="padding:var(--space-2xl) var(--space-2xl) 0;background:var(--color-background-secondary);display:flex;justify-content:center;">
+            <div style="display:inline-flex;align-items:center;gap:10px;padding:12px 28px;border:1px solid var(--color-border);border-radius:var(--border-radius-lg);background:var(--color-background);">
+              <span style="display:block;width:8px;height:8px;border-radius:50%;background:var(--color-primary);flex-shrink:0;"></span>
+              <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text);letter-spacing:0.01em;">Decision Systems Thinking</span>
+            </div>
+          </div>
+
+          <!-- Branch SVG: stem → horizontal bar → three drops -->
+          <div style="background:var(--color-background-secondary);padding:0 var(--space-2xl);">
+            <svg viewBox="0 0 900 64" preserveAspectRatio="xMidYMid meet" fill="none" aria-hidden="true" style="display:block;width:100%;height:auto;max-height:64px;">
+              <line x1="450" y1="0" x2="450" y2="20" stroke="var(--color-border)" stroke-width="1.5"/>
+              <line x1="150" y1="20" x2="750" y2="20" stroke="var(--color-border)" stroke-width="1.5"/>
+              <line x1="150" y1="20" x2="150" y2="44" stroke="var(--color-border)" stroke-width="1.5"/>
+              <path d="M146 42l4 6 4-6" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="450" y1="20" x2="450" y2="44" stroke="var(--color-border)" stroke-width="1.5"/>
+              <path d="M446 42l4 6 4-6" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="750" y1="20" x2="750" y2="44" stroke="var(--color-border)" stroke-width="1.5"/>
+              <path d="M746 42l4 6 4-6" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <!-- Three nodes -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--color-border);">
+            <div style="background:var(--color-background-secondary);padding:var(--space-lg) var(--space-2xl);">
+              <span style="display:block;width:24px;height:2px;background:var(--color-primary);border-radius:2px;margin-bottom:var(--space-sm);"></span>
+              <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">AI Governance Systems</div>
+            </div>
+            <div style="background:var(--color-background-secondary);padding:var(--space-lg) var(--space-2xl);">
+              <span style="display:block;width:24px;height:2px;background:var(--color-warning);border-radius:2px;margin-bottom:var(--space-sm);"></span>
+              <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Marketplace Systems</div>
+            </div>
+            <div style="background:var(--color-background-secondary);padding:var(--space-lg) var(--space-2xl);">
+              <span style="display:block;width:24px;height:2px;background:var(--color-success);border-radius:2px;margin-bottom:var(--space-sm);"></span>
+              <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Trust Networks</div>
+            </div>
+          </div>
+
+        </div><!-- /desktop -->
+
+        <!-- ── MOBILE layout (hidden on desktop) ── -->
+        <div class="founder-diagram__mobile">
+
+          <!-- Root node -->
+          <div style="padding:var(--space-lg) var(--space-lg) var(--space-md);background:var(--color-background-secondary);">
+            <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border:1px solid var(--color-border);border-radius:var(--border-radius-lg);background:var(--color-background);">
+              <span style="display:block;width:8px;height:8px;border-radius:50%;background:var(--color-primary);flex-shrink:0;"></span>
+              <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text);letter-spacing:0.01em;">Decision Systems Thinking</span>
+            </div>
+          </div>
+
+          <!-- Vertical tree: left rail + three items -->
+          <div style="background:var(--color-background-secondary);padding:0 var(--space-lg) var(--space-lg);position:relative;">
+
+            <!-- Left vertical rail line -->
+            <div style="position:absolute;left:calc(var(--space-lg) + 3px);top:0;bottom:var(--space-lg);width:1.5px;background:var(--color-border);"></div>
+
+            <!-- Item 1 -->
+            <div style="display:flex;align-items:center;gap:var(--space-md);padding:var(--space-md) 0;position:relative;">
+              <div style="width:20px;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;position:relative;">
+                <!-- Horizontal branch line -->
+                <div style="position:absolute;right:0;top:50%;width:20px;height:1.5px;background:var(--color-border);"></div>
+                <!-- Arrow tip -->
+                <svg width="6" height="8" viewBox="0 0 6 8" fill="none" aria-hidden="true" style="position:absolute;right:-4px;"><path d="M0 0l6 4-6 4" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div style="flex:1;background:var(--color-background);border:1px solid var(--color-border);border-radius:var(--border-radius-md);padding:var(--space-md) var(--space-lg);">
+                <span style="display:block;width:20px;height:2px;background:var(--color-primary);border-radius:2px;margin-bottom:6px;"></span>
+                <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">AI Governance Systems</div>
+              </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div style="display:flex;align-items:center;gap:var(--space-md);padding:var(--space-md) 0;position:relative;">
+              <div style="width:20px;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;position:relative;">
+                <div style="position:absolute;right:0;top:50%;width:20px;height:1.5px;background:var(--color-border);"></div>
+                <svg width="6" height="8" viewBox="0 0 6 8" fill="none" aria-hidden="true" style="position:absolute;right:-4px;"><path d="M0 0l6 4-6 4" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div style="flex:1;background:var(--color-background);border:1px solid var(--color-border);border-radius:var(--border-radius-md);padding:var(--space-md) var(--space-lg);">
+                <span style="display:block;width:20px;height:2px;background:var(--color-warning);border-radius:2px;margin-bottom:6px;"></span>
+                <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Marketplace Systems</div>
+              </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div style="display:flex;align-items:center;gap:var(--space-md);padding:var(--space-md) 0 0;position:relative;">
+              <div style="width:20px;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;position:relative;">
+                <div style="position:absolute;right:0;top:50%;width:20px;height:1.5px;background:var(--color-border);"></div>
+                <svg width="6" height="8" viewBox="0 0 6 8" fill="none" aria-hidden="true" style="position:absolute;right:-4px;"><path d="M0 0l6 4-6 4" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div style="flex:1;background:var(--color-background);border:1px solid var(--color-border);border-radius:var(--border-radius-md);padding:var(--space-md) var(--space-lg);">
+                <span style="display:block;width:20px;height:2px;background:var(--color-success);border-radius:2px;margin-bottom:6px;"></span>
+                <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Trust Networks</div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /mobile -->
+
+      </div><!-- /founder systems diagram -->
+
+      <!-- Founder project cards -->
+      <div class="ventures__grid">
+
+        <article class="venture__card">
+          <a href="founder/syncopro/index.html" style="display:flex;flex-direction:column;height:100%;text-decoration:none;">
+            <div class="venture__header">
+              <h3 class="venture__title">SyncoPro</h3>
+              <span class="venture__role">Founder</span>
+            </div>
+            <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-semibold);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin-bottom:var(--space-md);">AI Governance Platform</div>
+            <p class="venture__description" style="flex-grow:1;">An AI governance platform applying decision architecture to product planning — structuring AI authority, escalation paths, and validation gates for product teams under organizational constraints.</p>
+            <div class="venture__tags">
+              <span class="tag">AI Governance</span>
+              <span class="tag">Decision Infrastructure</span>
+              <span class="tag">Enterprise Platform</span>
+            </div>
+            <span class="da__cta" style="display:block;margin-top:auto;">View case study →</span>
+          </a>
+        </article>
+
+        <article class="venture__card">
+          <a href="founder/mighty-coupons/index.html" style="display:flex;flex-direction:column;height:100%;text-decoration:none;">
+            <div class="venture__header">
+              <h3 class="venture__title">Mighty Coupons</h3>
+              <span class="venture__role">Product Design Lead</span>
+            </div>
+            <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-semibold);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin-bottom:var(--space-md);">Local Services Marketplace</div>
+            <p class="venture__description" style="flex-grow:1;">A local service marketplace platform — designing the merchant decision layer, offer schema, and discovery mechanics that structure how businesses acquire customers and how consumers evaluate and book services.</p>
+            <div class="venture__tags">
+              <span class="tag">Consumer Systems</span>
+              <span class="tag">Marketplace Design</span>
+              <span class="tag">0→1 Product</span>
+            </div>
+            <span class="da__cta" style="display:block;margin-top:auto;">View case study →</span>
+          </a>
+        </article>
+
+        <article class="venture__card">
+          <a href="founder/refermejob/index.html" style="display:flex;flex-direction:column;height:100%;text-decoration:none;">
+            <div class="venture__header">
+              <h3 class="venture__title">ReferMeJob</h3>
+              <span class="venture__role">Product Designer</span>
+            </div>
+            <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-semibold);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin-bottom:var(--space-md);">Referral Network Platform</div>
+            <p class="venture__description" style="flex-grow:1;">A referral-based hiring platform — designing the trust mechanics and matching authority structures in a peer-to-peer professional referral system.</p>
+            <div class="venture__tags">
+              <span class="tag">Referral Systems</span>
+              <span class="tag">Trust Design</span>
+              <span class="tag">Platform Design</span>
+            </div>
+            <span class="da__cta" style="display:block;margin-top:auto;">View case study →</span>
+          </a>
+        </article>
+
+      </div><!-- /ventures__grid -->
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       5 · APPLIED SYSTEMS
+       ═══════════════════════════════════════ -->
+  <section class="applied" id="applied-systems" style="padding-top:var(--space-5xl);padding-bottom:var(--space-5xl);">
+    <div class="container">
+
+      <div class="section__header">
+        <span class="section__eyebrow">SAP · Enterprise Work</span>
+        <h2 class="section__title">Applied Systems</h2>
+        <p class="section__subtitle">
+          Enterprise systems, under real constraints. This is where decision architecture moves from
+          concept to constraint — operating inside live SAP products, data systems, and organizational
+          boundaries.
+        </p>
+      </div>
+
+      <div class="applied__grid">
+        <a class="applied__card" href="applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" target="_blank">
+          <div class="applied__num">01</div>
+          <div class="applied__title">Discovery 2.1 · SAP</div>
+          <p class="applied__desc">AI-generated response enhancement in a live enterprise product — trust calibration, transparency design, and feedback loop architecture.</p>
+        </a>
+        <a class="applied__card" href="applied-systems/case-studies/sap/sap-bn-design-system.html" target="_blank">
+          <div class="applied__num">02</div>
+          <div class="applied__title">Design System · SAP</div>
+          <p class="applied__desc">Component architecture and governance standards enabling consistent decision-ready interfaces across enterprise product lines.</p>
+        </a>
+        <a class="applied__card" href="applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" target="_blank">
+          <div class="applied__num">03</div>
+          <div class="applied__title">Analytics · SAP</div>
+          <p class="applied__desc">Instrumentation and reporting systems surfacing decision-relevant signals to operational and leadership stakeholders.</p>
+        </a>
+        <a class="applied__card" href="applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" target="_blank">
+          <div class="applied__num">04</div>
+          <div class="applied__title">AI Autopilot · SAP</div>
+          <p class="applied__desc">Early-stage AI governance concept work — prototyping autonomy boundaries and interface patterns for AI-assisted enterprise supply chain workflows.</p>
+        </a>
+      </div>
+
+      <div class="work__footer">
+        <a href="applied-systems/index.html" class="button button--secondary" target="_blank">View All Applied Work</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       6 · ABOUT & CONTACT
+       ═══════════════════════════════════════ -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about__content">
+        <div class="about__text">
+          <h2 class="about__title">About</h2>
+          <p class="about__description">Staff Product Designer specializing in AI systems and decision architecture. Focused on enterprise products, governance models, and system-level design.</p>
+          <p class="about__description">Founder of SyncoPro, an AI governance platform that operationalizes product decision-making. Work spans three layers: product workflow systems, organizational governance, and AI autonomy design.</p>
+          <p class="about__description">Based in the San Francisco Bay Area. Available for Staff / Principal roles in AI product design, enterprise systems architecture, and AI governance design.</p>
+        </div>
+        <div class="about__contact" id="contact">
+          <h3 class="about__contact-title">Get in touch</h3>
+          <p class="about__contact-description">For Staff / Principal roles in AI governance, decision architecture, and enterprise AI product design.</p>
+          <div class="contact__links">
+			  <a id="email-link" href="#" class="contact__link contact__link--primary">Email Me</a>
+            <a href="https://linkedin.com/in/katejieyu" target="_blank" rel="noopener noreferrer" class="contact__link">LinkedIn</a>
+            <a href="kateyu-resume.html" class="contact__link">Resume</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     SITE FOOTER  (index.html footer style)
+     ============================================================ -->
+
+
+<!-- STRUCTURED FOOTER -->
+<footer class="footer--structured" role="contentinfo">
+  <div class="container">
+    <nav class="footer__nav" aria-label="Site navigation">
+      <div> <span class="footer__col-label">Decision Architecture</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+          <li><a href="decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+          <li><a href="decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+          <li><a href="decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+          <li><a href="decision-architecture/ai-decision/sap-product-ai-system.html" class="footer__col-link">SAP Product AI System</a></li>
+          <li><a href="decision-architecture/ai-decision/ai-systems-library.html" class="footer__col-link">AI Systems Library</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Founder</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#founder" class="footer__col-link">Overview</a></li>
+          <li><a href="founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+          <li><a href="founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+          <li><a href="founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">Applied Systems</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#applied-systems" class="footer__col-link">Overview</a></li>
+          <li><a href="applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+          <li><a href="applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+          <li><a href="applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+          <li><a href="applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+        </ul>
+      </div>
+      <div> <span class="footer__col-label">General</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#about" class="footer__col-link">About</a></li>
+          <li><a href="#contact" class="footer__col-link">Contact</a></li>
+          <li><a href="applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+          <li><a href="sitemap.html" class="footer__col-link">Sitemap</a></li>
+          <li><a href="kateyu-resume.html" class="footer__col-link">Resume</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="footer__bottom">
+      <p class="footer__bottom-copy"> &copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture </p>
+      <div class="footer__bottom-links"> <a href="applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a>  <a href="sitemap.html" class="footer__bottom-link">Sitemap</a> <a href="kateyu-resume.html" class="footer__bottom-link">Resume</a> </div>
+    </div>
+  </div>
+</footer>
+<script src="js/staff-portfolio.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const user = "katejieyu";
+  const domain = "gmail.com";
+  const email = `${user}@${domain}`;
+
+  const link = document.getElementById("email-link");
+  if (!link) return;
+
+  link.href = `mailto:${email}`;
+  //link.textContent = email; // 或者保留 "Email"：不显示完整邮箱也行
+});
+</script>
+
+</body>
+</html>

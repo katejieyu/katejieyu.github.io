@@ -1,0 +1,742 @@
+/* SyncoPro – Investor Presentation Styles */
+/* Generated 2026-03-03 */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --surface2: #F3F4F6;
+  --text: #1A1A1A;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+  --purple: #7C3AED;
+  --blue: #3B82F6;
+}
+
+.dark {
+  --bg: #111111;
+  --surface: #1A1A1A;
+  --surface2: #222222;
+  --text: #E5E5E5;
+  --muted: #9CA3AF;
+  --border: #2D2D2D;
+  --purple: #8B5CF6;
+  --blue: #60A5FA;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Layout */
+.app-shell {
+  height: 100vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  left: 0; top: 0;
+  width: 252px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  background-color: var(--surface);
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  z-index: 50;
+}
+.sidebar.open {
+  transform: translateX(0);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.08);
+}
+
+.sidebar-brand {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-brand h1 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.gradient-text {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--purple), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+@media print {
+  .gradient-text {
+    -webkit-text-fill-color: var(--purple) !important;
+    background: none !important;
+    color: var(--purple) !important;
+  }
+}
+
+
+
+.sidebar-brand .subtitle {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.progress-bar-track {
+  height: 2px;
+  background-color: var(--border);
+  position: relative;
+}
+.progress-bar-fill {
+  height: 2px;
+  background: linear-gradient(90deg, var(--purple), var(--blue));
+  border-radius: 1px;
+  transition: width 0.3s ease;
+}
+
+/* Slide nav list */
+.slide-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+.slide-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--muted);
+  border-left: 3px solid transparent;
+  transition: all 0.15s ease;
+}
+.slide-nav-item:hover {
+  background-color: var(--surface2);
+}
+.slide-nav-item.active {
+  color: var(--text);
+  font-weight: 600;
+  border-left-color: var(--purple);
+  background-color: color-mix(in srgb, var(--purple) 6%, transparent);
+}
+.slide-nav-item .num {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--purple);
+  font-variant-numeric: tabular-nums;
+  min-width: 22px;
+}
+
+/* Bottom controls */
+.sidebar-controls {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Buttons */
+.nav-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0;
+}
+.nav-btn:disabled { opacity: 0.25; pointer-events: none; }
+.nav-btn svg { width: 14px; height: 14px; }
+
+.theme-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* Floating top bar */
+.float-bar {
+  position: fixed;
+  top: 16px; left: 16px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.float-bar.hidden { opacity: 0; transform: translateX(-8px); pointer-events: none; }
+
+.menu-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.slide-label-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.float-controls {
+  position: fixed;
+  top: 16px; right: 16px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Backdrop */
+.backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.15);
+  z-index: 49;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.backdrop.visible { opacity: 1; pointer-events: auto; }
+
+/* Hover zone */
+.hover-zone {
+  position: fixed; left: 0; top: 0;
+  width: 16px; height: 100vh;
+  z-index: 100;
+  cursor: pointer;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  padding: 72px 48px 80px;
+}
+
+.slide-container {
+  width: 100%;
+  max-width: 960px;
+}
+
+/* Slide page (for multi-slide view / print) */
+.slide-page {
+  padding: 48px 40px;
+  max-width: 960px;
+  margin: 0 auto;
+  page-break-after: always;
+}
+.slide-page:last-child {
+  page-break-after: avoid;
+}
+
+/* Print */
+@media print {
+  /* ── Hide all UI chrome ── */
+  .sidebar, .backdrop, .hover-zone,
+  .float-bar, .float-controls,
+  .pm-modal, .pm-backdrop,
+  .no-print { display: none !important; }
+
+  /* ── Reset app-shell layout so all slides flow for print ── */
+  .app-shell {
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  body {
+    background: white !important;
+    color: #1a1a1a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .main-content {
+    overflow: visible !important;
+    padding: 0 !important;
+    display: block !important;
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  .slide-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* ── Hide ALL slides by default ── */
+  .slide-page {
+    display: none !important;
+  }
+
+  /* ── Show only JS-selected slides ── */
+  .slide-page.print-selected {
+    display: block !important;
+    position: relative !important;
+    overflow: hidden !important;   /* clips decorative circles with negative offsets */
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 28px 32px !important;
+    margin: 0 0 0 0 !important;
+    box-sizing: border-box !important;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  /* Suppress trailing blank page after last selected slide */
+  .slide-page[data-print-last] {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* ── Hide purely decorative absolute elements (the gradient circles) ── */
+  /* They have pointer-events:none and no text content — safe to hide in print */
+  .slide-page.print-selected [style*="pointer-events: none"][style*="border-radius: 50%"],
+  .slide-page.print-selected [style*="pointer-events:none"][style*="border-radius:50%"] {
+    display: none !important;
+  }
+
+  /* ── Prevent grids/flex from overflowing print page width ── */
+  .slide-page.print-selected [style*="grid-template-columns: 1fr 1fr 1fr"],
+  .slide-page.print-selected [style*="grid-template-columns:1fr 1fr 1fr"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ======================================================
+   PRINT SELECTION MODAL
+====================================================== */
+
+.pm-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.pm-backdrop.open { opacity: 1; pointer-events: auto; }
+
+.pm-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -48%) scale(0.97);
+  z-index: 201;
+  width: min(600px, calc(100vw - 32px));
+  max-height: calc(100vh - 80px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+.pm-modal.open {
+  opacity: 1; pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Header */
+.pm-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 20px 24px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.pm-title { font-size: 15px; font-weight: 700; color: var(--text); margin: 0 0 3px; letter-spacing: -0.01em; }
+.pm-sub   { font-size: 12px; color: var(--muted); margin: 0; }
+
+.pm-close {
+  width: 28px; height: 28px; border-radius: 6px;
+  border: 1px solid var(--border); background: none;
+  color: var(--muted); cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.pm-close:hover { background: var(--surface2); color: var(--text); }
+
+/* Toolbar */
+.pm-toolbar {
+  display: flex; align-items: center; gap: 2px;
+  padding: 8px 24px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0; flex-wrap: wrap;
+}
+.pm-tb-btn {
+  font-size: 12px; font-weight: 500; color: var(--purple);
+  background: none; border: none; cursor: pointer;
+  padding: 4px 7px; border-radius: 5px;
+  transition: background 0.15s;
+}
+.pm-tb-btn:hover { background: color-mix(in srgb, var(--purple) 8%, transparent); }
+.pm-tb-sep { width: 1px; height: 13px; background: var(--border); margin: 0 3px; }
+.pm-count  { font-size: 11px; color: var(--muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+/* Grid */
+.pm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px; padding: 14px 24px;
+  overflow-y: auto; flex: 1;
+}
+
+.pm-card {
+  position: relative;
+  border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 11px 11px 9px;
+  cursor: pointer; user-select: none;
+  background: var(--surface);
+  transition: border-color 0.15s, background 0.15s;
+}
+.pm-card:hover { border-color: color-mix(in srgb, var(--purple) 45%, transparent); background: var(--surface2); }
+.pm-card.sel   { border-color: var(--purple); background: color-mix(in srgb, var(--purple) 5%, var(--surface)); }
+
+/* Checkbox indicator */
+.pm-chk {
+  position: absolute; top: 9px; right: 9px;
+  width: 15px; height: 15px; border-radius: 4px;
+  border: 1.5px solid var(--border); background: var(--surface);
+  transition: background 0.15s, border-color 0.15s;
+}
+.pm-chk::after {
+  content: '';
+  position: absolute; top: 1px; left: 4px;
+  width: 4px; height: 7px;
+  border: 2px solid #fff; border-top: none; border-left: none;
+  transform: rotate(45deg); opacity: 0; transition: opacity 0.1s;
+}
+.pm-card.sel .pm-chk { background: var(--purple); border-color: var(--purple); }
+.pm-card.sel .pm-chk::after { opacity: 1; }
+
+.pm-num   { font-size: 10px; font-weight: 700; color: var(--purple); letter-spacing: 0.06em; margin-bottom: 3px; }
+.pm-label { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.3; padding-right: 18px; }
+
+/* Footer */
+.pm-footer {
+  display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.pm-btn-cancel {
+  font-size: 13px; font-weight: 500; color: var(--muted);
+  background: none; border: 1px solid var(--border);
+  border-radius: 7px; padding: 7px 15px; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.pm-btn-cancel:hover { background: var(--surface2); color: var(--text); }
+
+.pm-btn-confirm {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; color: #fff;
+  background: linear-gradient(135deg, var(--purple), var(--blue));
+  border: none; border-radius: 7px; padding: 7px 16px; cursor: pointer;
+  transition: opacity 0.15s;
+}
+.pm-btn-confirm:hover   { opacity: 0.88; }
+.pm-btn-confirm:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* ── Print: fix specific inline layout issues ── */
+@media print {
+  /* The bottom row on cover: space-between with min-width:220px card causes overflow.
+     Reset to a simple column stack in print. */
+  .slide-page.print-selected [style*="justify-content: space-between"] {
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+  }
+
+  /* Kate Yu card has min-width:220px which causes overflow at print width.
+     Allow it to shrink. */
+  .slide-page.print-selected [style*="min-width: 220px"] {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  /* Keep display:contents transparent wrappers intact — removing this would break
+     the Full Vision flex row where cards use display:contents for flex participation */
+
+  /* Full Vision row: keep all 5 cards in one row, scale them down for print */
+  .slide-page.print-selected [style*="align-items: stretch"][style*="gap: 0px"] {
+    flex-wrap: nowrap !important;
+    gap: 0 !important;
+    font-size: 11px !important;
+  }
+  /* Make each vision card smaller in print so all 5 fit on one row */
+  .slide-page.print-selected [style*="align-items: stretch"][style*="gap: 0px"] [style*="flex: 1 1 0%"][style*="flex-direction: column"] {
+    padding: 10px 6px !important;
+    min-width: 0 !important;
+  }
+  /* Hide the bracket+arrow decoration below Full Vision — decorative only */
+  .slide-page.print-selected [style*="width: calc(40%"] {
+    display: none !important;
+  }
+}
+
+@media print {
+  /* "Where we are going" + Kate Yu row — force onto new page and keep intact */
+  .print-push-page {
+    break-before: page !important;
+    page-break-before: always !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
+
+/* ======================================================
+   PASSWORD GATE
+====================================================== */
+
+/* Locked nav items */
+.slide-nav-item.locked {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+.slide-nav-item.locked .num {
+  color: var(--muted);
+}
+/* Lock icon appended via CSS */
+.slide-nav-item.locked::after {
+  content: '';
+  display: inline-block;
+  width: 11px; height: 11px;
+  margin-left: auto;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='11' x='3' y='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* Clickable locked items (nav section headings that open gate) */
+.slide-nav-item.locked-clickable {
+  opacity: 0.55;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.slide-nav-item.locked-clickable:hover {
+  background-color: var(--surface2);
+  opacity: 0.75;
+}
+.slide-nav-item.locked-clickable::after {
+  content: '';
+  display: inline-block;
+  width: 11px; height: 11px;
+  margin-left: auto;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='11' x='3' y='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* Gate backdrop */
+.gate-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 300;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.gate-backdrop.open { opacity: 1; pointer-events: auto; }
+
+/* Gate modal */
+.gate-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -48%) scale(0.96);
+  z-index: 301;
+  width: min(380px, calc(100vw - 32px));
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.22);
+  padding: 36px 32px 28px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.gate-modal.open {
+  opacity: 1; pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.gate-lock-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--purple) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--purple) 22%, transparent);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--purple);
+  margin-bottom: 18px;
+}
+
+.gate-title {
+  font-size: 17px; font-weight: 700;
+  color: var(--text); letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.gate-sub {
+  font-size: 13px; color: var(--muted);
+  line-height: 1.65; margin: 0 0 22px;
+}
+
+.gate-input-wrap {
+  display: flex; width: 100%; gap: 8px; margin-bottom: 10px;
+}
+
+.gate-input {
+  flex: 1; height: 42px;
+  padding: 0 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px; font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.gate-input:focus { border-color: var(--purple); }
+.gate-input.shake {
+  border-color: #EF4444;
+  animation: gate-shake 0.35s ease;
+}
+
+@keyframes gate-shake {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+.gate-submit {
+  width: 42px; height: 42px; flex-shrink: 0;
+  border-radius: 9px; border: none;
+  background: linear-gradient(135deg, var(--purple), var(--blue));
+  color: #fff; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.15s;
+}
+.gate-submit:hover { opacity: 0.88; }
+
+.gate-error {
+  font-size: 12px; color: #EF4444;
+  margin: 0 0 10px; min-height: 16px;
+  opacity: 0; transition: opacity 0.18s;
+}
+.gate-error.show { opacity: 1; }
+
+.gate-hint {
+  font-size: 11px; color: var(--muted); opacity: 0.55; margin: 0;
+}
+
+/* Print modal locked card */
+.pm-card.pm-locked {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-style: dashed !important;
+  pointer-events: none;
+}
+
+/* ── Gate modal additions: close button + show/hide toggle ── */
+
+/* Position close button top-right of modal */
+.gate-modal {
+  position: fixed; /* already set, just ensuring relative context */
+}
+.gate-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.gate-close:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+/* Wrap input + eye toggle together */
+.gate-input-inner {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.gate-input-inner .gate-input {
+  width: 100%;
+  padding-right: 38px; /* room for the eye button */
+}
+
+/* Eye toggle button inside the input */
+.gate-toggle {
+  position: absolute;
+  right: 10px;
+  width: 22px; height: 22px;
+  border: none; background: none;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  transition: color 0.15s;
+}
+.gate-toggle:hover { color: var(--text); }

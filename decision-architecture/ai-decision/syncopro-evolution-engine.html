@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>Designing a Decision Intelligence System · Kate Jie Yu</title>
+  <meta name="description" content="How I designed and built SyncoPro — a unified AI decision system with a Decision Engine, Evolution Engine, and Language System that lets users think freely and collaborate globally.">
+  <link rel="shortcut icon" type="image/x-icon" href="../../img/KJY_logo_bar.jpg">
+  <link rel="apple-touch-icon" href="../../img/KJY_logo_bar.jpg">
+  <link rel="stylesheet" href="../../style/theme.css">
+  <link rel="stylesheet" href="../../style/base.css">
+  <link rel="stylesheet" href="../../style/components.css">
+  <link rel="stylesheet" href="../../style/case-study.css">
+  <style>
+    /* PAGE-SPECIFIC: pill color variants */
+    .cs-pill--green  { background-color: rgba(16,185,129,0.1); color: #059669; }
+    .cs-pill--purple { background-color: rgba(124,58,237,0.1); color: #7c3aed; }
+    .cs-pill--amber  { background-color: rgba(245,158,11,0.1); color: #b45309; }
+    .cs-pill--blue   { background-color: rgba(37,99,235,0.1);  color: #1d4ed8; }
+
+    /* PAGE-SPECIFIC: diag-cell color variants */
+    .cs-diag-cell--blue   { border-top: 3px solid #2563eb; }
+    .cs-diag-cell--green  { border-top: 3px solid #10b981; }
+    .cs-diag-cell--purple { border-top: 3px solid #7c3aed; }
+    .cs-diag-cell--amber  { border-top: 3px solid #f59e0b; }
+    .cs-diag-cell--red    { border-top: 3px solid #dc2626; }
+    .cs-diag-cell--indigo { border-top: 3px solid #6366f1; }
+
+    /* PAGE-SPECIFIC: individual card outlines */
+    #architecture .cs-diag-grid,
+    #problem .cs-diag-grid { background: transparent; gap: 12px; border: none; overflow: visible; }
+    #architecture .cs-diag-cell,
+    #problem .cs-diag-cell { border: 1px solid #e5e7eb; border-radius: 8px; }
+    #architecture .cs-diag-cell.cs-diag-cell--blue   { border-top: 3px solid #2563eb; }
+    #architecture .cs-diag-cell.cs-diag-cell--green  { border-top: 3px solid #10b981; }
+    #architecture .cs-diag-cell.cs-diag-cell--purple { border-top: 3px solid #7c3aed; }
+    #architecture .cs-diag-cell.cs-diag-cell--amber  { border-top: 3px solid #f59e0b; }
+    #architecture .cs-diag-cell.cs-diag-cell--red    { border-top: 3px solid #dc2626; }
+    #architecture .cs-diag-cell.cs-diag-cell--indigo { border-top: 3px solid #6366f1; }
+    #problem .cs-diag-cell.cs-diag-cell--red    { border-top: 3px solid #dc2626; }
+    #problem .cs-diag-cell.cs-diag-cell--amber  { border-top: 3px solid #f59e0b; }
+    #problem .cs-diag-cell.cs-diag-cell--purple { border-top: 3px solid #7c3aed; }
+    #problem .cs-diag-cell.cs-diag-cell--blue   { border-top: 3px solid #2563eb; }
+
+    /* Language model table */
+    .lang-role-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 0.9rem;
+    }
+    .lang-role-table th {
+      text-align: left;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .lang-role-table td {
+      padding: 12px 14px;
+      vertical-align: top;
+      border-bottom: 1px solid #f3f4f6;
+      color: #374151;
+      line-height: 1.5;
+    }
+    .lang-role-table tr:last-child td { border-bottom: none; }
+    .lang-role-table td:first-child {
+      font-weight: 600;
+      color: #111827;
+      white-space: nowrap;
+    }
+    .lang-role-badge {
+      display: inline-block;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+    .lang-role-badge--thinking    { background: rgba(37,99,235,0.1);  color: #1d4ed8; }
+    .lang-role-badge--display     { background: rgba(107,114,128,0.1); color: #6b7280; }
+    .lang-role-badge--collab      { background: rgba(16,185,129,0.1);  color: #059669; }
+
+    /* System flow strip */
+    .sys-flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin: 28px 0;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .sys-flow-step {
+      flex: 1;
+      min-width: 100px;
+      padding: 18px 14px;
+      text-align: center;
+      border-right: 1px solid #e5e7eb;
+    }
+    .sys-flow-step:last-child { border-right: none; }
+    .sys-flow-step-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .sys-flow-step-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #111827;
+    }
+    .sys-flow-step--blue  .sys-flow-step-name { color: #1d4ed8; }
+    .sys-flow-step--purple .sys-flow-step-name { color: #7c3aed; }
+    .sys-flow-step--green  .sys-flow-step-name { color: #059669; }
+    .sys-flow-step--amber  .sys-flow-step-name { color: #b45309; }
+
+    /* before/after comparison grid */
+    .cs-compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #e5e7eb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 28px 0;
+    }
+    .cs-compare-col {
+      background: #fff;
+      padding: 32px;
+    }
+    .cs-compare-col:hover { background: #fafafa; }
+    .cs-compare-col--before { border-right: none; }
+    .cs-compare-col-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+    .cs-compare-col-label--after { color: #059669; }
+    .cs-compare-col-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .cs-compare-col ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .cs-compare-col ul li {
+      font-size: 0.875rem;
+      color: #6b7280;
+      line-height: 1.65;
+      padding: 5px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .cs-compare-col ul li:last-child { border-bottom: none; }
+    .cs-compare-col ul li::before {
+      content: "—";
+      margin-right: 8px;
+      color: #d1d5db;
+    }
+    .cs-compare-col--after ul li::before {
+      content: "→";
+      margin-right: 8px;
+      color: #10b981;
+    }
+
+    @media (max-width: 768px) {
+      .cs-compare-grid { grid-template-columns: 1fr; }
+      .sys-flow { flex-direction: column; }
+      .sys-flow-step { border-right: none; border-bottom: 1px solid #e5e7eb; }
+      .sys-flow-step:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- NAV -->
+  <header class="header" role="banner">
+    <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+      <div class="nav__container">
+        <a href="../../index.html" class="nav__logo">
+          <img src="../../img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48">
+        </a>
+        <ul class="nav__menu" id="nav-menu">
+          <li><a href="../../index.html#decision-architecture" class="nav__link">Decision Architecture</a></li>
+          <li><a href="../../index.html#founder" class="nav__link">Founder</a></li>
+          <li><a href="../../index.html#applied-systems" class="nav__link">Applied Systems</a></li>
+          <li><a href="../../index.html#about" class="nav__link">About</a></li>
+          <li><a href="../../kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+        </ul>
+        <button
+          class="nav__toggle"
+          id="nav-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu">
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" role="main">
+    <div class="container">
+
+      <!-- BREADCRUMB -->
+      <nav aria-label="Breadcrumb">
+        <ol class="cs-breadcrumb">
+          <li>
+            <a href="../ai-decision-architecture.html">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 12L6 8l4-4"/></svg>
+              AI Decision Architecture
+            </a>
+          </li>
+          <li><span class="cs-breadcrumb-sep">/</span></li>
+          <li><span class="cs-breadcrumb-current">Decision Intelligence System</span></li>
+        </ol>
+      </nav>
+
+      <!-- ══ PAGE HEADER ══ -->
+      <header class="cs-header">
+        <div class="cs-eyebrow">
+          <span class="cs-pill">AI Systems Design</span>
+          <span class="cs-pill cs-pill--purple">Decision Intelligence</span>
+          <span class="cs-pill cs-pill--green">Continuous Learning</span>
+          <span class="cs-pill cs-pill--blue">Language System</span>
+          <span class="cs-pill cs-pill--amber">Product Architecture</span>
+        </div>
+
+        <h1 class="cs-h1">
+          Designing a Decision<br>
+          <span>Intelligence System</span>
+        </h1>
+
+        <p class="cs-lead">
+          SyncoPro is not a feature set — it is a unified system. Three engines work together: a Decision Engine that turns ambiguous ideas into execution-ready briefs, an Evolution Engine that learns from every cycle and improves automatically, and a Language System that lets users think in their strongest language while collaborating in everyone else's. This case documents how those three components were designed, why they belong together, and what the system can do that none of its parts could do alone.
+        </p>
+
+        <div class="cs-meta-grid">
+          <div>
+            <span class="cs-meta-label">My Role</span>
+            <span class="cs-meta-value">System Designer · AI Architecture · Founder</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">System</span>
+            <span class="cs-meta-value">SyncoPro — AI-powered decision intelligence with persistent learning and multilingual output</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Components</span>
+            <span class="cs-meta-value">Decision Engine · Evolution Engine · Language System</span>
+          </div>
+          <div>
+            <span class="cs-meta-label">Connects To</span>
+            <span class="cs-meta-value">AI Decision Architecture · Feedback Loop Design · Global Product Strategy</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ══ EXECUTIVE SUMMARY ══ -->
+      <div class="cs-tldr">
+        <div class="cs-tldr-label">What This Is</div>
+        <ul>
+          <li><strong>A unified decision intelligence system, not a collection of features.</strong> SyncoPro turns a rough idea into a structured, execution-ready brief — scored for decision quality, refined by AI, available in the user's thinking language and in business-ready English simultaneously.</li>
+          <li><strong>It learns with every cycle.</strong> The Evolution Engine scans the product continuously, classifies issues automatically (P0/P1/P2), auto-fixes high-confidence problems, and persists that knowledge across sessions. The system becomes more accurate over time without being reconfigured.</li>
+          <li><strong>It removes language as a barrier to decision quality.</strong> Non-English users generate their brief in their native language — the language where their thinking is most precise. A business-ready English version is produced simultaneously for global collaboration. No translation step. No re-generation. No friction for English users.</li>
+        </ul>
+      </div>
+
+      <!-- ══ LIVE APP LINK ══ -->
+      <div style="
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin: 28px 0 32px;
+        padding: 16px 20px;
+        background: rgba(124,58,237,0.05);
+        border: 1px solid rgba(124,58,237,0.2);
+        border-radius: 10px;
+      ">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #059669;
+          ">
+            <span style="width:7px;height:7px;border-radius:50%;background:#10b981;display:inline-block;flex-shrink:0;animation:pulse-dot 2s ease-in-out infinite;"></span>
+            Live Beta
+          </span>
+          <span style="font-size:0.875rem;color:#6b7280;">The system described in this case is running — try it directly.</span>
+        </div>
+        <a
+          href="https://syncopro.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #7c3aed;
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid rgba(124,58,237,0.3);
+            border-radius: 7px;
+            background: rgba(124,58,237,0.06);
+            transition: background 0.15s, border-color 0.15s;
+            white-space: nowrap;
+          "
+          onmouseover="this.style.background='rgba(124,58,237,0.12)';this.style.borderColor='rgba(124,58,237,0.5)'"
+          onmouseout="this.style.background='rgba(124,58,237,0.06)';this.style.borderColor='rgba(124,58,237,0.3)'"
+        >
+          Try SyncoPro Beta
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1V9"/><path d="M10 2h4v4"/><path d="M14 2L8 8"/></svg>
+        </a>
+      </div>
+      <style>
+        @keyframes pulse-dot {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50%       { opacity: 0.5; transform: scale(0.85); }
+        }
+      </style>
+
+      <!-- ══ 01 THE PROBLEM ══ -->
+      <section class="cs-section" id="problem">
+        <span class="cs-section-index">01 / 08</span>
+        <h2 class="cs-h2">The Problem</h2>
+
+        <p class="cs-p">AI tools that help with product development share a common failure mode: they generate outputs but do not improve the system producing them. They assume English as the thinking language. They treat feedback as passive data. They restart from zero with every session.</p>
+
+        <p class="cs-p">The result is a predictable set of gaps:</p>
+
+        <div class="cs-diag-grid">
+          <div class="cs-diag-cell cs-diag-cell--red">
+            <div class="cs-diag-layer">Gap 01</div>
+            <div class="cs-diag-title">Output without structure</div>
+            <div class="cs-diag-desc">AI generates text. The user still has to decide what to do with it, whether it's complete, and whether the team can act on it. There's no quality signal, no scope definition, no execution path.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--amber">
+            <div class="cs-diag-layer">Gap 02</div>
+            <div class="cs-diag-title">No persistent learning</div>
+            <div class="cs-diag-desc">Each session starts from zero. Issues repeat across features and releases because no memory persists between cycles. The system has no awareness of what it has already fixed.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--purple">
+            <div class="cs-diag-layer">Gap 03</div>
+            <div class="cs-diag-title">English as a forced default</div>
+            <div class="cs-diag-desc">When non-English users write in English, they compress their ideas. The AI responds to a simplified version of the problem. Decision quality degrades before generation even begins.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--blue">
+            <div class="cs-diag-layer">Gap 04</div>
+            <div class="cs-diag-title">Feedback with no path back</div>
+            <div class="cs-diag-desc">Feedback is collected but not integrated into future outputs. It accumulates in reports that no one acts on systematically. The signal exists — the mechanism to use it does not.</div>
+          </div>
+        </div>
+
+        <div class="cs-callout">
+          <p><strong>These are not separate problems.</strong> They are symptoms of the same missing architecture: a system that structures output, learns from feedback, improves automatically, and serves users regardless of what language they think in.</p>
+        </div>
+      </section>
+
+      <!-- ══ 02 THE SYSTEM ══ -->
+      <section class="cs-section" id="system">
+        <span class="cs-section-index">02 / 08</span>
+        <h2 class="cs-h2">The System</h2>
+
+        <p class="cs-p">Three components. One unified loop.</p>
+
+        <!-- System flow -->
+        <div class="sys-flow" role="list" aria-label="System flow">
+          <div class="sys-flow-step sys-flow-step--blue" role="listitem">
+            <div class="sys-flow-step-label">Input</div>
+            <div class="sys-flow-step-name">User idea</div>
+          </div>
+          <div class="sys-flow-step sys-flow-step--blue" role="listitem">
+            <div class="sys-flow-step-label">Component 01</div>
+            <div class="sys-flow-step-name">Decision Engine</div>
+          </div>
+          <div class="sys-flow-step sys-flow-step--purple" role="listitem">
+            <div class="sys-flow-step-label">Component 02</div>
+            <div class="sys-flow-step-name">Language System</div>
+          </div>
+          <div class="sys-flow-step sys-flow-step--amber" role="listitem">
+            <div class="sys-flow-step-label">Output</div>
+            <div class="sys-flow-step-name">Structured brief</div>
+          </div>
+          <div class="sys-flow-step sys-flow-step--green" role="listitem">
+            <div class="sys-flow-step-label">Component 03</div>
+            <div class="sys-flow-step-name">Evolution Engine</div>
+          </div>
+        </div>
+
+        <p class="cs-p">The user inputs an idea. The Decision Engine structures it into an execution-ready brief. The Language System generates that brief in the user's thinking language and in English simultaneously. The Evolution Engine scans the result, learns from it, and improves the next cycle. The loop closes.</p>
+
+        <div class="cs-diag-grid">
+          <div class="cs-diag-cell cs-diag-cell--blue">
+            <div class="cs-diag-layer">Component 01</div>
+            <div class="cs-diag-title">Decision Engine</div>
+            <div class="cs-diag-desc">Turns an ambiguous idea into a structured, scored brief — with scope, decisions, blockers, execution phases, and next actions. Includes a quality signal (Decision Quality Score) so users know when a brief is ready to act on.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--purple">
+            <div class="cs-diag-layer">Component 02</div>
+            <div class="cs-diag-title">Language System</div>
+            <div class="cs-diag-desc">Detects the user's thinking language automatically. Generates the brief in that language and in business-ready English simultaneously. Stores both in a versioned map. Export, toggle, and share — no re-generation required.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--green">
+            <div class="cs-diag-layer">Component 03</div>
+            <div class="cs-diag-title">Evolution Engine</div>
+            <div class="cs-diag-desc">Scans the product across five structured domains, classifies issues automatically (P0/P1/P2), auto-fixes high-confidence problems, and persists every resolution to SCAN-MEMORY. The system improves by running — not by being configured.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 03 DECISION ENGINE ══ -->
+      <section class="cs-section" id="decision-engine">
+        <span class="cs-section-index">03 / 08</span>
+        <h2 class="cs-h2">Decision Engine</h2>
+
+        <p class="cs-p">Most AI tools generate text. The Decision Engine generates <em>structure</em>. There is a difference: structure is actionable.</p>
+
+        <p class="cs-p">When a user submits an idea, the engine produces a complete project brief: a specific problem statement, defined users, scoped V1 features, explicit exclusions, key decisions with rationale, blockers, execution phases with effort estimates, and immediate next actions. Each field has a purpose — together they form a document a team can act on without translation into another format.</p>
+
+        <h3 class="cs-h3">Decision Quality Score</h3>
+        <p class="cs-p">Every brief is scored 0–100 across five dimensions: problem clarity, solution specificity, scope discipline, decision coverage, and execution readiness. The score is a live signal — it tells the user whether the brief is ready for a team or needs another refinement cycle.</p>
+
+        <div class="cs-callout">
+          <ul style="margin:0;padding:0 0 0 4px;list-style:none;">
+            <li style="padding:4px 0;color:#374151;font-size:0.9375rem;">→ <strong>80+</strong> — Decision-Ready. Brief can be handed to a team.</li>
+            <li style="padding:4px 0;color:#374151;font-size:0.9375rem;">→ <strong>60–79</strong> — Strong. One refinement cycle will close remaining gaps.</li>
+            <li style="padding:4px 0;color:#374151;font-size:0.9375rem;">→ <strong>40–59</strong> — Developing. Key decisions or scope are still undefined.</li>
+            <li style="padding:4px 0;color:#374151;font-size:0.9375rem;">→ <strong>Below 40</strong> — Needs Work. Idea needs more specificity before structure holds.</li>
+          </ul>
+        </div>
+
+        <h3 class="cs-h3">Refine Loop</h3>
+        <p class="cs-p">When a brief scores below the readiness threshold, the Refine agent challenges it — identifying the specific fields that are weakest (vague problem statement, over-broad scope, missing blockers) and rewriting them. Each refinement cycle updates the score. The loop stops when the brief is genuinely ready, not when the user clicks accept.</p>
+
+        <div class="cs-pullquote">
+          <p>The goal is not a completed document. It is a brief that a team can act on without asking clarifying questions.</p>
+        </div>
+      </section>
+
+      <!-- ══ 04 LANGUAGE SYSTEM ══ -->
+      <section class="cs-section" id="language-system">
+        <span class="cs-section-index">04 / 08</span>
+        <h2 class="cs-h2">Language System — Thinking vs Collaboration</h2>
+
+        <p class="cs-p">Forcing non-English users to input in English doesn't change the language — it reduces the thinking. When a founder writes in their second language, they compress ideas to fit available words. The AI responds to the compressed version. In a decision support tool, that gap has consequences.</p>
+
+        <h3 class="cs-h3">The insight</h3>
+        <ul class="cs-p" style="padding-left:1.2em;line-height:2;">
+          <li>Users have two language needs: <strong>think freely</strong> in their strongest language, <strong>collaborate clearly</strong> in a shared one.</li>
+          <li>Language affects decision quality, not just UI — the precision of a problem statement depends on how fluently the user can articulate it.</li>
+          <li>Treating language as a display setting misses the point. It needs to be a generation parameter.</li>
+        </ul>
+
+        <h3 class="cs-h3">The three-language model</h3>
+        <p class="cs-p">Three roles — always kept separate. Collapsing any two of them breaks the system.</p>
+
+        <table class="lang-role-table" aria-label="Language role model">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>What it does</th>
+              <th>Controlled by</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="lang-role-badge lang-role-badge--thinking">Thinking</span><br>thinkingLanguage</td>
+              <td>Drives AI generation — the language the user reasons in. A Chinese user gets a Chinese brief. If you write in German, the AI structures the problem in German.</td>
+              <td>Input detection (automatic — no configuration required)</td>
+            </tr>
+            <tr>
+              <td><span class="lang-role-badge lang-role-badge--display">Display</span><br>displayLanguage</td>
+              <td>The app UI language. Independent of what language the user inputs their ideas in.</td>
+              <td>Device preference / user setting</td>
+            </tr>
+            <tr>
+              <td><span class="lang-role-badge lang-role-badge--collab">Collaboration</span><br>collaborationLanguage</td>
+              <td>Always English. Optimized for global sharing — not a literal translation but a rewrite for business clarity, active voice, and global readability.</td>
+              <td>System constant — always present</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="cs-h3">How it works</h3>
+        <p class="cs-p">Detection happens before the API call — the system identifies the user's language from the input text using Unicode range matching (for script-based languages) and keyword frequency scoring (for Latin-script languages like German, French, Spanish). The correct generation mode is sent on the first request.</p>
+
+        <p class="cs-p">Both versions are generated in parallel and stored immediately in a <code>versions</code> map:</p>
+
+        <div class="cs-callout" style="font-family:monospace;font-size:0.875rem;line-height:1.7;">
+          versions: {<br>
+          &nbsp;&nbsp;English: { ...full brief, business-ready },<br>
+          &nbsp;&nbsp;Chinese: { ...full brief, thinking-language },<br>
+          }
+        </div>
+
+        <p class="cs-p">English is always present — the global collaboration layer. The toggle, export, and share functions all read from this map. No re-generation. No latency on interaction.</p>
+
+        <h3 class="cs-h3">Key decisions</h3>
+        <div class="cs-diag-grid" style="margin-top:16px;">
+          <div class="cs-diag-cell cs-diag-cell--blue">
+            <div class="cs-diag-title">Generate in thinking language first</div>
+            <div class="cs-diag-desc">Translation after the fact compresses. Generating in the native language preserves the specificity of the original thinking — then translating produces a genuinely different, higher-quality English brief.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--purple">
+            <div class="cs-diag-title">No re-generation on toggle</div>
+            <div class="cs-diag-desc">Once both versions exist, switching between them is instant. Re-generation on every toggle would add 10–30 seconds to a cognitive task that should feel like reading.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--green">
+            <div class="cs-diag-title">Export is the collaboration moment</div>
+            <div class="cs-diag-desc">Bilingual export — native + English in one file — means a Chinese PM and an English engineering team read the same document simultaneously. No coordination step. That's the feature.</div>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">Challenges solved</h3>
+        <p class="cs-p">Three specific bugs surfaced and were resolved during development:</p>
+        <ul class="cs-p" style="padding-left:1.2em;line-height:2.1;">
+          <li><strong>Latin language detection was fragile.</strong> Short, jargon-heavy inputs from German or Spanish users scored zero keyword matches — falling through to English-only generation. Fixed by lowering the match threshold to one. A false positive (one foreign word in an English sentence) gives the user an unexpected dual brief — minor. A missed detection gives a non-English user no native version — real cost.</li>
+          <li><strong>Stale native version after refine.</strong> The refine agent rewrites English fields but not the native version. A Chinese user who refined would see an updated English brief alongside a Chinese panel describing the old scope. Fixed by resetting <code>versions</code> to English-only after any refine — the native panel disappears rather than showing contradictory content.</li>
+          <li><strong>Toggle discoverability.</strong> Non-English users landing in the result view saw the English brief with no clear signal that a native version existed. Fixed with a single inline hint that dismisses on first toggle interaction.</li>
+        </ul>
+
+        <div class="cs-pullquote">
+          <p>For English users, the entire language system is invisible. No toggle, no export options they didn't ask for, no UI change. That's the design.</p>
+        </div>
+      </section>
+
+      <!-- ══ 05 EVOLUTION ENGINE ══ -->
+      <section class="cs-section" id="evolution-engine">
+        <span class="cs-section-index">05 / 08</span>
+        <h2 class="cs-h2">Evolution Engine</h2>
+
+        <p class="cs-p">A product that cannot detect its own problems relies entirely on human bandwidth to improve. The Evolution Engine removes that dependency for the class of problems that are structurally detectable — and builds memory so they never need to be detected again.</p>
+
+        <div class="cs-visual">
+          <div class="cs-visual-canvas">
+            <div class="cs-loop">
+              <div class="cs-loop-node cs-loop-node--blue">
+                Scan
+                <div class="cs-loop-sublabel">5-domain structured detection</div>
+              </div>
+              <div class="cs-loop-arrow">→</div>
+              <div class="cs-loop-node">
+                Evaluate
+                <div class="cs-loop-sublabel">P0 / P1 / P2 classification</div>
+              </div>
+              <div class="cs-loop-arrow">→</div>
+              <div class="cs-loop-node cs-loop-node--amber">
+                Fix
+                <div class="cs-loop-sublabel">Auto-fix high-confidence issues</div>
+              </div>
+              <div class="cs-loop-arrow">→</div>
+              <div class="cs-loop-node cs-loop-node--green">
+                Learn
+                <div class="cs-loop-sublabel">Persist to SCAN-MEMORY</div>
+              </div>
+              <div class="cs-loop-arrow">→</div>
+              <div class="cs-loop-node cs-loop-node--blue">
+                Repeat
+                <div class="cs-loop-sublabel">More accurate each cycle</div>
+              </div>
+            </div>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 01</span>
+            <span class="cs-fig-text">The Evolution Loop. Each cycle reads past memory, scans for new issues, skips already-resolved problems, fixes high-priority items, and records new learnings. The compounding effect: each iteration is more accurate and efficient than the last.</span>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">Five-layer architecture</h3>
+        <div class="cs-diag-grid">
+          <div class="cs-diag-cell cs-diag-cell--blue">
+            <div class="cs-diag-layer">Layer 1</div>
+            <div class="cs-diag-title">Scan</div>
+            <div class="cs-diag-desc">5-domain structured detection — logic errors, UX friction, error handling gaps, flow dead-ends, feedback gaps. Systematic coverage replaces ad hoc discovery.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--indigo">
+            <div class="cs-diag-layer">Layer 2</div>
+            <div class="cs-diag-title">Decision</div>
+            <div class="cs-diag-desc">Automated P0 / P1 / P2 classification. Priority is assigned by the system — not negotiated in a planning meeting.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--amber">
+            <div class="cs-diag-layer">Layer 3</div>
+            <div class="cs-diag-title">Execution</div>
+            <div class="cs-diag-desc">Auto-fix for high-confidence P0 issues. Human authority preserved for low-confidence or high-consequence decisions. Reduces bottleneck without removing oversight.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--purple">
+            <div class="cs-diag-layer">Layer 4</div>
+            <div class="cs-diag-title">Memory</div>
+            <div class="cs-diag-desc">SCAN-MEMORY.json persists every resolution across cycles. The system never re-solves a problem it has already fixed. This is what makes it self-evolving rather than just automated.</div>
+          </div>
+          <div class="cs-diag-cell cs-diag-cell--green">
+            <div class="cs-diag-layer">Layer 5</div>
+            <div class="cs-diag-title">Learning</div>
+            <div class="cs-diag-desc">Pattern extraction from recurring issue categories. Scan logic refines with every cycle — future detection becomes more targeted and more accurate without configuration.</div>
+          </div>
+        </div>
+
+        <div class="cs-compare-grid">
+          <div class="cs-compare-col cs-compare-col--before">
+            <div class="cs-compare-col-label">Before</div>
+            <div class="cs-compare-col-title">Traditional Product System</div>
+            <ul>
+              <li>Issues discovered reactively — user complaints, support tickets</li>
+              <li>Improvements depend on human prioritization</li>
+              <li>Feedback collected but not systematically learned from</li>
+              <li>Same problems repeat across features</li>
+              <li>No persistent memory of past issues or resolutions</li>
+            </ul>
+          </div>
+          <div class="cs-compare-col cs-compare-col--after">
+            <div class="cs-compare-col-label cs-compare-col-label--after">After</div>
+            <div class="cs-compare-col-title">Evolution Engine</div>
+            <ul>
+              <li>Continuously scans across structured domains</li>
+              <li>Detects issues before users report them</li>
+              <li>Automatically prioritizes — P0 / P1 / P2</li>
+              <li>Auto-fixes high-confidence issues without manual intervention</li>
+              <li>SCAN-MEMORY.json — every resolution persists across cycles</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cs-pullquote">
+          <p>Layers 1–3 operate within each cycle. Layers 4–5 operate across cycles. That boundary — the persistence layer — is what makes the system self-evolving rather than just automated.</p>
+        </div>
+      </section>
+
+      <!-- ══ 06 SYSTEM ARCHITECTURE ══ -->
+      <section class="cs-section" id="architecture">
+        <span class="cs-section-index">06 / 08</span>
+        <h2 class="cs-h2">System Architecture — End to End</h2>
+
+        <p class="cs-p">The three components are not modular features that could exist independently. Each one depends on the others.</p>
+
+        <div class="cs-visual">
+          <div class="cs-table-scroll">
+            <table class="cs-table">
+              <thead>
+                <tr>
+                  <th>Stage</th>
+                  <th>What happens</th>
+                  <th>Component responsible</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Input</td>
+                  <td>User submits an idea in any language</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>Language detection</td>
+                  <td>Client-side detection fires before the API call — identifies thinking language, sets generation mode</td>
+                  <td>Language System</td>
+                </tr>
+                <tr>
+                  <td>Brief generation</td>
+                  <td>AI generates a structured brief in the thinking language, then translates and optimizes to English — both stored in versions map</td>
+                  <td>Decision Engine + Language System</td>
+                </tr>
+                <tr>
+                  <td>Quality scoring</td>
+                  <td>Brief scored 0–100 across five dimensions — readiness signal computed</td>
+                  <td>Decision Engine</td>
+                </tr>
+                <tr>
+                  <td>Refinement</td>
+                  <td>If score is below threshold, Refine agent identifies weak fields and rewrites them — versions map reset to English-only after refine</td>
+                  <td>Decision Engine + Language System</td>
+                </tr>
+                <tr>
+                  <td>Export</td>
+                  <td>User exports English, native, or bilingual markdown — reads from versions map, no API call</td>
+                  <td>Language System</td>
+                </tr>
+                <tr>
+                  <td>Scan</td>
+                  <td>Evolution Engine scans product, classifies issues, auto-fixes P0s, writes resolutions to SCAN-MEMORY</td>
+                  <td>Evolution Engine</td>
+                </tr>
+                <tr>
+                  <td>Learning</td>
+                  <td>Patterns extracted from recurring issues — scan logic refined for next cycle</td>
+                  <td>Evolution Engine</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 02</span>
+            <span class="cs-fig-text">End-to-end system flow. Every stage either produces output the user acts on, or feeds information back into the system to improve future cycles. Nothing is a dead end.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 07 KEY DECISIONS ══ -->
+      <section class="cs-section" id="decisions">
+        <span class="cs-section-index">07 / 08</span>
+        <h2 class="cs-h2">Key Design Decisions</h2>
+
+        <p class="cs-p">The decisions that shaped the architecture — and why each one was made the way it was.</p>
+
+        <div class="cs-visual">
+          <div class="cs-table-scroll">
+            <table class="cs-table">
+              <thead>
+                <tr>
+                  <th>Decision</th>
+                  <th>Why this approach</th>
+                  <th>What was rejected</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>English is canonical, not the thinking default</td>
+                  <td>English as the collaboration layer makes sharing, scoring, and search consistent across all users. It does not mean English is better — it means English is the agreed handshake between the user's thinking and the world.</td>
+                  <td>Native-language canonical: would make cross-user quality scoring and search inconsistent</td>
+                </tr>
+                <tr>
+                  <td>Dual output (generate in native + translate) instead of translate-after</td>
+                  <td>Generating in the thinking language first preserves the specificity of the original idea. Translating a brief generates a genuinely different document from translating an English brief into the native language.</td>
+                  <td>Generate in English, translate to native: produces a native-language brief that is structurally thinner — the nuance was stripped at input time</td>
+                </tr>
+                <tr>
+                  <td>versions map — both outputs stored on generation</td>
+                  <td>Toggle, export, and share must be instant. Any architecture that requires re-generation on toggle adds 10–30 seconds of latency to a cognitive task.</td>
+                  <td>On-demand translation: technically simpler but introduces per-interaction latency</td>
+                </tr>
+                <tr>
+                  <td>Reset versions to English-only after refine</td>
+                  <td>The refine agent updates English fields only. A stale native panel that contradicts the current English brief is worse than no native panel — it shows wrong information confidently.</td>
+                  <td>Keep native version after refine: safe-looking but silently incorrect</td>
+                </tr>
+                <tr>
+                  <td>P0/P1/P2 automatic classification in Evolution Engine</td>
+                  <td>Prioritization should be a system output, not a planning meeting. The classification model makes high-impact issues automatically visible without requiring human triage at every cycle.</td>
+                  <td>Manual prioritization: makes iteration speed a function of individual bandwidth, not system capability</td>
+                </tr>
+                <tr>
+                  <td>Persistent memory (SCAN-MEMORY.json) across cycles</td>
+                  <td>Without memory, the system re-discovers the same issues every cycle. Memory is the structural prerequisite for self-evolution — not an optimization.</td>
+                  <td>Stateless scanning: faster to implement but produces no compounding improvement</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cs-visual-caption">
+            <span class="cs-fig-label">Fig. 03</span>
+            <span class="cs-fig-text">Architecture decisions and their rationale. Each decision came with a real alternative that was evaluated and rejected. The architecture is what it is because the alternatives had specific failure modes.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 08 IMPACT ══ -->
+      <section class="cs-section" id="impact">
+        <span class="cs-section-index">08 / 08</span>
+        <h2 class="cs-h2">Impact &amp; What This Demonstrates</h2>
+
+        <p class="cs-p">Three concrete improvements — one for each component of the system.</p>
+
+        <div class="cs-outcomes">
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Decision Engine</div>
+            <div class="cs-outcome-stat">Structured</div>
+            <div class="cs-outcome-desc">Ideas become execution-ready briefs with a live quality signal. Teams receive a document they can act on without asking clarifying questions. The brief is scored, not just generated.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Language System</div>
+            <div class="cs-outcome-stat">Global</div>
+            <div class="cs-outcome-desc">Non-English users produce higher-quality briefs because the AI reasons from their actual thinking, not a compressed English approximation. Teams eliminate a translation coordination step. For English users, the system is invisible.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">Evolution Engine</div>
+            <div class="cs-outcome-stat">Compounding</div>
+            <div class="cs-outcome-desc">Product quality is no longer a function of individual awareness — it is a function of system intelligence, which grows with every cycle. Issues are detected before users report them. The same problem is never fixed twice.</div>
+          </div>
+          <div class="cs-outcome-cell">
+            <div class="cs-outcome-label">As a system</div>
+            <div class="cs-outcome-stat">Self-improving</div>
+            <div class="cs-outcome-desc">The three components reinforce each other. Better briefs produce better feedback signals. Better signals improve evolution scans. Evolution scans improve generation quality. The loop closes — and compounds.</div>
+          </div>
+        </div>
+
+        <h3 class="cs-h3">What this demonstrates</h3>
+        <p class="cs-p">This project explores what it means to design AI systems that don't just generate outputs — but improve the quality of the decisions those outputs are based on. The architecture required solving three interlocking problems simultaneously:</p>
+        <ul class="cs-p" style="padding-left:1.2em;line-height:2.2;">
+          <li><strong>Structure without rigidity</strong> — the Decision Engine must be specific enough to produce actionable output but flexible enough to handle genuinely novel ideas</li>
+          <li><strong>Language without assumption</strong> — the Language System must serve users who think in Chinese, German, or Arabic as naturally as it serves English speakers — without requiring configuration</li>
+          <li><strong>Learning without configuration</strong> — the Evolution Engine must improve by operating, not by being trained or reconfigured — the system learns from its own behavior</li>
+        </ul>
+
+        <div class="cs-callout">
+          <p>The same design principles that govern this system — authority boundaries, feedback loops, persistent memory, and structured output — connect directly to the <strong>AI Decision Architecture framework</strong> documented elsewhere in this portfolio. Both require the same architecture to function reliably over time.</p>
+        </div>
+
+        <div class="cs-pullquote">
+          <p>Products should not rely on humans alone to improve. They should detect their own problems, learn from their behavior, and serve users regardless of what language they think in. This is what it means to design systems that don't just work — but evolve.</p>
+        </div>
+
+        <h3 class="cs-h3">What's next</h3>
+        <p class="cs-p">Three directions for V2, grounded in architectural gaps rather than feature requests:</p>
+        <ul class="cs-p" style="padding-left:1.2em;line-height:2.1;">
+          <li><strong>Org-level language preference</strong> — teams could set a default collaboration language; the versions map already supports this; it's a question of which key is canonical</li>
+          <li><strong>Per-language quality scoring</strong> — the current score runs against the English brief; a brief that scores 85 in English may have lost nuance in translation; scoring native versions independently would surface that gap</li>
+          <li><strong>Event-driven scan triggers</strong> — currently manual; V2 fires scans on deploys, feedback spikes, or pattern anomalies — moving from scheduled detection to responsive detection</li>
+        </ul>
+
+      </section>
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- STRUCTURED FOOTER -->
+  <footer class="footer--structured" role="contentinfo">
+    <div class="container">
+      <nav class="footer__nav" aria-label="Site navigation">
+        <div>
+          <span class="footer__col-label">Decision Architecture</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+            <li><a href="../../decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+            <li><a href="../../decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+            <li><a href="../../decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+            <li><a href="../../decision-architecture/ai-decision/sap-product-ai-system.html" class="footer__col-link">Product AI System</a></li>
+            <li><a href="../../decision-architecture/ai-decision/ai-systems-library.html" class="footer__col-link">AI Systems Library</a></li>
+            <li><a href="syncopro-evolution-engine.html" class="footer__col-link">Decision Intelligence System</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">Founder</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#founder" class="footer__col-link">Overview</a></li>
+            <li><a href="../../founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+            <li><a href="../../founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+            <li><a href="../../founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">Applied Systems</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#applied-systems" class="footer__col-link">Overview</a></li>
+            <li><a href="../../applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+            <li><a href="../../applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+            <li><a href="../../applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="footer__col-label">General</span>
+          <ul class="footer__col-links">
+            <li><a href="../../index.html#about" class="footer__col-link">About</a></li>
+            <li><a href="mailto:katejieyu@gmail.com" class="footer__col-link">Contact</a></li>
+            <li><a href="../../applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+            <li><a href="../../sitemap.html" class="footer__col-link">Sitemap</a></li>
+            <li><a href="../../kateyu-resume.html" class="footer__col-link">Resume</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="footer__bottom">
+        <p class="footer__bottom-copy">&copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture</p>
+        <div class="footer__bottom-links">
+          <a href="../../applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a>
+          <a href="../../sitemap.html" class="footer__bottom-link">Sitemap</a>
+          <a href="../../kateyu-resume.html" class="footer__bottom-link">Resume</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/staff-portfolio.js"></script>
+</body>
+</html>

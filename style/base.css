@@ -1,0 +1,127 @@
+/* Split from staff-portfolio.css + dark.css (Kate Jie Yu portfolio). */
+
+/* ==========================================================================
+   KATE JIE YU - STRATEGIC PRODUCT UX DESIGNER
+   Staff Portfolio CSS - Clean, Modern, Performance-Optimized
+   ========================================================================== */
+/* ==========================================================================
+   CSS RESET & BASE STYLES
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-primary);
+  color: white;
+  padding: var(--space-sm) var(--space-md);
+  text-decoration: none;
+  z-index: 10000;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: top var(--transition-fast);
+}
+.skip-link:focus {
+  top: 6px;
+}
+/* Focus styles */
+*:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+/* ==========================================================================
+   LAYOUT UTILITIES
+   ========================================================================== */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+.section__header {
+  text-align: center;
+  margin-bottom: var(--space-4xl);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.section__title {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+}
+.section__subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/* ==========================================================================
+   PERFORMANCE & ACCESSIBILITY
+   ========================================================================== */
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: #000000;
+    --color-text-secondary: #000000;
+  }
+}
+/* Dark mode support */
+
+/* Print styles */
+@media print {
+  .header, .hero__actions, .work__link, .contact__links, .footer {
+    display: none;
+  }
+  body {
+    font-size: 12px;
+  }
+  .hero {
+    padding: var(--space-lg) 0;
+  }
+  .section__title {
+    font-size: var(--font-size-2xl);
+  }
+}
+/* ==========================================================================

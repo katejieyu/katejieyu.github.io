@@ -1,0 +1,428 @@
+/* Split from staff-portfolio.css + dark.css (Kate Jie Yu portfolio). */
+
+/* Theme + component overrides for dark mode */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-text-tertiary: #9ca3af;
+    --color-background: #111827;
+    --color-background-secondary: #1f2937;
+    --color-background-tertiary: #374151;
+    --color-border: #374151;
+    --color-border-light: #1f2937;
+  }
+  .header {
+    background-color: rgba(17, 24, 39, 0.95);
+  }
+  .hero {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(17, 24, 39, 1) 50%, rgba(16, 185, 129, 0.05) 100%);
+  }
+}
+
+@charset "UTF-8";
+/* CSS Document */
+
+/* ============================================================
+   GLOBAL DARK THEME (site-wide)
+   Works for:
+   - staff-portfolio.css base (nav/footer/container/buttons)
+   - Case-study pages (.cs-*)
+   - Sitemap (.sm-*)
+   - Resume page (kateyu-resume.html)
+   Supports:
+   - system dark: @media (prefers-color-scheme: dark)
+   - manual dark: html[data-theme="dark"]
+   ============================================================ */
+
+/* ---------- Theme tokens (optional but helpful) ---------- */
+:root {
+  --dark-bg: #0f1117;
+  --dark-bg-2: #111827;
+  --dark-bg-3: #1a1f2e;
+  --dark-surface: #111827;
+  --dark-surface-2: #1f2937;
+
+  --dark-border: #1f2937;
+  --dark-border-2: #374151;
+
+  --dark-text: #e5e7eb;
+  --dark-text-2: #d1d5db;
+  --dark-text-3: #9ca3af;
+  --dark-text-4: #6b7280;
+  --dark-text-5: #4b5563;
+
+  --accent-purple: #a78bfa;
+  --accent-purple-strong: #7c3aed;
+
+  --accent-blue: #60a5fa;
+  --accent-blue-strong: #3b82f6;
+
+  --accent-green: #34d399;
+  --accent-green-strong: #10b981;
+
+  --accent-amber: #fbbf24;
+  --accent-amber-strong: #f59e0b;
+
+  --focus-ring: 0 0 0 3px rgba(167, 139, 250, 0.35);
+}
+
+/* ---------- Dark activation (system + manual) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; }
+  body { background: var(--dark-bg); color: var(--dark-text); }
+}
+html[data-theme="dark"] { color-scheme: dark; }
+html[data-theme="dark"] body { background: var(--dark-bg); color: var(--dark-text); }
+
+/* helper selector: apply both modes */
+@media (prefers-color-scheme: dark) {
+  body,
+  html[data-theme="dark"] body { background: var(--dark-bg); color: var(--dark-text); }
+}
+
+/* ============================================================
+   BASE (nav / footer / global elements)
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  /* NAV */
+  .header { background: var(--dark-bg); border-bottom-color: var(--dark-border); }
+  .nav__menu { background: var(--dark-bg); border-color: var(--dark-border); }
+  .nav__link { color: var(--dark-text-3); }
+  .nav__link:hover { color: var(--dark-text); }
+  .nav__toggle-line { background: var(--dark-text-3); }
+
+  .nav__link--cta {
+    background: var(--dark-surface-2);
+    color: var(--accent-purple);
+    border-color: rgba(124, 58, 237, 0.3);
+  }
+  .nav__link--cta:hover { background: rgba(124, 58, 237, 0.15); }
+
+  /* SKIP LINK */
+  .skip-link { background: var(--dark-surface-2); color: var(--accent-purple); }
+
+  /* FOOTER (best-effort: your footer is mostly token-based in staff-portfolio.css) */
+  .footer, .footer--structured {
+    background: var(--dark-bg);
+    border-top-color: var(--dark-border);
+    color: var(--dark-text-3);
+  }
+  .footer a { color: var(--dark-text-2); }
+  .footer a:hover { color: var(--dark-text); }
+
+  /* FOCUS */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: 8px;
+  }
+}
+
+/* manual dark mirror */
+html[data-theme="dark"] .header { background: var(--dark-bg); border-bottom-color: var(--dark-border); }
+html[data-theme="dark"] .nav__menu { background: var(--dark-bg); border-color: var(--dark-border); }
+html[data-theme="dark"] .nav__link { color: var(--dark-text-3); }
+html[data-theme="dark"] .nav__link:hover { color: var(--dark-text); }
+html[data-theme="dark"] .nav__toggle-line { background: var(--dark-text-3); }
+html[data-theme="dark"] .nav__link--cta {
+  background: var(--dark-surface-2);
+  color: var(--accent-purple);
+  border-color: rgba(124, 58, 237, 0.3);
+}
+html[data-theme="dark"] .nav__link--cta:hover { background: rgba(124, 58, 237, 0.15); }
+html[data-theme="dark"] .skip-link { background: var(--dark-surface-2); color: var(--accent-purple); }
+html[data-theme="dark"] .footer,
+html[data-theme="dark"] .footer--structured {
+  background: var(--dark-bg);
+  border-top-color: var(--dark-border);
+  color: var(--dark-text-3);
+}
+
+/* ============================================================
+   CASE STUDY PAGES (.cs-*)
+   Covers AI / Org / Product / Founder pages
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  /* back link */
+  .cs-back { color: var(--dark-text-4); }
+  .cs-back:hover { color: var(--accent-purple); }
+
+  /* header / sections */
+  .cs-header { border-bottom-color: var(--dark-border); }
+  .cs-section { border-bottom-color: var(--dark-border); }
+  .cs-meta-grid { border-top-color: var(--dark-border); }
+
+  /* type */
+  .cs-h1, .cs-h2 { color: #f3f4f6; }
+  .cs-h3 { color: var(--dark-text-4); }
+  .cs-lead { color: var(--dark-text-3); }
+  .cs-section-index { color: var(--dark-text-5); }
+
+  .cs-meta-label { color: var(--dark-text-5); }
+  .cs-meta-value { color: #f3f4f6; }
+  .cs-meta-sub { color: var(--dark-text-4); }
+
+  .cs-p { color: var(--dark-text-3); }
+  .cs-p strong { color: var(--dark-text); }
+
+  /* pills */
+  .cs-pill { background-color: rgba(124, 58, 237, 0.15); color: var(--accent-purple); }
+  .cs-pill--grey { background-color: var(--dark-surface-2); color: var(--dark-text-3); }
+  .cs-pill--blue { background-color: rgba(37, 99, 235, 0.12); color: var(--accent-blue); }
+  .cs-pill--green { background-color: rgba(5, 150, 105, 0.12); color: var(--accent-green); }
+  .cs-pill--amber { background-color: rgba(217, 119, 6, 0.12); color: var(--accent-amber); }
+
+  /* tldr */
+  .cs-tldr { background-color: rgba(124, 58, 237, 0.08); border-left-color: var(--accent-purple-strong); }
+  .cs-tldr-label { color: var(--accent-purple); }
+  .cs-tldr li { color: var(--dark-text); }
+
+  /* access bar */
+  .cs-access-bar { border-top-color: var(--dark-border); }
+  .cs-access-btn { background: var(--dark-surface-2); border-color: var(--dark-border-2); color: var(--dark-text-2); }
+  .cs-access-btn:hover { border-color: var(--accent-purple-strong); color: var(--accent-purple); }
+
+  /* pullquote */
+  .cs-pullquote { border-left-color: var(--dark-border-2); }
+  .cs-pullquote p { color: #f3f4f6; }
+
+  /* callouts */
+  .cs-callout { background: var(--dark-bg-3); border-left-color: var(--accent-purple-strong); }
+  .cs-callout p { color: var(--dark-text-3); }
+  .cs-callout p strong { color: var(--dark-text); }
+
+  .cs-callout--slate { background: #161b27; border-left-color: #64748b; }
+  .cs-callout--blue  { background: rgba(37, 99, 235, 0.08); border-left-color: var(--accent-blue-strong); }
+  .cs-callout--green { background: rgba(5, 150, 105, 0.08); border-left-color: var(--accent-green-strong); }
+  .cs-callout--amber { background: rgba(217, 119, 6, 0.08); border-left-color: var(--accent-amber-strong); }
+
+  /* grids */
+  .cs-diag-grid, .cs-decisions, .cs-impact-grid, .cs-pricing {
+    background: var(--dark-border);
+    border-color: var(--dark-border);
+  }
+  .cs-diag-cell, .cs-decision-cell, .cs-impact-card, .cs-pricing-cell {
+    background: var(--dark-surface);
+    border-color: var(--dark-border);
+  }
+  .cs-diag-layer, .cs-impact-dimension { color: var(--dark-text-4); }
+  .cs-decision-q { color: var(--accent-purple); }
+  .cs-diag-title, .cs-decision-title, .cs-impact-title, .cs-pricing-title { color: #f3f4f6; }
+  .cs-diag-desc, .cs-decision-desc, .cs-impact-desc, .cs-pricing-desc { color: var(--dark-text-3); }
+
+  /* visuals */
+  .cs-visual { background: var(--dark-surface); border-color: var(--dark-border); box-shadow: none; }
+  .cs-visual-canvas { background: var(--dark-bg); }
+  .cs-visual-caption { background: var(--dark-surface); border-top-color: var(--dark-border); }
+  .cs-fig-label { color: var(--dark-text-5); }
+  .cs-fig-text  { color: var(--dark-text-4); }
+
+  /* tables (product-subcontracting has .cs-table etc.) */
+  .cs-table thead th { background: var(--dark-surface-2); border-bottom-color: var(--dark-border); color: var(--dark-text-4); }
+  .cs-table tbody td { border-bottom-color: var(--dark-border); color: var(--dark-text-3); }
+  .cs-table tbody td:first-child { color: var(--dark-text); }
+  .cs-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  /* severity chips */
+  .cs-sev--severe { background: rgba(220, 38, 38, 0.14); color: #fca5a5; }
+  .cs-sev--major { background: rgba(234, 88, 12, 0.14); color: #fdba74; }
+  .cs-sev--moderate { background: rgba(245, 158, 11, 0.14); color: #fcd34d; }
+  .cs-sev--irritating { background: rgba(16, 185, 129, 0.14); color: #6ee7b7; }
+
+  /* FIX: role badges (accessibility) — ensure readable contrast */
+  .cs-role--buyer,
+  .cs-role--supplier,
+  .cs-role--ops,
+  .cs-role--pm,
+  .cs-role--eng {
+    background: rgba(255,255,255,0.06) !important;
+    color: var(--dark-text-2) !important;
+  }
+  .cs-role--buyer { background: rgba(37, 99, 235, 0.16) !important; color: #93c5fd !important; }
+  .cs-role--supplier { background: rgba(234, 88, 12, 0.16) !important; color: #fdba74 !important; }
+  .cs-role--ops { background: rgba(16, 185, 129, 0.16) !important; color: #6ee7b7 !important; }
+  .cs-role--pm { background: rgba(245, 158, 11, 0.16) !important; color: #fcd34d !important; }
+  .cs-role--eng { background: rgba(124, 58, 237, 0.16) !important; color: #c4b5fd !important; }
+
+  /* Inline styles inside visuals (best effort) */
+  .cs-visual [style*="background:#f9fafb"],
+  .cs-visual [style*="background: #f9fafb"] { background: var(--dark-surface-2) !important; }
+  .cs-visual [style*="border-bottom:1px solid #e5e7eb"],
+  .cs-visual [style*="border-bottom: 1px solid #e5e7eb"] { border-bottom-color: var(--dark-border) !important; }
+  .cs-visual [style*="color:#9ca3af"],
+  .cs-visual [style*="color: #9ca3af"] { color: var(--dark-text-4) !important; }
+  .cs-visual [style*="background:#e5e7eb"],
+  .cs-visual [style*="background: #e5e7eb"] { background: var(--dark-border) !important; }
+}
+
+/* manual dark mirror for cs-* (minimal, rely on same values) */
+html[data-theme="dark"] .cs-header { border-bottom-color: var(--dark-border); }
+html[data-theme="dark"] .cs-section { border-bottom-color: var(--dark-border); }
+html[data-theme="dark"] .cs-p { color: var(--dark-text-3); }
+html[data-theme="dark"] .cs-h1,
+html[data-theme="dark"] .cs-h2 { color: #f3f4f6; }
+html[data-theme="dark"] .cs-visual { background: var(--dark-surface); border-color: var(--dark-border); box-shadow: none; }
+
+/* =========================
+   DIAGRAM — SyncoPro Flywheel (Fig.0) — Dark overrides
+   ========================= */
+@media (prefers-color-scheme: dark) {
+  .cs-sync__pill,
+  .cs-sync__col,
+  .cs-sync__mini,
+  .cs-sync__bottom-pill {
+    background: var(--dark-surface, #111827);
+    border-color: var(--dark-border, #243244);
+  }
+
+  .cs-sync__col {
+    box-shadow: none;
+  }
+
+  .cs-sync__col--core {
+    background: rgba(124, 58, 237, 0.12);
+    border-color: rgba(124, 58, 237, 0.45);
+  }
+
+  .cs-sync__mini--muted {
+    background: var(--dark-bg-3, #1a1f2e);
+  }
+
+  .cs-sync__kicker,
+  .cs-sync__col-eyebrow,
+  .cs-sync__sub-eyebrow,
+  .cs-sync__mini-kicker,
+  .cs-sync__arrow,
+  .cs-sync__dot {
+    color: var(--dark-text-4, #6b7280);
+  }
+
+  .cs-sync__title,
+  .cs-sync__mini-title,
+  .cs-sync__bottom-strong {
+    color: var(--dark-text, #e5e7eb);
+  }
+
+  .cs-sync__desc,
+  .cs-sync__sub-desc,
+  .cs-sync__mini-desc,
+  .cs-sync__bottom-pill {
+    color: var(--dark-text-3, #9ca3af);
+  }
+
+  .cs-sync__sub {
+    border-top-color: var(--dark-border, #243244);
+  }
+
+  .cs-sync__out {
+    border-top-color: rgba(124, 58, 237, 0.25);
+  }
+
+  .cs-sync__pill,
+  .cs-sync__bottom-pill {
+    color: var(--dark-text-3, #9ca3af);
+  }
+}
+/* =========================
+   DIAGRAM — SyncoPro Flywheel (Fig.0) — Dark overrides
+   ========================= */
+@media (prefers-color-scheme: dark) {
+  .cs-sync__pill,
+  .cs-sync__col,
+  .cs-sync__mini,
+  .cs-sync__bottom-pill {
+    background: var(--dark-surface, #111827);
+    border-color: var(--dark-border, #243244);
+  }
+
+  .cs-sync__col {
+    box-shadow: none;
+  }
+
+  .cs-sync__col--core {
+    background: rgba(124, 58, 237, 0.12);
+    border-color: rgba(124, 58, 237, 0.45);
+  }
+
+  .cs-sync__mini--muted {
+    background: var(--dark-bg-3, #1a1f2e);
+  }
+
+  .cs-sync__kicker,
+  .cs-sync__col-eyebrow,
+  .cs-sync__sub-eyebrow,
+  .cs-sync__mini-kicker,
+  .cs-sync__arrow,
+  .cs-sync__dot {
+    color: var(--dark-text-4, #6b7280);
+  }
+
+  .cs-sync__title,
+  .cs-sync__mini-title,
+  .cs-sync__bottom-strong {
+    color: var(--dark-text, #e5e7eb);
+  }
+
+  .cs-sync__desc,
+  .cs-sync__sub-desc,
+  .cs-sync__mini-desc,
+  .cs-sync__bottom-pill {
+    color: var(--dark-text-3, #9ca3af);
+  }
+
+  .cs-sync__sub {
+    border-top-color: var(--dark-border, #243244);
+  }
+
+  .cs-sync__out {
+    border-top-color: rgba(124, 58, 237, 0.25);
+  }
+
+  .cs-sync__pill,
+  .cs-sync__bottom-pill {
+    color: var(--dark-text-3, #9ca3af);
+  }
+}
+/* ============================================================
+   SITEMAP (.sm-*)
+   sitemap.html uses CSS vars heavily, but we still guard hardcoded bits.
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  .sm-page { background: var(--dark-bg); }
+  .sm-section { border-top-color: var(--dark-border); }
+  .sm-item + .sm-item { border-top-color: var(--dark-border); }
+  .sm-link { color: var(--dark-text-2); }
+  .sm-link:hover { color: var(--dark-text); }
+  .sm-child-link { color: var(--dark-text-3); }
+  .sm-child-link:hover { color: var(--dark-text); }
+  .sm-home { border-bottom-color: var(--dark-border); }
+}
+
+/* ============================================================
+   RESUME (kateyu-resume.html)
+   It hardcodes many light colors; we override key containers.
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  .main_nav_resume { background: var(--dark-bg); }
+  .resume-bg { background: #0b0d12; }
+  .page { background: var(--dark-surface); box-shadow: none; }
+
+  .name { color: #f3f4f6; }
+  .titlePosition { color: var(--dark-text-3); }
+  .contact, .contact a { color: var(--dark-text-3); }
+  .contact a:hover { color: var(--dark-text); }
+
+  .divider { border-top-color: var(--dark-border); }
+  .section-title { color: #f3f4f6; border-bottom-color: var(--dark-border); }
+  .profile-text { color: var(--dark-text-2); }
+
+  .download-pdf-btn { background: var(--dark-surface-2); color: var(--dark-text); }
+  .download-pdf-btn:hover { background: rgba(255,255,255,0.08); }
+}

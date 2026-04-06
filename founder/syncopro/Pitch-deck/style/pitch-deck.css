@@ -1,0 +1,857 @@
+/* ============================================================
+   SyncoPro — Investor Pitch Deck (Scroll Edition)
+   Design system: syncopro-design-system v1.1
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --purple: #7C3AED;
+  --purple-light: #8B5CF6;
+  --blue: #3B82F6;
+  --dark: #111827;
+  --body: #374151;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+  --surface: #F9FAFB;
+  --white: #FFFFFF;
+  --gradient: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+}
+
+html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0F0F10;
+  color: var(--dark);
+}
+
+/* ============================================================
+   SLIDE BASE — always visible, full-height sections
+   ============================================================ */
+
+.slide {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  /* subtle visual separation between slides in scroll view */
+  border-bottom: 1px solid #D1D5DB;
+}
+
+.slide-inner {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 72px 64px;
+}
+
+.slide-inner--center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Top gradient accent line — cover + ask only */
+.slide-accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient);
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+.eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--purple-light);
+  margin-bottom: 16px;
+}
+
+.headline {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--dark);
+  margin-bottom: 36px;
+}
+
+.headline--display {
+  font-size: 52px;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.subhead {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--body);
+  max-width: 560px;
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   COVER SLIDE
+   ============================================================ */
+
+.slide--cover {
+  background: var(--white);
+}
+
+.brand {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 8px;
+}
+
+.cover-meta {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+  margin-top: 8px;
+}
+
+/* ============================================================
+   BULLETS
+   ============================================================ */
+
+.bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.bullets li {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--body);
+  padding-left: 20px;
+  position: relative;
+}
+
+.bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gradient);
+}
+
+.bullets--compact li {
+  font-size: 15px;
+}
+
+.bullets--compact {
+  gap: 14px;
+}
+
+/* ============================================================
+   PIPELINE DIAGRAM (Slide 02)
+   ============================================================ */
+
+.diagram--pipeline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 40px 0 24px;
+  flex-wrap: wrap;
+}
+
+.pipeline-node {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  white-space: nowrap;
+}
+
+.pipeline-node--gap {
+  background: #FEF3C7;
+  border-color: #F59E0B;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 16px;
+}
+
+.gap-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #B45309;
+  letter-spacing: 0.02em;
+}
+
+.gap-sublabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #92400E;
+}
+
+.pipeline-arrow {
+  color: var(--muted);
+  font-size: 18px;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+
+.diagram-caption {
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ============================================================
+   THREE BLOCKS (Slides 06, 08)
+   ============================================================ */
+
+.blocks--three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 24px;
+  position: relative;
+}
+
+.block::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient);
+  border-radius: 12px 12px 0 0;
+}
+
+.block-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--purple-light);
+  margin-bottom: 10px;
+}
+
+.block-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.block-body {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--body);
+}
+
+/* ============================================================
+   ASK SLIDE (Slide 10)
+   ============================================================ */
+
+.slide--ask {
+  background: var(--dark);
+  border-color: #1F2937;
+}
+
+.slide--ask .eyebrow {
+  color: rgba(139, 92, 246, 0.9);
+}
+
+.slide--ask .headline {
+  color: var(--white);
+}
+
+.ask-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 36px;
+}
+
+.ask-item {
+  background: rgba(255,255,255,0.04);
+  padding: 28px 24px;
+}
+
+.ask-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 10px;
+}
+
+.ask-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.ask-value--sm {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.8);
+}
+
+.contact {
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.03em;
+}
+
+/* ============================================================
+   DIVIDER SLIDE
+   ============================================================ */
+
+.slide--divider {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* ============================================================
+   APPENDIX SLIDES
+   ============================================================ */
+
+.slide--appendix {
+  background: var(--white);
+}
+
+.slide--appendix .headline {
+  font-size: 32px;
+}
+
+.qa-answer {
+  background: var(--surface);
+  border-left: 3px solid var(--purple);
+  border-radius: 0 12px 12px 0;
+  padding: 28px 32px;
+}
+
+.qa-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 14px;
+}
+
+.qa-answer p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--body);
+}
+
+.qa-answer .bullets {
+  margin-top: 0;
+}
+
+.qa-answer .bullets li {
+  font-size: 15px;
+}
+
+/* ============================================================
+   FLOATING NAV
+   ============================================================ */
+
+.deck-nav {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.deck-nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(17, 24, 39, 0.90);
+  backdrop-filter: blur(10px);
+  border-radius: 100px;
+  padding: 8px 16px;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.65);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 150ms ease, background 150ms ease;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn:hover {
+  color: var(--white);
+  background: rgba(255,255,255,0.1);
+}
+
+.nav-btn--menu {
+  font-size: 14px;
+}
+
+.nav-counter {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.40);
+  min-width: 40px;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* Menu panel */
+.nav-menu {
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 12px 0;
+  min-width: 220px;
+  /* hidden by default */
+  display: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.nav-menu.is-open {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav-menu-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-menu-list li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 18px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.nav-menu-list li a:hover {
+  color: var(--white);
+  background: rgba(255,255,255,0.06);
+}
+
+.nav-menu-list li a.is-active {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.nav-menu-list li a .menu-num {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  min-width: 18px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   PRINT / PDF EXPORT
+   ============================================================ */
+
+@media print {
+  body { background: white; }
+
+  .deck-nav { display: none !important; }
+
+  .slide {
+    min-height: 100vh;
+    page-break-after: always;
+    page-break-inside: avoid;
+    border: none;
+  }
+
+  .slide:last-child {
+    page-break-after: avoid;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .slide-inner {
+    padding: 48px 28px;
+  }
+
+  .headline {
+    font-size: 28px;
+  }
+
+  .headline--display {
+    font-size: 34px;
+  }
+
+  .blocks--three {
+    grid-template-columns: 1fr;
+  }
+
+  .ask-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .diagram--pipeline {
+    gap: 6px;
+  }
+
+  .pipeline-arrow {
+    display: none;
+  }
+
+  .deck-nav {
+    bottom: 16px;
+    right: 16px;
+  }
+}
+
+/* ============================================================
+   PASSWORD GATE — Slide blur/lock overlay
+   ============================================================ */
+
+/* Locked slide: blur the content, no interaction */
+.slide--locked .slide-inner {
+  filter: blur(10px);
+  user-select: none;
+  pointer-events: none;
+  transition: filter 0.4s ease;
+}
+
+/* The overlay sits on top, full-slide, intercepts clicks */
+.slide-lock-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: default;
+  /* Subtle gradient veil to darken the blurred content slightly */
+  background: rgba(249, 250, 251, 0.30);
+}
+
+/* Lock box — only on first locked slide (slide 5) */
+.slide-lock-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 32px 40px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  text-align: center;
+  min-width: 260px;
+}
+
+.slide-lock-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.10), rgba(59,130,246,0.08));
+  border: 1px solid rgba(124,58,237,0.18);
+  display: flex; align-items: center; justify-content: center;
+  color: #7C3AED;
+}
+
+.slide-lock-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7280;
+  letter-spacing: 0.01em;
+}
+
+.slide-lock-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 9px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  font-family: inherit;
+}
+.slide-lock-btn:hover { opacity: 0.88; }
+
+/* When unlocked — remove blur and overlay */
+.slide--locked.slide--unlocked .slide-inner {
+  filter: none;
+  user-select: auto;
+  pointer-events: auto;
+}
+.slide--locked.slide--unlocked .slide-lock-overlay {
+  display: none;
+}
+
+/* ============================================================
+   PASSWORD GATE MODAL — matches Product Vision design system
+   ============================================================ */
+
+:root {
+  --purple: #7C3AED;
+  --blue: #3B82F6;
+}
+
+.gate-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 300;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.gate-backdrop.open { opacity: 1; pointer-events: auto; }
+
+.gate-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -48%) scale(0.96);
+  z-index: 301;
+  width: min(380px, calc(100vw - 32px));
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+  padding: 36px 32px 28px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.gate-modal.open {
+  opacity: 1; pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.gate-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  border: 1px solid #E5E7EB;
+  background: none;
+  color: #6B7280;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.gate-close:hover { background: #F3F4F6; color: #111827; }
+
+.gate-lock-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  display: flex; align-items: center; justify-content: center;
+  color: #7C3AED;
+  margin-bottom: 18px;
+}
+
+.gate-title {
+  font-size: 17px; font-weight: 700;
+  color: #111827; letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.gate-sub {
+  font-size: 13px; color: #6B7280;
+  line-height: 1.65; margin: 0 0 22px;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.gate-input-wrap {
+  display: flex; width: 100%; gap: 8px; margin-bottom: 10px;
+}
+
+.gate-input-inner {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.gate-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 38px 0 14px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 9px;
+  background: #FFFFFF;
+  color: #111827;
+  font-size: 14px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.gate-input:focus { border-color: #7C3AED; }
+.gate-input.shake {
+  border-color: #EF4444;
+  animation: gate-shake 0.35s ease;
+}
+
+@keyframes gate-shake {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+.gate-toggle {
+  position: absolute;
+  right: 10px;
+  width: 22px; height: 22px;
+  border: none; background: none;
+  color: #6B7280;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  transition: color 0.15s;
+}
+.gate-toggle:hover { color: #111827; }
+
+.gate-submit {
+  width: 42px; height: 42px; flex-shrink: 0;
+  border-radius: 9px; border: none;
+  background: linear-gradient(135deg, #7C3AED, #3B82F6);
+  color: #fff; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.15s;
+}
+.gate-submit:hover { opacity: 0.88; }
+
+.gate-error {
+  font-size: 12px; color: #EF4444;
+  margin: 0; height: 0; overflow: hidden;
+  font-family: 'Inter', -apple-system, sans-serif;
+  opacity: 0; transition: opacity 0.18s, height 0.18s, margin 0.18s;
+}
+.gate-error.show {
+  opacity: 1;
+  height: auto;
+  margin: 0 0 10px;
+}
+
+.gate-hint {
+  font-size: 11px; color: #6B7280; opacity: 0.55; margin: 0;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* Nav menu lock icon for restricted items */
+.nav-menu-list li a.is-locked {
+  opacity: 0.45;
+  cursor: pointer;
+}
+.nav-menu-list li a.is-locked::after {
+  content: ' 🔒';
+  font-size: 10px;
+}
+.nav-menu-list li a.is-locked:hover {
+  opacity: 0.7;
+  color: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.06);
+}
+
+/* Print: hide gate overlay */
+@media print {
+  .gate-backdrop, .gate-modal { display: none !important; }
+  .slide--locked .slide-inner {
+    filter: none !important;
+    user-select: auto !important;
+    pointer-events: auto !important;
+  }
+  .slide-lock-overlay { display: none !important; }
+}
