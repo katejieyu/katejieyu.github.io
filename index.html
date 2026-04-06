@@ -1,465 +1,869 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="Kate Jie Yu Design Portfolio" content="Kate is a wonderful designer/developer. She is very into her design and developement life.">
-<title>Kate Jie Yu</title>
-<link rel="shortcut icon" type="image/x-icon" href="img/KJY_logo_bar.jpg" />
-<link rel="mask-icon" type="Kate Logo" href="img/KJY_logo_bar.jpg" color="#111" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style/main.css">
-<link rel="stylesheet" href="style/work.css">
-<script src="js/main_1.js"></script>
-<script src="js/main_2.js"></script>
-<link rel="stylesheet" href="style/normalize.css">
-<script src="js/main.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<title>Kate Jie Yu · Staff Product Designer · AI Systems &amp; Decision Architecture</title>
+<meta name="description" content="Staff Product Designer specializing in AI systems and decision architecture. 10+ years of experience. Founder of SyncoPro. Designing governance infrastructure for enterprise AI at scale.">
+<meta property="og:title" content="Kate Jie Yu · Staff Product Designer · AI Systems &amp; Decision Architecture">
+<meta property="og:description" content="10+ years designing governance infrastructure for enterprise AI — authority boundaries, escalation models, and decision readiness systems. Founder of SyncoPro.">
+<meta property="og:image" content="img/kate-studio.jpg">
+<meta property="og:type" content="website">
+<link rel="shortcut icon" type="image/x-icon" href="img/KJY_logo_bar.jpg">
 <link rel="apple-touch-icon" href="img/KJY_logo_bar.jpg">
+	<link rel="stylesheet" href="style/theme.css">
+<link rel="stylesheet" href="style/base.css">
+<link rel="stylesheet" href="style/components.css">
+<style>
+.hero__label {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--color-primary);
+    background-color: rgba(37,99,235,.08);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: 100px;
+    margin-bottom: var(--space-xl)
+}
+.section__eyebrow {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-md)
+}
+.da {
+    padding: var(--space-5xl) 0;
+    background-color: var(--color-background-secondary)
+}
+.da__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-xl);
+    overflow: hidden;
+    margin-top: var(--space-4xl)
+}
+.da__card {
+    background-color: var(--color-background);
+    padding: var(--space-3xl) var(--space-2xl);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: background-color var(--transition-normal)
+}
+.da__card:hover {
+    background-color: var(--color-background-secondary)
+}
+.da__layer {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-sm)
+}
+.da__marker {
+    display: block;
+    width: 32px;
+    height: 3px;
+    border-radius: 2px;
+    margin-bottom: var(--space-lg);
+    flex-shrink: 0
+}
+.da__marker--product {
+    background-color: var(--color-primary)
+}
+.da__marker--org {
+    background-color: var(--color-warning)
+}
+.da__marker--ai {
+    background-color: var(--color-success)
+}
+.da__title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-md)
+}
+.da__desc {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-xl);
+    flex-grow: 1
+}
+.da__cta {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary)
+}
+.da__card:hover .da__cta {
+    text-decoration: underline
+}
+.applied {
+    padding: var(--space-5xl) 0;
+    background-color: var(--color-background)
+}
+.applied__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background-color: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-xl);
+    overflow: hidden;
+    margin-top: var(--space-4xl)
+}
+.applied__card {
+    background-color: var(--color-background);
+    padding: var(--space-2xl) var(--space-xl);
+    text-decoration: none;
+    display: block;
+    transition: background-color var(--transition-normal)
+}
+.applied__card:hover {
+    background-color: var(--color-background-secondary)
+}
+.applied__num {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-sm)
+}
+.applied__title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--space-sm);
+    line-height: var(--line-height-tight)
+}
+.applied__desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed)
+}
+.footer--structured {
+    padding: var(--space-5xl) 0 var(--space-3xl);
+    border-top: 1px solid var(--color-border-light);
+    background-color: var(--color-background)
+}
+.footer__nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4xl);
+    padding-bottom: var(--space-4xl);
+    border-bottom: 1px solid var(--color-border-light);
+    margin-bottom: var(--space-3xl)
+}
+.footer__col-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text);
+    margin-bottom: var(--space-lg);
+    display: block
+}
+.footer__col-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm)
+}
+.footer__col-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    line-height: var(--line-height-normal);
+    transition: color var(--transition-fast)
+}
+.footer__col-link:hover {
+    color: var(--color-text)
+}
+.footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-md)
+}
+.footer__bottom-copy {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary)
+}
+.footer__bottom-links {
+    display: flex;
+    gap: var(--space-lg)
+}
+.footer__bottom-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast)
+}
+.footer__bottom-link:hover {
+    color: var(--color-text-secondary)
+}
+
+@media(max-width:1024px) {
+.applied__grid {
+    grid-template-columns: repeat(2, 1fr)
+}
+}
+
+@media(max-width:900px) {
+.da__grid {
+    grid-template-columns: 1fr
+}
+.footer__nav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3xl)
+}
+}
+
+@media(max-width:768px) {
+.da__card {
+    padding: var(--space-2xl)
+}
+.applied__card {
+    padding: var(--space-xl)
+}
+.applied__grid {
+    grid-template-columns: repeat(2, 1fr)
+}
+}
+
+@media(max-width:480px) {
+.applied__grid {
+    grid-template-columns: 1fr
+}
+.footer__nav {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl)
+}
+.footer__bottom {
+    flex-direction: column;
+    align-items: flex-start
+}
+}
+</style>
 </head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<header class="header" role="banner">
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__container"> <a href="#" class="nav__logo"> <img src="img/KJY_logo_bar.jpg" alt="Kate Jie Yu" width="48" height="48"> <!--<span class="nav__logo-text">Kate Jie Yu</span>--> </a>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="#decision-architecture" class="nav__link">Decision Architecture</a></li>
+        <li><a href="#founder" class="nav__link">Founder</a></li>
+        <li><a href="#applied-systems" class="nav__link">Applied Systems</a></li>
+        <li><a href="#about" class="nav__link">About</a></li>
+        <li><a href="kateyu-resume.html" class="nav__link nav__link--cta">Resume</a></li>
+      </ul>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu"> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> <span class="nav__toggle-line"></span> </button>
+    </div>
+  </nav>
+</header>
+<main id="main" role="main">
 
-<body translate="no">
-
-<!-- Header Section
-–––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-<header id="header">
-  <div class="main_nav">
+  <!-- ═══════════════════════════════════════
+       1 · HERO
+       ═══════════════════════════════════════ -->
+  <section class="hero" id="home">
     <div class="container">
-      <div class="mobile-toggle"><img src="img/KJY_logo_bar.jpg" alt="kate Jie Yu Logo" width="30px;" height="30px;" class="iconlogo"/> 
-        <!--<span></span> <span></span> <span></span>--> </div>
-      <nav>
-        <ul>
-          <li><a class="smoothscroll" href="#header">Home</a></li>
-          <li><a class="smoothscroll" href="#portfolio">Portfolio</a></li>
-          <li><a class="smoothscroll" href="#skills">Skills</a></li>
-          <li><a class="smoothscroll" href="#about">About</a></li>
-          <li><a class="smoothscroll" href="#contact">Contact</a></li>
-        </ul>
-      </nav>
+      <div class="hero__content">
+        <span class="hero__label">Staff Product Designer · AI Systems &amp; Decision Architecture</span>
+        <h1 class="hero__title">
+          Designing the Decision Layer<br>
+          for <span class="hero__highlight">AI-Native Enterprise</span><br>
+          Systems
+        </h1>
+        <p class="hero__description">
+          From SAP supply chain platforms to 0→1 products, I build the systems that make decisions
+          reliable, accountable, and executable. Founder of SyncoPro.
+        </p>
+        <!-- Hero pillar strip -->
+        <div class="hero__pillar-strip">
+          <!-- Desktop: joined pill strip -->
+          <div class="hero__pillar-desktop">
+            <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-primary);background:rgba(37,99,235,0.08);padding:6px 16px;border-radius:6px 0 0 6px;border:1px solid rgba(37,99,235,0.2);letter-spacing:0.02em;white-space:nowrap;box-shadow:4px 4px 16px rgba(37,99,235,0.28);">Product Systems</span>
+            <span style="font-size:var(--font-size-xs);color:var(--color-text-tertiary);padding:6px 10px;background:var(--color-background-tertiary);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">·</span>
+            <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-warning);background:rgba(245,158,11,0.08);padding:6px 16px;border-top:1px solid rgba(245,158,11,0.2);border-bottom:1px solid rgba(245,158,11,0.2);letter-spacing:0.02em;white-space:nowrap;box-shadow:4px 4px 16px rgba(245,158,11,0.28);">Organizational Governance</span>
+            <span style="font-size:var(--font-size-xs);color:var(--color-text-tertiary);padding:6px 10px;background:var(--color-background-tertiary);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">·</span>
+            <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-success);background:rgba(16,185,129,0.08);padding:6px 16px;border-radius:0 6px 6px 0;border:1px solid rgba(16,185,129,0.2);letter-spacing:0.02em;white-space:nowrap;box-shadow:4px 4px 16px rgba(16,185,129,0.28);">AI Decision Systems</span>
+          </div>
+          <!-- Mobile: clean vertical list -->
+          <div class="hero__pillar-mobile">
+            <span class="hero__pillar-item hero__pillar-item--blue">Product Systems</span>
+            <span class="hero__pillar-item hero__pillar-item--yellow">Organizational Governance</span>
+            <span class="hero__pillar-item hero__pillar-item--green">AI Decision Systems</span>
+          </div>
+        </div>
+        <!-- Bridge sentence -->
+        <p style="font-size:var(--font-size-base);color:var(--color-text-tertiary);max-width:640px;margin:0 auto var(--space-3xl);line-height:var(--line-height-relaxed);">
+          SAP Business Network · SyncoPro · Three case studies across product, organization, and AI.
+        </p>
+        <div class="hero__actions">
+          <a href="#decision-architecture" class="button button--primary">View Case Studies</a>
+          <a href="#contact" class="button button--secondary">Get in touch</a>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="title">
-    <div><span class="typcn icon heading" style="padding-left: 8px;"><img src="img/KJY_logo.png" alt="kate Jie Yu Logo" width="70px;" height="70px;"/></span></div>
-    <div class="smallsep heading"></div>
-    <h1 class="heading">Kate Jie Yu</h1>
-    <h2 class="heading">Designer / Developer</h2>
-    <a class="smoothscroll" href="#portfolio">
-    <div class="mouse">
-      <div class="wheel"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       2 · DECISION ARCHITECTURE FRAMEWORK
+       ═══════════════════════════════════════ -->
+  <section class="da" id="da-framework" style="padding-top:var(--space-5xl);padding-bottom:var(--space-5xl);">
+    <div class="container">
+
+      <div class="section__header">
+        <span class="section__eyebrow">Framework</span>
+        <h2 class="section__title">Decision Architecture Framework</h2>
+        <p class="section__subtitle">
+          A structural model for how modern systems coordinate decisions.<br>From operational workflows → governance models → AI autonomy boundaries.<br>
+          The three case studies below each map to one layer.
+        </p>
+      </div>
+
+      <!-- Framework diagram -->
+      <div style="border:1px solid var(--color-border);border-radius:var(--border-radius-xl);overflow:hidden;background:var(--color-background);">
+
+        <!-- Diagram header bar -->
+        <div class="da3__header">
+          <span style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Decision Architecture · 3 Layers</span>
+          <span class="da3__header-rule"></span>
+          <span style="font-size:var(--font-size-xs);color:var(--color-text-tertiary);white-space:nowrap;">Product Systems → Governance → AI Autonomy</span>
+        </div>
+
+        <!-- ── DESKTOP: three columns, no arrows, just borders ── -->
+        <div class="da3__desktop">
+          <!-- Layer 01 · Product -->
+          <div style="padding:32px 28px;border-right:1px solid var(--color-border);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--product" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 01 · Product</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-lg);">Product Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(37,99,235,0.5);flex-shrink:0;"></span>Workflow structure
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(37,99,235,0.5);flex-shrink:0;"></span>Decision routing
+              </li>
+            </ul>
+          </div>
+          <!-- Layer 02 · Organization -->
+          <div style="padding:32px 28px;border-right:1px solid var(--color-border);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--org" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 02 · Organization</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-lg);">Organization Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(245,158,11,0.6);flex-shrink:0;"></span>Governance models
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(245,158,11,0.6);flex-shrink:0;"></span>Ownership structure
+              </li>
+            </ul>
+          </div>
+          <!-- Layer 03 · AI -->
+          <div style="padding:32px 28px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--ai" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 03 · AI</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-lg);">AI Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(16,185,129,0.6);flex-shrink:0;"></span>Autonomy thresholds
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(16,185,129,0.6);flex-shrink:0;"></span>Escalation boundaries
+              </li>
+            </ul>
+          </div>
+        </div><!-- /desktop -->
+
+        <!-- ── MOBILE: vertical stack with down arrows ── -->
+        <div class="da3__mobile">
+
+          <!-- Layer 01 -->
+          <div class="da3__mobile-layer">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--product" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 01 · Product</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-md);">Product Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(37,99,235,0.5);flex-shrink:0;"></span>Workflow structure
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(37,99,235,0.5);flex-shrink:0;"></span>Decision routing
+              </li>
+            </ul>
+          </div>
+
+          <!-- Down arrow -->
+          <!--<div class="da3__mobile-arrow">
+            <svg width="18" height="24" viewBox="0 0 18 24" fill="none" aria-hidden="true">
+              <line x1="9" y1="0" x2="9" y2="16" stroke="var(--color-border)" stroke-width="1.5"/>
+              <path d="M5 14l4 6 4-6" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>-->
+
+          <!-- Layer 02 -->
+          <div class="da3__mobile-layer">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--org" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 02 · Organization</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-md);">Organization Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(245,158,11,0.6);flex-shrink:0;"></span>Governance models
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(245,158,11,0.6);flex-shrink:0;"></span>Ownership structure
+              </li>
+            </ul>
+          </div>
+
+          <!-- Down arrow -->
+          <!--<div class="da3__mobile-arrow">
+            <svg width="18" height="24" viewBox="0 0 18 24" fill="none" aria-hidden="true">
+              <line x1="9" y1="0" x2="9" y2="16" stroke="var(--color-border)" stroke-width="1.5"/>
+              <path d="M5 14l4 6 4-6" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>-->
+
+          <!-- Layer 03 -->
+          <div class="da3__mobile-layer">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+              <span class="da__marker da__marker--ai" style="margin:0;flex-shrink:0;"></span>
+              <span class="da__layer">Layer 03 · AI</span>
+            </div>
+            <div class="da__title" style="margin-bottom:var(--space-md);">AI Systems</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(16,185,129,0.6);flex-shrink:0;"></span>Autonomy thresholds
+              </li>
+              <li style="display:flex;align-items:center;gap:10px;font-size:var(--font-size-sm);color:var(--color-text-secondary);">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(16,185,129,0.6);flex-shrink:0;"></span>Escalation boundaries
+              </li>
+            </ul>
+          </div>
+
+        </div><!-- /mobile -->
+
+        <!-- Diagram footer caption -->
+        <div style="padding:12px 28px;border-top:1px solid var(--color-border);background:var(--color-background-secondary);display:flex;align-items:center;gap:8px;">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <circle cx="6" cy="6" r="5" stroke="var(--color-text-tertiary)" stroke-width="1.2"/>
+            <path d="M6 5v3.5M6 4v.5" stroke="var(--color-text-tertiary)" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <span style="font-size:var(--font-size-xs);color:var(--color-text-tertiary);">The framework above illustrates the structural layers through which complex systems make decisions — from operational workflows to governance models to AI autonomy boundaries. <br>Each layer is a distinct decision domain. The case studies below demonstrate how this framework applies in practice. </span>
+        </div>
+
+      </div><!-- /framework diagram -->
+
     </div>
-    </a> </div>
-  <a class="smoothscroll" href="#portfolio">
-  <div class="scroll-down"></div>
-  </a> </header>
+  </section>
 
-<!-- Portfolio Section
-–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <!-- ═══════════════════════════════════════
+       3 · DECISION ARCHITECTURE IN PRACTICE
+       ═══════════════════════════════════════ -->
+  <section class="da" id="decision-architecture" style="padding-top:var(--space-5xl);padding-bottom:var(--space-5xl);background-color:var(--color-background);">
+    <div class="container">
 
-<section id="portfolio">
-  <div class="container">
-    <h1>Portfolio</h1>
-    <div class="block"></div>
-    <div class="row">
-      <div class="container1">
-        <div class="row">
-          <h3><img src="img/design_red.png" alt="case study" class="typcn icon" height="30px">Case Studies</h3>
-            <a class="normal1" href="SageIntacctAdvantage_2018.html">
-          <figure class="snip1206"> <img src="img/advantage_230x230.jpg" alt="uspace" class="icon_image">
-            <figcaption>
-              <h2>Advantage Event</h2>
-              <p>Sage Intacct Advantage Event 2018</p>
-            </figcaption>
-          </figure>
+      <div class="section__header">
+        <span class="section__eyebrow">Case Studies</span>
+        <h2 class="section__title">Decision Architecture in Practice</h2>
+        <p class="section__subtitle">
+          Three layers. One capability. Each case demonstrates the same underlying problem: how to make
+          decisions reliable, accountable, and scalable in complex systems.
+        </p>
+      </div>
+
+      <div class="da__grid">
+        <a class="da__card" href="decision-architecture/product-subcontracting.html">
+          <div class="da__layer">Layer 01 · Product</div>
+          <span class="da__marker da__marker--product"></span>
+          <div class="da__title">Product Decision Architecture</div>
+          <p class="da__desc">Designing decision infrastructure inside enterprise supply chain workflows. The deliverable was not a redesign — it was a system for making decisions visible, verifiable, and executable.</p>
+          <span class="da__cta">View case study →</span>
+        </a>
+        <a class="da__card" href="decision-architecture/organization-governance-architecture.html">
+          <div class="da__layer">Layer 02 · Organization</div>
+          <span class="da__marker da__marker--org"></span>
+          <div class="da__title">Organizational Governance Architecture</div>
+          <p class="da__desc">Defining how decisions operate at the organizational level. This work establishes the operating model: who decides, how decisions are made, and how accountability is enforced.</p>
+          <span class="da__cta">View case study →</span>
+        </a>
+        <a class="da__card" href="decision-architecture/ai-decision-architecture.html">
+          <div class="da__layer">Layer 03 · AI</div>
+          <span class="da__marker da__marker--ai"></span>
+          <div class="da__title">AI Decision Architecture</div>
+          <p class="da__desc">Structuring how AI participates in decision-making. From ambiguity to bounded systems — designing trust, authority, and control in AI-driven workflows.</p>
+          <span class="da__cta">View case study →</span>
+        </a>
+      </div>
+
+      <!-- Decision Intelligence System spotlight -->
+      <a class="da__card ee-spotlight-card" href="decision-architecture/ai-decision/syncopro-evolution-engine.html" style="position:relative;margin-top:var(--space-2xl);border-radius:var(--border-radius-xl);border:1px solid rgba(124,58,237,0.2);flex-direction:row;align-items:center;justify-content:space-between;gap:var(--space-xl);flex-wrap:wrap;padding:var(--space-xl) var(--space-2xl);background:rgba(124,58,237,0.06);box-shadow:4px 4px 24px rgba(124,58,237,0.12);">
+        <span style="position:absolute;top:14px;right:16px;font-size:0.625rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:20px;background:rgba(124,58,237,0.12);color:#7c3aed;border:1px solid rgba(124,58,237,0.25);white-space:nowrap;">Signature Work</span>
+        <div>
+          <div class="da__layer" style="color:#7c3aed;">Decision Intelligence System</div>
+          <span class="da__marker" style="background-color:#7c3aed;"></span>
+          <div class="da__title">Designing a Decision Intelligence System</div>
+          <p class="da__desc" style="margin-bottom:0;">Decision Engine · Evolution Engine · Language System — three components that work as one. From raw idea to structured, scored, multilingual, self-improving output.</p>
+        </div>
+        <span class="da__cta" style="flex-shrink:0;white-space:nowrap;color:#7c3aed;">View system case →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       4 · FOUNDER SYSTEMS
+       ═══════════════════════════════════════ -->
+  <section class="ventures" id="founder" style="padding-top:var(--space-5xl);padding-bottom:var(--space-5xl);">
+    <div class="container">
+
+      <div class="section__header">
+        <span class="section__eyebrow">Founder · SyncoPro</span>
+        <h2 class="section__title">Decision Architecture at 0→1</h2>
+        <p class="section__subtitle">
+          Building systems from first principles, applying the same decision architecture across different
+          platforms under real constraints. Not just products — but the structure that makes them work.
+        </p>
+      </div>
+
+      <!-- Founder Systems diagram: abstract → concrete -->
+      <div style="border:1px solid var(--color-border);border-radius:var(--border-radius-xl);overflow:hidden;margin-bottom:var(--space-4xl);">
+
+        <!-- Header bar -->
+        <div class="founder-diagram__header">
+          <span style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Founder Systems · One Thinking → Three Platform Types</span>
+          <span class="founder-diagram__header-rule"></span>
+          <span style="font-size:var(--font-size-xs);color:var(--color-text-tertiary);white-space:nowrap;">0→1 stage</span>
+        </div>
+
+        <!-- ── DESKTOP layout (hidden on mobile) ── -->
+        <div class="founder-diagram__desktop">
+
+          <!-- Root node -->
+          <div style="padding:var(--space-2xl) var(--space-2xl) 0;background:var(--color-background-secondary);display:flex;justify-content:center;">
+            <div style="display:inline-flex;align-items:center;gap:10px;padding:12px 28px;border:1px solid var(--color-border);border-radius:var(--border-radius-lg);background:var(--color-background);">
+              <span style="display:block;width:8px;height:8px;border-radius:50%;background:var(--color-primary);flex-shrink:0;"></span>
+              <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text);letter-spacing:0.01em;">Decision Systems Thinking</span>
+            </div>
+          </div>
+
+          <!-- Branch SVG: stem → horizontal bar → three drops -->
+          <div style="background:var(--color-background-secondary);padding:0 var(--space-2xl);">
+            <svg viewBox="0 0 900 64" preserveAspectRatio="xMidYMid meet" fill="none" aria-hidden="true" style="display:block;width:100%;height:auto;max-height:64px;">
+              <line x1="450" y1="0" x2="450" y2="20" stroke="var(--color-border)" stroke-width="1.5"/>
+              <line x1="150" y1="20" x2="750" y2="20" stroke="var(--color-border)" stroke-width="1.5"/>
+              <line x1="150" y1="20" x2="150" y2="44" stroke="var(--color-border)" stroke-width="1.5"/>
+              <path d="M146 42l4 6 4-6" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="450" y1="20" x2="450" y2="44" stroke="var(--color-border)" stroke-width="1.5"/>
+              <path d="M446 42l4 6 4-6" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="750" y1="20" x2="750" y2="44" stroke="var(--color-border)" stroke-width="1.5"/>
+              <path d="M746 42l4 6 4-6" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <!-- Three nodes -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--color-border);">
+            <div style="background:var(--color-background-secondary);padding:var(--space-lg) var(--space-2xl);">
+              <span style="display:block;width:24px;height:2px;background:var(--color-primary);border-radius:2px;margin-bottom:var(--space-sm);"></span>
+              <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">AI Governance Systems</div>
+            </div>
+            <div style="background:var(--color-background-secondary);padding:var(--space-lg) var(--space-2xl);">
+              <span style="display:block;width:24px;height:2px;background:var(--color-warning);border-radius:2px;margin-bottom:var(--space-sm);"></span>
+              <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Marketplace Systems</div>
+            </div>
+            <div style="background:var(--color-background-secondary);padding:var(--space-lg) var(--space-2xl);">
+              <span style="display:block;width:24px;height:2px;background:var(--color-success);border-radius:2px;margin-bottom:var(--space-sm);"></span>
+              <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Trust Networks</div>
+            </div>
+          </div>
+
+        </div><!-- /desktop -->
+
+        <!-- ── MOBILE layout (hidden on desktop) ── -->
+        <div class="founder-diagram__mobile">
+
+          <!-- Root node -->
+          <div style="padding:var(--space-lg) var(--space-lg) var(--space-md);background:var(--color-background-secondary);">
+            <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border:1px solid var(--color-border);border-radius:var(--border-radius-lg);background:var(--color-background);">
+              <span style="display:block;width:8px;height:8px;border-radius:50%;background:var(--color-primary);flex-shrink:0;"></span>
+              <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text);letter-spacing:0.01em;">Decision Systems Thinking</span>
+            </div>
+          </div>
+
+          <!-- Vertical tree: left rail + three items -->
+          <div style="background:var(--color-background-secondary);padding:0 var(--space-lg) var(--space-lg);position:relative;">
+
+            <!-- Left vertical rail line -->
+            <div style="position:absolute;left:calc(var(--space-lg) + 3px);top:0;bottom:var(--space-lg);width:1.5px;background:var(--color-border);"></div>
+
+            <!-- Item 1 -->
+            <div style="display:flex;align-items:center;gap:var(--space-md);padding:var(--space-md) 0;position:relative;">
+              <div style="width:20px;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;position:relative;">
+                <!-- Horizontal branch line -->
+                <div style="position:absolute;right:0;top:50%;width:20px;height:1.5px;background:var(--color-border);"></div>
+                <!-- Arrow tip -->
+                <svg width="6" height="8" viewBox="0 0 6 8" fill="none" aria-hidden="true" style="position:absolute;right:-4px;"><path d="M0 0l6 4-6 4" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div style="flex:1;background:var(--color-background);border:1px solid var(--color-border);border-radius:var(--border-radius-md);padding:var(--space-md) var(--space-lg);">
+                <span style="display:block;width:20px;height:2px;background:var(--color-primary);border-radius:2px;margin-bottom:6px;"></span>
+                <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">AI Governance Systems</div>
+              </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div style="display:flex;align-items:center;gap:var(--space-md);padding:var(--space-md) 0;position:relative;">
+              <div style="width:20px;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;position:relative;">
+                <div style="position:absolute;right:0;top:50%;width:20px;height:1.5px;background:var(--color-border);"></div>
+                <svg width="6" height="8" viewBox="0 0 6 8" fill="none" aria-hidden="true" style="position:absolute;right:-4px;"><path d="M0 0l6 4-6 4" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div style="flex:1;background:var(--color-background);border:1px solid var(--color-border);border-radius:var(--border-radius-md);padding:var(--space-md) var(--space-lg);">
+                <span style="display:block;width:20px;height:2px;background:var(--color-warning);border-radius:2px;margin-bottom:6px;"></span>
+                <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Marketplace Systems</div>
+              </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div style="display:flex;align-items:center;gap:var(--space-md);padding:var(--space-md) 0 0;position:relative;">
+              <div style="width:20px;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;position:relative;">
+                <div style="position:absolute;right:0;top:50%;width:20px;height:1.5px;background:var(--color-border);"></div>
+                <svg width="6" height="8" viewBox="0 0 6 8" fill="none" aria-hidden="true" style="position:absolute;right:-4px;"><path d="M0 0l6 4-6 4" stroke="var(--color-text-tertiary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div style="flex:1;background:var(--color-background);border:1px solid var(--color-border);border-radius:var(--border-radius-md);padding:var(--space-md) var(--space-lg);">
+                <span style="display:block;width:20px;height:2px;background:var(--color-success);border-radius:2px;margin-bottom:6px;"></span>
+                <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-tertiary);">Trust Networks</div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /mobile -->
+
+      </div><!-- /founder systems diagram -->
+
+      <!-- Founder project cards -->
+      <div class="ventures__grid">
+
+        <article class="venture__card">
+          <a href="founder/syncopro/index.html" style="display:flex;flex-direction:column;height:100%;text-decoration:none;">
+            <div class="venture__header">
+              <h3 class="venture__title">SyncoPro</h3>
+              <span class="venture__role">Founder</span>
+            </div>
+            <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-semibold);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin-bottom:var(--space-md);">AI Governance Platform</div>
+            <p class="venture__description" style="flex-grow:1;">An AI governance platform applying decision architecture to product planning — structuring AI authority, escalation paths, and validation gates for product teams under organizational constraints.</p>
+            <div class="venture__tags">
+              <span class="tag">AI Governance</span>
+              <span class="tag">Decision Infrastructure</span>
+              <span class="tag">Enterprise Platform</span>
+            </div>
+            <span class="da__cta" style="display:block;margin-top:auto;">View case study →</span>
           </a>
-			<a class="normal1" href="uspace.html">
-          <figure class="snip1206"> <img src="img/uspace230x230.jpg" alt="uspace" class="icon_image">
-            <figcaption>
-              <h2>USPACE</h2>
-              <p>Decorate the room with your dream furniture before buying</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="everdream.html">
-          <figure class="snip1206"> <img src="img/everdream_230x230.jpg" alt="EverDream" class="icon_image">
-            <figcaption>
-              <h2>EverDream</h2>
-              <p>A special experience to relax at home with</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="ofood.html">
-          <figure class="snip1206"> <img src="img/Ofood_230x230.jpg" alt="EverDream" class="icon_image">
-            <figcaption>
-              <h2>OFood</h2>
-              <p>Protect the environment, while promoting a healthy lifestyle from organic foods</p>
-            </figcaption>
-          </figure>
-          </a> </div>
-      </div>
-      <div class="container1" style="padding-top: 30px;">
-        <div class="row">
-          <h3><img src="img/programming_red.png" alt="Programming" class="typcn icon" height="30px">Designs & Developments</h3>
-			<a class="normal1" href="si-webinars-pages-2019.html" target="_blank">
-          <figure class="snip1206"> <img src="img/SageIntacct_webinarspage-2019_230x230.jpg" alt="Sage Intacct Webinars Pages" class="icon_image">
-            <figcaption>
-              <h2>Sage Intacct Pages Redesign</h2>
-              <p>New Webinars Pages 2019</p>
-            </figcaption>
-          </figure>
-			</a>
-			<a class="normal1" href="sageIntacctlandingpage2019.html" target="_blank">
-          <figure class="snip1206"> <img src="img/SageIntacct_homepage2019_230x230.jpg" alt="Sage Intacct Home Page" class="icon_image">
-            <figcaption>
-              <h2>Sage Intacct Homepage Redesign</h2>
-              <p>New Home Page 2019</p>
-            </figcaption>
-          </figure>
-			</a>
-          <a class="normal1" href="sageIntacctmsfs.html" target="_blank">
-          <figure class="snip1206"> <img src="img/SageIntacct_MSFS_230x230.jpg" alt="SageIntacct MSFS" class="icon_image">
-            <figcaption>
-              <h2>Sage Intacct MSFS Event</h2>
-              <p>The Mordern Saas FInance Summit</p>
-            </figcaption>
-          </figure>
-			</a>
-			<a class="normal1" href="sageIntacctnfp.html" target="_blank">
-          <figure class="snip1206"> <img src="img/SageIntacct_NPF_230x230.jpg" alt="SageIntacct NFP" class="icon_image">
-            <figcaption>
-              <h2>Sage Intacct NFP</h2>
-              <p>New designed Nonprofits webpages under main menu industries</p>
-            </figcaption>
-          </figure>
-			</a>
-			<a class="normal1" href="https://katejieyu.club/final/index.html" target="_blank">
-          <figure class="snip1206"> <img src="img/superdry_230x230.jpg" alt="Superdry" class="icon_image">
-            <figcaption>
-              <h2>Superdry</h2>
-              <p>A webpage for Superdry that helps the internal employee to check the available products</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="https://katejieyu.co.nf/AAU/wnm601/m15/index.html" target="_blank">
-          <figure class="snip1206"> <img src="img/shoppingList_230x230.jpg" alt="Shopping List" class="icon_image">
-            <figcaption>
-              <h2>Shopping List</h2>
-              <p>Help creating a list of shopping items</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="https://katejieyu.club/m13/index.html" target="_blank">
-          <figure class="snip1206"> <img src="img/chinesezodiac_230x230.jpg" alt="Zodiac Sign" class="icon_image">
-            <figcaption>
-              <h2>Zodiac Sign</h2>
-              <p>Helps check the chinese zodiac sign with jQuery</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="https://katejieyu.co.nf/AAU/wnm601/m6/midt/index.html" target="_blank">
-          <figure class="snip1206"> <img src="img/bauareatour_230x230.jpg" alt="Bay Area Tour" class="icon_image">
-            <figcaption>
-              <h2>Bay Area Tour</h2>
-              <p>A website for planning a one day field trip around the Bay Area</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="https://katejieyu.club/m11/index.html" target="_blank">
-          <figure class="snip1206"> <img src="img/databasecheck_230x230.jpg" alt="Internal Database Form" class="icon_image">
-            <figcaption>
-              <h2>Internal Database Form</h2>
-              <p>Processes requests to allow the user to insert, delete, or check info in a database</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="https://katejieyu.co.nf/inside_program/week2/assignment2.1/index.html" target="_blank">
-          <figure class="snip1206"> <img src="img/topinterests_230x230.jpg" alt="Top 3 Interest" class="icon_image">
-            <figcaption>
-              <h2>Top 3 Interest</h2>
-              <p>A website for top interests with a svg animation as a hero banner</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="https://katejieyu.co.nf/AAU/wnm601/m9/game/index.html" target="_blank">
-          <figure class="snip1206"> <img src="img/game_230x230.jpg" alt="Rock Paper Scissor Game" class="icon_image">
-            <figcaption>
-              <h2>Rock Paper Scissor</h2>
-              <p>The game against the computer and counts the number of times won</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="https://katejieyu.club/aau/wnm617/m07/midterm/index.html" target="_blank">
-          <figure class="snip1206"> <img src="img/firestation_230x230.jpg" alt="Fire Escape" class="icon_image">
-            <figcaption>
-              <h2>Fire Escape</h2>
-              <p>A mobile website that educates people on fire safety</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="https://katejieyu.club/aau/wnm617/m12/index.html" target="_blank">
-          <figure class="snip1206"> <img src="img/animalAround_310x310.jpg" alt="Animal Around" class="icon_image">
-            <figcaption>
-              <h2>Animal Around</h2>
-              <p>A mobile App helping the pet owner to find their pet home</p>
-            </figcaption>
-          </figure>
-          </a></div>
-      </div>
-      <div class="container1" style="padding-top: 30px;">
-        <div class="row">
-          <h3><img src="img/video_red.png" alt="Motion Graphic" class="typcn icon" height="30px">Motion Graphics</h3>
-          <!--        <a class="normal1" href="https://youtu.be/PtPKCVAROZg" target="_blank">--> 
-          <a class="normal1" href="SageIntacct-VentureCapitalFirm.html">
-          <figure class="snip1206"> <img src="img/SIVCF_230x230.jpg" alt="SIVCF" class="icon_image">
-            <figcaption>
-              <h2>Product Demo Video</h2>
-              <p>For Sage Intacct</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="hulululogo.html">
-          <figure class="snip1206"> <img src="img/hululu_310x310.png" alt="Hulu logo" class="icon_image">
-            <figcaption>
-              <h2>Hulu Logo</h2>
-              <p>Logo Animation for Hulu</p>
-            </figcaption>
-          </figure>
-          </a><a class="normal1" href="orangenosestudio.html">
-          <figure class="snip1206"> <img src="img/orangenosestudio_230x230.png" alt="Orangenose Sudio" class="icon_image">
-            <figcaption>
-              <h2>Orangenose Sudio</h2>
-              <p>Create an introduction animation video by After Effect published by Orangenose Studio</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="myfreindcat.html">
-          <figure class="snip1206"> <img src="img/catfriend_230x230.png" alt="A cat Friend" class="icon_image">
-            <figcaption>
-              <h2>A cat Friend</h2>
-              <p>A website for top interests with a svg animation as a hero banner</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="farmersmarket.html">
-          <figure class="snip1206"> <img src="img/farmersmarket_230x230.jpg" alt="Farmers Market" class="icon_image">
-            <figcaption>
-              <h2>Event Video</h2>
-              <p>Video taking and editing for Mountain View Farmers Market</p>
-            </figcaption>
-          </figure>
-          </a> <a class="normal1" href="sethinterview.html">
-          <figure class="snip1206"> <img src="img/seth_230x230.jpg" alt="Interview Seth Shostak" class="icon_image">
-            <figcaption>
-              <h2>Interview Video</h2>
-              <p>Video shoting and editing for an interview to Seth Shostak</p>
-            </figcaption>
-          </figure>
-          </a> </div>
-      </div>
+        </article>
+
+        <article class="venture__card">
+          <a href="founder/mighty-coupons/index.html" style="display:flex;flex-direction:column;height:100%;text-decoration:none;">
+            <div class="venture__header">
+              <h3 class="venture__title">Mighty Coupons</h3>
+              <span class="venture__role">Product Design Lead</span>
+            </div>
+            <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-semibold);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin-bottom:var(--space-md);">Local Services Marketplace</div>
+            <p class="venture__description" style="flex-grow:1;">A local service marketplace platform — designing the merchant decision layer, offer schema, and discovery mechanics that structure how businesses acquire customers and how consumers evaluate and book services.</p>
+            <div class="venture__tags">
+              <span class="tag">Consumer Systems</span>
+              <span class="tag">Marketplace Design</span>
+              <span class="tag">0→1 Product</span>
+            </div>
+            <span class="da__cta" style="display:block;margin-top:auto;">View case study →</span>
+          </a>
+        </article>
+
+        <article class="venture__card">
+          <a href="founder/refermejob/index.html" style="display:flex;flex-direction:column;height:100%;text-decoration:none;">
+            <div class="venture__header">
+              <h3 class="venture__title">ReferMeJob</h3>
+              <span class="venture__role">Product Designer</span>
+            </div>
+            <div style="font-size:var(--font-size-xs);font-weight:var(--font-weight-semibold);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin-bottom:var(--space-md);">Referral Network Platform</div>
+            <p class="venture__description" style="flex-grow:1;">A referral-based hiring platform — designing the trust mechanics and matching authority structures in a peer-to-peer professional referral system.</p>
+            <div class="venture__tags">
+              <span class="tag">Referral Systems</span>
+              <span class="tag">Trust Design</span>
+              <span class="tag">Platform Design</span>
+            </div>
+            <span class="da__cta" style="display:block;margin-top:auto;">View case study →</span>
+          </a>
+        </article>
+
+      </div><!-- /ventures__grid -->
+
     </div>
-  </div>
-  <script src="js/work.js"></script> 
-</section>
+  </section>
 
-<!-- Testimonials Section
-–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <!-- ═══════════════════════════════════════
+       5 · APPLIED SYSTEMS
+       ═══════════════════════════════════════ -->
+  <section class="applied" id="applied-systems" style="padding-top:var(--space-5xl);padding-bottom:var(--space-5xl);">
+    <div class="container">
 
-<section id="testimonial">
-  <div class="container">
-    <div class="quoteLoop">
-      <blockquote class="quote"> <img src="img/Colin_Evoy_Sebestyen.jpg" width="100" height="100" alt="Colin Evoy Sebestyen" />
-        <h5>&nbsp;<br>
-          &ldquo;Kate has a passion and enthusiasm for both tech and design. She’s committed to learning as much as she can about her chosen field of study from a 360 degree view. Kate is studious and determined to succeed.&rdquo;<br>
-          <small>Colin Evoy Sebestyen, Motion Graphics Lead, Academy of Art University</small> </h5>
-      </blockquote>
-      <blockquote class="quote"> <img src="img/Mattew_David.jpg" width="100" height="100" alt="Matthew David" />
-        <h5>&nbsp;<br>
-          &rdquo;I have the pleasure of having Kate in my class studying Mobile Web Technology. She is a very attentive student who works with and contributes to the class as a whole. I am impressed with the level of quality she brings to her work.&rdquo;<br>
-          <small>Matthew David, Snr Manager Mobile, Internet of Things, and User Experience, Kimberly-Clark</small></h5>
-      </blockquote>
-      <blockquote class="quote"> <img src="img/ly_100x100.jpg" width="100" height="100" alt="Ly Ly" />
-        <h5>&nbsp;<br>
-          &ldquo;Kate is an extremely industrious and enthusiastic designer. She is always willing to learn new things and take on new responsibilities. Her openness to ideas and ability to integrate feedback make her a pleasure to work with.&rdquo;<br>
-          <small>Ly Ly, Director of Communication Service, SETI Institute</small></h5>
-      </blockquote>
-      <blockquote class="quote"> <img src="img/seth_reference.jpg" width="100" height="100" alt="Seth Shostak" />
-        <h5>&nbsp;<br>
-          &rdquo;Kate has done graphic design for our science research organization that is invariably both imaginative and polished. She is also always amenable to trying multiple approaches, reacts positively to suggestions, and is quite speedy in her work.&rdquo;<br>
-          <small>Seth Shostak, Senior Astronomer, SETI Institute</small></h5>
-      </blockquote>
-    </div>
-  </div>
-</section>
-
-<!-- Skills Section
-–––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-<section id="skills">
-  <div class="container">
-    <h1>Skills</h1>
-    <div class="block"></div>
-    <div class="row">
-      <div class="one-third column">
-        <h3><img src="img/design_red.png" alt="Design" class="typcn icon" height="30px">Graphic Design</h3>
-        <p>Highly creative and multitalented Graphic Designer with extensive experience in multimedia, marketing, and print design.</p>
-      </div>
-      <div class="one-third column">
-        <h3><img src="img/uxdesign_red.png" alt="ux design" class="typcn icon" height="30px">UX Design</h3>
-        <p>Highly skilled in design researching, collaboration, information architecture, wireframing and UI prototyping, user empathy, visual communication, and interaction design.</p>
-      </div>
-      <div class="one-third column">
-        <h3><img src="img/programming_red.png" alt="development" class="typcn icon" height="30px">Development</h3>
-        <p>Versatile Front-end Developer with experience designing, developing, and managing complex e-commerce sites and internal frameworks.</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="twelve columns">
-        <div class="progressBar">
-          <h4>Adobe Cloud ( Ps, Ai, Id, Xd, Pr, Ae, and Dw )</h4>
-          <div class="progressBarContainer">
-            <div class="progressBarValue value-90"></div>
-          </div>
-        </div>
-        <div class="progressBar">
-          <h4>Balsamiq</h4>
-          <div class="progressBarContainer">
-            <div class="progressBarValue value-80"></div>
-          </div>
-        </div>
-        <div class="progressBar">
-          <h4>Sketch</h4>
-          <div class="progressBarContainer">
-            <div class="progressBarValue value-90"></div>
-          </div>
-        </div>
-		  <div class="progressBar">
-          <h4>InVision</h4>
-          <div class="progressBarContainer">
-            <div class="progressBarValue value-90"></div>
-          </div>
-        </div>
-        <div class="progressBar">
-          <h4>HTML5</h4>
-          <div class="progressBarContainer">
-            <div class="progressBarValue value-90"></div>
-          </div>
-        </div>
-        <div class="progressBar">
-          <h4>CSS3</h4>
-          <div class="progressBarContainer">
-            <div class="progressBarValue value-85"></div>
-          </div>
-        </div>
-        <div class="progressBar">
-          <h4>Javascript & jQuery ( UI, and Mobile )</h4>
-          <div class="progressBarContainer">
-            <div class="progressBarValue value-80"></div>
-          </div>
-        </div>
-        <div class="progressBar">
-          <h4>PHP</h4>
-          <div class="progressBarContainer">
-            <div class="progressBarValue value-60"></div>
-          </div>
-        </div>
-        <div class="progressBar">
-          <h4>MySQL</h4>
-          <div class="progressBarContainer">
-            <div class="progressBarValue value-50"></div>
-          </div>
-        </div>
-        <p class="download"><a href="file/Kate_Yu_Resume.pdf" title="kate resume" target="_blank" style="float: right;text-decoration: none;" rel="external">Resume Dowload</a></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- About Section
-–––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-<section id="about">
-  <div class="container">
-    <div class="row">
-      <h1>About</h1>
-      <div class="block"></div>
-      <p>I spend a lot of times work on branding, interaction design, visual design, prototyping, user experience design, and solving design and development problems. My projects include design responsive webs, apps, digital ads, template mockup from defining, building, and iterating it with Adobe software and some other software. Basic on many different projects I worked on, I have the experience to work with different teams, like the design team, the marketing team, and the engineering team. I declare myself a problem solver, a quick self-learner, a self-starter, and an excellent communicator with a passion for great design and the ability to achieve it.</p>
-    </div>
-    <div class="row" style="padding-top: 20px;">
-      <div class="one-third column">
-        <h3><img src="img/plan_red.png" alt="Plan" class="typcn icon" height="30px">Goals</h3>
-        <p>
-        <ul>
-          <li>Become a senior UX designer in 3 years</li>
-          <li>Become a director of UX design Team in 5 years</li>
-          <li>Become an experienced product manager in 10 years</li>
-        </ul>
+      <div class="section__header">
+        <span class="section__eyebrow">SAP · Enterprise Work</span>
+        <h2 class="section__title">Applied Systems</h2>
+        <p class="section__subtitle">
+          Enterprise systems, under real constraints. This is where decision architecture moves from
+          concept to constraint — operating inside live SAP products, data systems, and organizational
+          boundaries.
         </p>
       </div>
-      <div class="one-third column">
-        <h3><img src="img/languages_red.png" alt="Languages" class="typcn icon" height="30px">Languages</h3>
-        <p>
-        <ul>
-          <li>Chinese - Native</li>
-          <li>Korean - Upper Intermediate</li>
-          <li>German - Elementary</li>
-        </ul>
-        </p>
+
+      <div class="applied__grid">
+        <a class="applied__card" href="applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" target="_blank">
+          <div class="applied__num">01</div>
+          <div class="applied__title">Discovery 2.1 · SAP</div>
+          <p class="applied__desc">AI-generated response enhancement in a live enterprise product — trust calibration, transparency design, and feedback loop architecture.</p>
+        </a>
+        <a class="applied__card" href="applied-systems/case-studies/sap/sap-bn-design-system.html" target="_blank">
+          <div class="applied__num">02</div>
+          <div class="applied__title">Design System · SAP</div>
+          <p class="applied__desc">Component architecture and governance standards enabling consistent decision-ready interfaces across enterprise product lines.</p>
+        </a>
+        <a class="applied__card" href="applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" target="_blank">
+          <div class="applied__num">03</div>
+          <div class="applied__title">Analytics · SAP</div>
+          <p class="applied__desc">Instrumentation and reporting systems surfacing decision-relevant signals to operational and leadership stakeholders.</p>
+        </a>
+        <a class="applied__card" href="applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" target="_blank">
+          <div class="applied__num">04</div>
+          <div class="applied__title">AI Autopilot · SAP</div>
+          <p class="applied__desc">Early-stage AI governance concept work — prototyping autonomy boundaries and interface patterns for AI-assisted enterprise supply chain workflows.</p>
+        </a>
       </div>
-      <div class="one-third column">
-        <h3><img src="img/hobby_red.png" alt="Hobby" class="typcn icon" height="30px">Hobbies</h3>
-        <p>
-        <ul>
-		  <li>Freelance design</li>
-          <li>Learning new skills</li>
-          <li>Taking photos</li>
-          <li>Exchaging idea with another designers</li>
-        </ul>
-        </p>
+
+      <div class="work__footer">
+        <a href="applied-systems/index.html" class="button button--secondary" target="_blank">View All Applied Work</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       6 · ABOUT & CONTACT
+       ═══════════════════════════════════════ -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about__content">
+        <div class="about__text">
+          <h2 class="about__title">About</h2>
+          <p class="about__description">Staff Product Designer specializing in AI systems and decision architecture. Focused on enterprise products, governance models, and system-level design.</p>
+          <p class="about__description">Founder of SyncoPro, an AI governance platform that operationalizes product decision-making. Work spans three layers: product workflow systems, organizational governance, and AI autonomy design.</p>
+          <p class="about__description">Based in the San Francisco Bay Area. Available for Staff / Principal roles in AI product design, enterprise systems architecture, and AI governance design.</p>
+        </div>
+        <div class="about__contact" id="contact">
+          <h3 class="about__contact-title">Get in touch</h3>
+          <p class="about__contact-description">For Staff / Principal roles in AI governance, decision architecture, and enterprise AI product design.</p>
+          <div class="contact__links">
+			  <a id="email-link" href="#" class="contact__link contact__link--primary">Email Me</a>
+            <a href="https://linkedin.com/in/katejieyu" target="_blank" rel="noopener noreferrer" class="contact__link">LinkedIn</a>
+            <a href="kateyu-resume.html" class="contact__link">Resume</a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Contact Section
-–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</main>
 
-<section id="contact">
+<!-- ============================================================
+     SITE FOOTER  (index.html footer style)
+     ============================================================ -->
+
+
+<!-- STRUCTURED FOOTER -->
+<footer class="footer--structured" role="contentinfo">
   <div class="container">
-    <h1>Contact</h1>
-    <div class="block"></div>
-    <form action="index.php" method="GET">
-      <div class="row">
-        <div class="six columns">
-          <label for="name">Name</label>
-          <input class="u-full-width" id="name" name="name" type="text" required>
-        </div>
-        <div class="six columns">
-          <label for="email">Email</label>
-          <input class="u-full-width" id="email" name="email" type="email" required>
-        </div>
+    <nav class="footer__nav" aria-label="Site navigation">
+      <div> <span class="footer__col-label">Decision Architecture</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#decision-architecture" class="footer__col-link">Overview</a></li>
+          <li><a href="decision-architecture/product-subcontracting.html" class="footer__col-link">Product Layer</a></li>
+          <li><a href="decision-architecture/organization-governance-architecture.html" class="footer__col-link">Organizational Layer</a></li>
+          <li><a href="decision-architecture/ai-decision-architecture.html" class="footer__col-link">AI Layer</a></li>
+          <li><a href="decision-architecture/ai-decision/sap-product-ai-system.html" class="footer__col-link">SAP Product AI System</a></li>
+          <li><a href="decision-architecture/ai-decision/ai-systems-library.html" class="footer__col-link">AI Systems Library</a></li>
+        </ul>
       </div>
-      <div class="row">
-        <div class="six columns">
-          <label for="ph">Phone</label>
-          <input class="u-full-width" id="ph" name="ph" type="tel">
-        </div>
-        <div class="six columns">
-          <label for="country">Country</label>
-          <input class="u-full-width" id="country" name="country" type="text">
-        </div>
+      <div> <span class="footer__col-label">Founder</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#founder" class="footer__col-link">Overview</a></li>
+          <li><a href="founder/syncopro/index.html" class="footer__col-link">SyncoPro</a></li>
+          <li><a href="founder/mighty-coupons/index.html" class="footer__col-link">Mighty Coupons</a></li>
+          <li><a href="founder/refermejob/index.html" class="footer__col-link">ReferMeJob</a></li>
+        </ul>
       </div>
-      <div class="row">
-        <label for="subject">Message</label>
-        <textarea class="u-full-width" id="subject" name="subject"></textarea>
-        <input class="button-primary" type="submit" value="Submit">
-        <input class="button-primary" type="reset" value="Reset">
+      <div> <span class="footer__col-label">Applied Systems</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#applied-systems" class="footer__col-link">Overview</a></li>
+          <li><a href="applied-systems/ux-ui-design/sap/sap-discovery-2.1.html" class="footer__col-link">Discovery 2.1</a></li>
+          <li><a href="applied-systems/case-studies/sap/sap-bn-design-system.html" class="footer__col-link">Design System</a></li>
+          <li><a href="applied-systems/case-studies/sap/sap-discovery-analytics-2024.html" class="footer__col-link">Analytics Work</a></li>
+          <li><a href="applied-systems/case-studies/sap/sap-bsc-ai-autopilot-for-multi-tier-buy-sell-supply-chains-2025.html" class="footer__col-link">AI Autopilot</a></li>
+        </ul>
       </div>
-    </form>
-  </div>
-</section>
-
-<!-- Footer Section
-–––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-<footer>
-  <div class="container">
-<div class="row">
-    <div class="nine columns" style="padding: 5px 0;">
-      <p>&#169;Copyright 2016 - 2018 Kate Jie Yu | Privacy Policy | Site Map </p>
+      <div> <span class="footer__col-label">General</span>
+        <ul class="footer__col-links">
+          <li><a href="index.html#about" class="footer__col-link">About</a></li>
+          <li><a href="#contact" class="footer__col-link">Contact</a></li>
+          <li><a href="applied-systems/index.html" class="footer__col-link" target="_blank">Archive</a></li>
+          <li><a href="sitemap.html" class="footer__col-link">Sitemap</a></li>
+          <li><a href="kateyu-resume.html" class="footer__col-link">Resume</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="footer__bottom">
+      <p class="footer__bottom-copy"> &copy; 2016 &ndash; <script>document.write((new Date()).getFullYear())</script> Kate Jie Yu &middot; Staff Product Designer · AI Systems &amp; Decision Architecture </p>
+      <div class="footer__bottom-links"> <a href="applied-systems/index.html" class="footer__bottom-link" target="_blank">Archive</a>  <a href="sitemap.html" class="footer__bottom-link">Sitemap</a> <a href="kateyu-resume.html" class="footer__bottom-link">Resume</a> </div>
     </div>
-    <div class="one columns"><a class="smoothscroll" href="#header">
-      <div class="scroll-up" style="margin-top: -50px;"></div>
-      </a></div>
-    <div class="three columns" style="margin-top:20px;"> <a href="https://www.linkedin.com/in/katejy/" target="_blank"><img src="img/linkedin_white.png" alt="Linkedin icon" class="typcn socialIcons" style="padding: 5px 0"></a> <a href="https://www.behance.net/katejieyub592" target="_blank"><img src="img/behance_white.png" alt="Behance icon" class="typcn socialIcons" style="padding: 5px 0"></a> <a href="https://www.facebook.com/katejieyu" target="_blank"><img src="img/facebook_white.png" alt="Facebook icon" class="typcn socialIcons" style="padding: 5px 0"></a> <a href="https://www.instagram.com/kjy8495/" target="_blank"><img src="img/instagram_white.png" alt="Instagram icon" class="typcn socialIcons" style="padding: 5px 0"></a> <a href="https://www.youtube.com/channel/UCtEFcyK56RnM08cfLp2AdlQ/videos" target="_blank"><img src="img/Youtube_white.png" alt="Youtube icon" class="typcn socialIcons" style="padding: 5px 0"></a> </div>
-  </div></div>
+  </div>
 </footer>
-<script src="js/main_1.js"></script> 
-<script src="js/main_2.js"></script> 
-<script src="js/main_3.js"></script>
+<script src="js/staff-portfolio.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const user = "katejieyu";
+  const domain = "gmail.com";
+  const email = `${user}@${domain}`;
+
+  const link = document.getElementById("email-link");
+  if (!link) return;
+
+  link.href = `mailto:${email}`;
+  //link.textContent = email; // 或者保留 "Email"：不显示完整邮箱也行
+});
+</script>
+
 </body>
 </html>
