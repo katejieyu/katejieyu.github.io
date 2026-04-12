@@ -9,15 +9,14 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  padding: var(--space-md) var(--space-2xl);
-  font-size: var(--font-size-base);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   text-decoration: none;
-  border-radius: var(--border-radius-lg);
-  border: 2px solid transparent;
+  border-radius: var(--border-radius-md);
+  border: 1px solid transparent;
   cursor: pointer;
   transition: all var(--transition-normal);
-  min-height: 48px;
   position: relative;
 }
 .button--primary {
@@ -28,19 +27,16 @@
 .button--primary:hover {
   background-color: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
 }
 .button--secondary {
   background-color: transparent;
   color: var(--color-text);
   border-color: var(--color-border);
+  border-width: 1px;
 }
 .button--secondary:hover {
   background-color: var(--color-background-secondary);
   border-color: var(--color-text-secondary);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
 }
 /* Tags */
 .tag {
@@ -345,7 +341,6 @@
 }
 .work__link:hover {
   color: var(--color-primary-dark);
-  text-decoration: underline;
 }
 .work__footer {
   text-align: center;
@@ -412,7 +407,7 @@
   text-decoration: none;
 }
 .venture__card a .da__cta:hover {
-  text-decoration: underline;
+  color: var(--color-primary-dark);
 }
 .ee-spotlight-card {
   transition: background-color var(--transition-normal), transform var(--transition-normal), box-shadow var(--transition-normal);
@@ -513,7 +508,6 @@
 }
 .contact__link:hover {
   color: var(--color-primary-dark);
-  text-decoration: underline;
 }
 .contact__link--primary {
   background-color: var(--color-primary);
@@ -567,7 +561,6 @@
 }
 .footer__link:hover {
   color: var(--color-text);
-  text-decoration: underline;
 }
 /* ==========================================================================
    RESPONSIVE DESIGN
@@ -2328,7 +2321,7 @@
   font-weight: var(--font-weight-semibold);
   color: var(--color-primary);
 }
-.da__card:hover .da__cta { text-decoration: underline; }
+.da__card:hover .da__cta { color: var(--color-primary-dark); }
 .applied {
   padding: var(--space-5xl) 0;
   background-color: var(--color-background);
